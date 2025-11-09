@@ -1,0 +1,48 @@
+import express from "express";
+import cors from "cors";
+import routes from "./routes/index.js";
+
+class App {
+	constructor() {
+		this.app = express();
+		this.setupMiddlewares();
+		this.setupRoutes();
+	}
+
+	setupMiddlewares() {
+		this.app.use(cors());
+		this.app.use(express.json());
+	}
+
+	setupRoutes() {
+		// Mount all routes under /api
+		this.app.use("/api", routes);
+
+		// Global 404 handler for unknown routes
+		this.app.use((req, res) => {
+			res.status(404).json({
+				error: "Not Found",
+				path: req.path
+			});
+		});
+
+		// Global handler for errors
+		this.app.use((err, req, res, next) => {
+			console.error(err.stack);
+			res.status(500).json({
+				error: "Something went wrong!",
+				message: err.message
+			});
+		});
+	}
+
+	/**
+	 * Get the Express app instance
+	 * @returns {import('express').Express}
+	 */
+	getApp() {
+		return this.app;
+	}
+}
+
+export default new App().getApp();
