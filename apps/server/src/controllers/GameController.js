@@ -36,7 +36,9 @@ class GameController extends BaseController {
 						data: {
 							userId: existingUser.id,
 							eventType: "game_start",
-							details: JSON.stringify({ session_resumed: true })
+							details: JSON.stringify({
+								session_resumed: true
+							})
 						}
 					}),
 					prisma.user.update({
@@ -100,7 +102,11 @@ class GameController extends BaseController {
 			const { userId, answer } = req.body;
 
 			if (!userId || !answer) {
-				return this.error(res, "User ID and answer are required", 400);
+				return this.error(
+					res,
+					"User ID and answer are required",
+					400
+				);
 			}
 
 			// Get level data
@@ -149,7 +155,10 @@ class GameController extends BaseController {
 			});
 
 			// Validate answer against hash
-			const isCorrect = bcrypt.compareSync(answer.toLowerCase().trim(), level.answerHash);
+			const isCorrect = bcrypt.compareSync(
+				answer.toLowerCase().trim(),
+				level.answerHash
+			);
 
 			// Log submission
 			await prisma.log.create({
@@ -157,9 +166,9 @@ class GameController extends BaseController {
 					userId,
 					levelId,
 					eventType: "level_submit",
-					details: JSON.stringify({ 
+					details: JSON.stringify({
 						correct: isCorrect,
-						attempt: progress.attempts + 1 
+						attempt: progress.attempts + 1
 					})
 				}
 			});
@@ -199,10 +208,12 @@ class GameController extends BaseController {
 				pointsEarned: level.pointsValue,
 				totalScore: newScore,
 				nextLevelId: level.nextLevelId,
-				transmission: transmission ? {
-					message: transmission.message,
-					storyFragment: transmission.storyFragment
-				} : null
+				transmission: transmission
+					? {
+							message: transmission.message,
+							storyFragment: transmission.storyFragment
+						}
+					: null
 			});
 		} catch (error) {
 			console.error("Error submitting level:", error);
@@ -241,7 +252,7 @@ class GameController extends BaseController {
 			});
 
 			return this.success(res, {
-				logs: logs.map(log => ({
+				logs: logs.map((log) => ({
 					id: log.id,
 					eventType: log.eventType,
 					details: log.details ? JSON.parse(log.details) : null,
@@ -253,7 +264,7 @@ class GameController extends BaseController {
 					total: totalCount,
 					limit,
 					offset,
-					hasMore: (offset + limit) < totalCount
+					hasMore: offset + limit < totalCount
 				}
 			});
 		} catch (error) {

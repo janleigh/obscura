@@ -1,0 +1,58 @@
+@charset "utf-8";
+
+@import "./_imports.css";
+@import "tailwindcss";
+
+/* Custom terminal styles */
+@layer base {
+	body {
+		@apply bg-[#0a0a0a] text-[#f0f0f0];
+		font-family:
+			"Courier New", "DejaVu Sans Mono", "Consolas", monospace;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+}
+
+/* Scanline animation */
+@keyframes scanline {
+	0% {
+		transform: translateY(-100%);
+	}
+	100% {
+		transform: translateY(100%);
+	}
+}
+
+.animate-scanline {
+	animation: scanline 8s linear infinite;
+}
+
+/* Custom scrollbar */
+.scrollbar-thin::-webkit-scrollbar {
+	width: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+	background: #1a1a1a;
+	border-radius: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+	background: #2a2a2a;
+}
+
+/* Terminal cursor */
+input[type="text"] {
+	caret-color: #00ff00;
+}
+
+/* Text selection styling */
+::selection {
+	background-color: #264f78;
+	color: #ffffff;
+}
