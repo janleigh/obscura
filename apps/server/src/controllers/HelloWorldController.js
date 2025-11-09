@@ -1,4 +1,4 @@
-import BaseController from './BaseController.js';
+import BaseController from "./BaseController.js";
 
 class HelloWorldController extends BaseController {
 	constructor() {

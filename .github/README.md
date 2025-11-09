@@ -13,17 +13,20 @@ This is a monorepo containing:
 ## <samp>TECH STACK<samp>
 
 ### Frontend (Client)
+
 - **React** - UI library
 - **Vite (Rolldown)** - Build tool and dev server
 - **TailwindCSS** - Utility-first CSS framework
 
 ### Backend (Server)
+
 - **Express** - Web framework
 - **Better SQLite3** - Database
 - **bcrypt** - Password hashing
 - **dotenv** - Environment configuration
 
 ### Development Tools
+
 - **Turborepo** - Monorepo build system
 - **Bun** - JavaScript runtime and package manager
 - **ESLint** - Code linting
@@ -52,6 +55,7 @@ bun run dev
 ```
 
 This will start:
+
 - Client at `http://localhost:5173`
 - Server at `http://localhost:3000`
 
