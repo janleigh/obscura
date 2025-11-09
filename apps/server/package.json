@@ -3,20 +3,24 @@
 	"version": "1.0.0",
 	"main": "src/index.js",
 	"dependencies": {
+		"@prisma/client": "^6.19.0",
 		"bcrypt": "^6.0.0",
-		"better-sqlite3": "^12.4.1",
 		"cors": "^2.8.5",
 		"dotenv": "^17.2.3",
 		"express": "^5.1.0"
 	},
 	"devDependencies": {
-		"nodemon": "^3.1.10"
+		"nodemon": "^3.1.10",
+		"prisma": "^6.19.0"
 	},
 	"private": true,
 	"scripts": {
 		"start": "NODE_ENV=production bun .",
 		"dev": "NODE_ENV=development nodemon .",
-		"watch": "NODE_ENV=production nodemon --watch src ."
+		"watch": "NODE_ENV=production nodemon --watch src .",
+		"prisma:generate": "prisma generate",
+		"prisma:push": "prisma db push",
+		"prisma:studio": "prisma studio"
 	},
 	"type": "module"
 }

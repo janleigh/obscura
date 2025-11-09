@@ -1,19 +1,27 @@
 import express from "express";
 import cors from "cors";
 import routes from "./routes/index.js";
+import prisma from "./services/PrismaService.js";
 
 class App {
 	constructor() {
 		this.app = express();
+		this.db = prisma;
 		this.setupMiddlewares();
 		this.setupRoutes();
 	}
 
+	/**
+	 * Setup application middlewares
+	 */
 	setupMiddlewares() {
 		this.app.use(cors());
 		this.app.use(express.json());
 	}
 
+	/**
+	 * Setup application routes
+	 */
 	setupRoutes() {
 		// Mount all routes under /api
 		this.app.use("/api", routes);

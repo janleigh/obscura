@@ -21,7 +21,8 @@ This is a monorepo containing:
 ### Backend (Server)
 
 - **Express** - Web framework
-- **Better SQLite3** - Database
+- **Prisma** - Modern ORM with type-safe database access
+- **SQLite** - Database
 - **bcrypt** - Password hashing
 - **dotenv** - Environment configuration
 
@@ -93,11 +94,34 @@ bun run dev
 - `bun run dev` - Start server with nodemon (auto-restart)
 - `bun run start` - Start server in production mode
 - `bun run watch` - Start in production mode with auto-restart
+- `bun run prisma:generate` - Generate Prisma Client
+- `bun run prisma:push` - Push schema changes to database
+- `bun run prisma:studio` - Open Prisma Studio (visual database editor)
+
+## <samp>DATABASE</samp>
+
+This project uses **Prisma ORM** with SQLite for type-safe database access. The schema is defined in `apps/server/prisma/schema.prisma`.
+
+### Quick Database Commands
+
+```bash
+# Generate Prisma Client after schema changes
+bun run prisma:generate
+
+# Push schema changes to database
+bun run prisma:push
+
+# Open Prisma Studio to view/edit data
+bun run prisma:studio
+```
+
+For more details, see `apps/server/PRISMA_README.md`.
 
 ## <samp>LINKS</samp>
 
 - [React Documentation](https://react.dev)
 - [Vite Documentation](https://vite.dev)
 - [Express Documentation](https://expressjs.com)
+- [Prisma Documentation](https://www.prisma.io/docs)
 - [Turborepo Documentation](https://turbo.build)
 - [Bun Documentation](https://bun.sh)
