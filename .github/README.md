@@ -1,6 +1,6 @@
 # obscura
 
-> Totally (not a ARG) a cryptographic puzzle game. Built with React, Express, and Bun ~~(fuck Node)~~. Managed by Turborepo.
+> A cryptographic puzzle game. Built with React, Express, and Bun ~~(fuck Node)~~. Managed by Turborepo.
 
 ## <samp>PROJECT STRUCTURE</samp>
 
