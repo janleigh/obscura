@@ -24,7 +24,7 @@ class GameController extends BaseController {
 	 */
 	async startGame(req, res) {
 		try {
-			const { username } = req.body;
+			const { username, realName } = req.body;
 
 			if (!username) {
 				return this.error(res, "Username is required", 400);
@@ -36,7 +36,12 @@ class GameController extends BaseController {
 			});
 
 			if (existingUser) {
-				// Update last active and log game start event
+				// Update last active and realName if provided
+				const updateData = { lastActive: new Date() };
+				if (realName && !existingUser.realName) {
+					updateData.realName = realName;
+				}
+
 				await prisma.$transaction([
 					prisma.log.create({
 						data: {
@@ -49,13 +54,14 @@ class GameController extends BaseController {
 					}),
 					prisma.user.update({
 						where: { id: existingUser.id },
-						data: { lastActive: new Date() }
+						data: updateData
 					})
 				]);
 
 				return this.success(res, {
 					userId: existingUser.id,
 					username: existingUser.username,
+					realName: existingUser.realName || realName,
 					currentLevel: existingUser.currentLevel,
 					score: existingUser.score,
 					phaseUnlocked: existingUser.phaseUnlocked,
@@ -71,7 +77,8 @@ class GameController extends BaseController {
 			const newUser = await prisma.user.create({
 				data: {
 					username,
-					currentLevelId: 0
+					realName: realName || null,
+					currentLevel: 0
 				}
 			});
 
@@ -87,6 +94,7 @@ class GameController extends BaseController {
 			return this.created(res, {
 				userId: newUser.id,
 				username: newUser.username,
+				realName: newUser.realName,
 				currentLevel: 1,
 				score: 0,
 				phaseUnlocked: 1,

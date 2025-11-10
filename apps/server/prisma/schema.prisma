@@ -13,6 +13,7 @@ datasource db {
 model User {
   id              Int      @id @default(autoincrement())
   username        String   @unique
+  realName        String?  @map("real_name")
   currentLevel    Int      @default(1) @map("current_level")
   score           Int      @default(0)
   hintsUsed       Int      @default(0) @map("hints_used")
