@@ -16,7 +16,7 @@ const Console = ({ className = "", onSubmit }) => {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setHistory(JSON.parse(raw));
     } catch (err) {
-      // ignore
+      // ign
     }
   }, []);
 

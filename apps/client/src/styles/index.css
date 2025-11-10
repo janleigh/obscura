@@ -92,4 +92,5 @@ input[type="text"] {
 
 .console::-webkit-scrollbar-thumb:hover {
   background-color: rgba(74, 222, 128, 0.4);
+  
 }
