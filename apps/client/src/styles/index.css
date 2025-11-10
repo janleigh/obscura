@@ -70,3 +70,26 @@ input[type="text"] {
 	background-color: #264f78;
 	color: #ffffff;
 }
+
+.console {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(74, 222, 128, 0.2) transparent;
+}
+
+.console::-webkit-scrollbar {
+  width: 8px;
+}
+
+.console::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.console::-webkit-scrollbar-thumb {
+  background-color: rgba(74, 222, 128, 0.2);
+  border-radius: 20px;
+  border: 3px solid transparent;
+}
+
+.console::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(74, 222, 128, 0.4);
+}
