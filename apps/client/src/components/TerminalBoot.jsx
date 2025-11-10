@@ -1,70 +1,69 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const KERNEL_PHASE = 0;
 const BOOT_PHASE = 1;
-const LOGIN_PHASE = 2;
+const AUTO_LOGIN_PHASE = 2;
 
-const TerminalBoot = ({ onBootComplete }) => {
+const TerminalBoot = ({ userData, onBootComplete }) => {
 	const [phase, setPhase] = useState(KERNEL_PHASE);
 	const [bootLines, setBootLines] = useState([]);
 	const [currentLineIndex, setCurrentLineIndex] = useState(0);
-	const [showLogin, setShowLogin] = useState(false);
-	const [username, setUsername] = useState("");
 	const [showCursor, setShowCursor] = useState(true);
 	const terminalRef = useRef(null);
 
 	// Boot seqence messages
 	// IIRC: It's inspired on Linux boot sequence where kernel-level then init messages
 	// and I had to setup a VM to fact-check lmao
-	// current theme is cold-war post-apocalyptic
+	// check this for the narrative plot
+	// https://docs.google.com/document/d/1kpae2FgEB76-Sb78P21JmXqwUqY5U7MQKbMK60k3AI4/edit?tab=t.0
 	const kernelMessages = [
 		{
-			text: "[0000.000] OBSCURA CORE v6.7.3 — FIELD NODE: CRYPTONODE/COMMAND ROOT (POST-STRIKE BUILD)",
+			text: "[0000.000] OBSCURA LCI v2.19.5 — LINGUISTIC CALIBRATION INTERFACE (AUTONOMOUS BUILD)",
 			color: "text-gray-400",
 			delay: 50
 		},
 		{
-			text: "[0000.000] EXEC LINE: /OBSCURA-KERNEL — STATUS: QUIET REBOOT, PARAM: CIPHER_MODE=INIT",
+			text: "[0000.000] EXEC LINE: /OBSCURA-CORE — STATUS: DEAD MAN'S SWITCH ACTIVE, PARAM: RECRUITMENT=TRUE",
 			color: "text-gray-400",
 			delay: 40
 		},
 		{
-			text: "[0000.000] PROCESSOR REPORT: VECTOR OPS RESTORED — FLOATING UNIT OPERATIONAL",
+			text: "[0000.000] CRYPTOLINGUISTIC ENGINE: PATTERN RECOGNITION MODULES LOADED",
 			color: "text-gray-400",
 			delay: 30
 		},
 		{
-			text: "[0000.000] PROCESSOR REPORT: STRATEGIC SIGNAL ENCODING ENABLED — SSE GRID ACTIVE",
+			text: "[0000.000] SIGNAL PROCESSOR: RECURSIVE DECRYPTION ALGORITHMS INITIALIZED",
 			color: "text-gray-400",
 			delay: 30
 		},
 		{
-			text: "[0000.124] MEMORY ALLOCATION: 16.3G / 16.7G RECLAIMED FROM PRE-STRIKE CACHE",
+			text: "[0000.124] MEMORY ALLOCATION: 16.3G / 16.7G — TRANSMISSION FRAGMENTS CACHED",
 			color: "text-gray-400",
 			delay: 35
 		},
 		{
-			text: "[0000.198] TIMING LOOP RECALIBRATION... 7200.00 UNITS — SYNCHRONIZATION RESTORED",
+			text: "[0000.198] TEMPORAL SYNC: 2019-02-11 03:33:47 UTC BASELINE ESTABLISHED",
 			color: "text-gray-400",
 			delay: 40
 		},
 		{
-			text: "[0000.367] CPU0: THERMAL CONTROL NOMINAL — CORE TEMPERATURE BELOW CRITICAL",
+			text: "[0000.367] CONTAINMENT PROTOCOL: COGNITIVE LOAD DISTRIBUTION ACTIVE",
 			color: "text-gray-400",
 			delay: 35
 		},
 		{
-			text: "[0000.489] CRYPTOGRAPHIC ENGINE: FIELD ACCELERATOR ONLINE — ENIGMA CIRCUIT STABLE",
+			text: "[0000.489] CIPHER ENGINE: CALIBRATION MODULES — LAST UPDATE 2019-05-19",
 			color: "text-gray-400",
 			delay: 40
 		},
 		{
-			text: "[0001.023] FILE SYSTEM: EXT4-MODE — ORDERED DATA CHANNEL MOUNTED",
+			text: "[0001.023] FILE SYSTEM: ARCHIVE_MOUNT — SITE-7 BACKUP RESTORED (PARTIAL)",
 			color: "text-gray-400",
 			delay: 40
 		},
 		{
-			text: "[0001.156] RANDOMIZER: ENTROPY POOL REBUILT — SOURCE: THERMONUCLEAR BACKGROUND",
+			text: "[0001.156] MEMETIC FILTER: SEGMENT ISOLATION PROTOCOL ENGAGED",
 			color: "text-gray-400",
 			delay: 50
 		}
@@ -72,144 +71,191 @@ const TerminalBoot = ({ onBootComplete }) => {
 
 	const bootMessages = [
 		{
-			text: "         INITIALIZING DEVICE REGISTRY (SECTOR 9 RESTORATION PROTOCOL)...",
+			text: "         INITIALIZING PROJECT CLARITY INTERFACE...",
 			color: "text-white",
 			delay: 60
 		},
 		{
-			text: "[ OK ] SUBSYSTEM: SWAP MEMORY RESTORED — FIELD STORAGE RECLAIMED.",
+			text: "[ OK ] SUBSYSTEM: NEURAL TRANSLATION MODELS — AI TRAINING ENVIRONMENT READY.",
 			color: "mixed",
 			parts: [
 				{ text: "[ ", color: "text-white" },
 				{ text: "OK", color: "text-green-400" },
 				{
-					text: " ] SUBSYSTEM: SWAP MEMORY RESTORED — FIELD STORAGE RECLAIMED.",
+					text: " ] SUBSYSTEM: NEURAL TRANSLATION MODELS — AI TRAINING ENVIRONMENT READY.",
 					color: "text-white"
 				}
 			],
 			delay: 55
 		},
 		{
-			text: "[ OK ] DEVICE LINE: COLDSTART COMPLETE — HARDWARE CHANNELS RESPONSIVE.",
+			text: "[ OK ] DATABASE: TRANSMISSION ARCHIVE ONLINE — 847 FRAGMENTS INDEXED.",
 			color: "mixed",
 			parts: [
 				{ text: "[ ", color: "text-white" },
 				{ text: "OK", color: "text-green-400" },
 				{
-					text: " ] DEVICE LINE: COLDSTART COMPLETE — HARDWARE CHANNELS RESPONSIVE.",
+					text: " ] DATABASE: TRANSMISSION ARCHIVE ONLINE — 847 FRAGMENTS INDEXED.",
 					color: "text-white"
 				}
 			],
 			delay: 50
 		},
 		{
-			text: "[ OK ] VARIABLE SHEET APPLIED — BASELINE DIRECTIVES REESTABLISHED.",
+			text: "[ OK ] CIPHER LIBRARY: HISTORICAL CRYPTOGRAPHY SUITE LOADED.",
 			color: "mixed",
 			parts: [
 				{ text: "[ ", color: "text-white" },
 				{ text: "OK", color: "text-green-400" },
 				{
-					text: " ] VARIABLE SHEET APPLIED — BASELINE DIRECTIVES REESTABLISHED.",
+					text: " ] CIPHER LIBRARY: HISTORICAL CRYPTOGRAPHY SUITE LOADED.",
 					color: "text-white"
 				}
 			],
 			delay: 55
 		},
 		{
-			text: "[ OK ] NETWORK GRID RESTORED — PATHWAYS 1–7 CLEAR OF RADIATION.",
+			text: "[ OK ] RECRUITMENT PROTOCOL: LINGUISTIC APTITUDE SCREENING ACTIVE.",
 			color: "mixed",
 			parts: [
 				{ text: "[ ", color: "text-white" },
 				{ text: "OK", color: "text-green-400" },
 				{
-					text: " ] NETWORK GRID RESTORED — PATHWAYS 1–7 CLEAR OF RADIATION.",
+					text: " ] RECRUITMENT PROTOCOL: LINGUISTIC APTITUDE SCREENING ACTIVE.",
 					color: "text-white"
 				}
 			],
 			delay: 50
 		},
 		{
-			text: "[ WARN ] SIGNAL ANOMALY DETECTED AT COORDINATE 0x7F3A2B91 — POSSIBLE GHOST TRANSMISSION.",
+			text: "[ WARN ] SIGNAL ANOMALY AT GRID 47°N — RECURSIVE PATTERN DETECTED.",
 			color: "mixed",
 			parts: [
 				{ text: "[ ", color: "text-white" },
 				{ text: "WARN", color: "text-yellow-300" },
 				{
-					text: " ] SIGNAL ANOMALY DETECTED AT COORDINATE 0x7F3A2B91 — POSSIBLE GHOST TRANSMISSION.",
+					text: " ] SIGNAL ANOMALY AT GRID 47°N — RECURSIVE PATTERN DETECTED.",
 					color: "text-white"
 				}
 			],
 			delay: 70
 		},
 		{
-			text: "[ OK ] CRYPTOLINK RESTORED — CHANNELS SEALED UNDER ALPHA-9 PROTOCOL.",
+			text: "[ OK ] CONTAINMENT: COGNITIVE LOAD DISTRIBUTED ACROSS ACTIVE SESSIONS.",
 			color: "mixed",
 			parts: [
 				{ text: "[ ", color: "text-white" },
 				{ text: "OK", color: "text-green-400" },
 				{
-					text: " ] CRYPTOLINK RESTORED — CHANNELS SEALED UNDER ALPHA-9 PROTOCOL.",
+					text: " ] CONTAINMENT: COGNITIVE LOAD DISTRIBUTED ACROSS ACTIVE SESSIONS.",
 					color: "text-white"
 				}
 			],
 			delay: 55
 		},
 		{
-			text: "[ OK ] COMMAND SUBNET: ACTIVE — ALL FIELD NODES RESPONDING.",
+			text: "[ OK ] LEVEL-5  AUTHENTICATION BYPASS — SYSTEM AUTONOMY MAINTAINED.",
 			color: "mixed",
 			parts: [
 				{ text: "[ ", color: "text-white" },
 				{ text: "OK", color: "text-green-400" },
 				{
-					text: " ] COMMAND SUBNET: ACTIVE — ALL FIELD NODES RESPONDING.",
+					text: " ] LEVEL-5 AUTHENTICATION BYPASS — SYSTEM AUTONOMY MAINTAINED.",
 					color: "text-white"
 				}
 			],
 			delay: 60
 		},
 		{
-			text: "[ OK ] TEMPORAL SYNC MODULE: LOCKED — DELTA TIME DEVIATION <0.02s.",
+			text: "[ OK ] TEMPORAL LOCK: PHASE KEYS ENCRYPTED — TIME-BASED REVEALS SCHEDULED.",
 			color: "mixed",
 			parts: [
 				{ text: "[ ", color: "text-white" },
 				{ text: "OK", color: "text-green-400" },
 				{
-					text: " ] TEMPORAL SYNC MODULE: LOCKED — DELTA TIME DEVIATION <0.02s.",
+					text: " ] TEMPORAL LOCK: PHASE KEYS ENCRYPTED — TIME-BASED REVEALS SCHEDULED.",
 					color: "text-white"
 				}
 			],
 			delay: 50
 		},
 		{
-			text: "[ WARN ] UNAUTHORIZED TRANSMISSION — SOURCE UNDEFINED. HOLDING CHANNEL IN QUARANTINE.",
+			text: "[ WARN ] UNAUTHORIZED PATTERN RECOGNITION — THE PROMPTER SIGNATURE DETECTED.",
 			color: "mixed",
 			parts: [
 				{ text: "[ ", color: "text-white" },
 				{ text: "WARN", color: "text-yellow-300" },
 				{
-					text: " ] UNAUTHORIZED TRANSMISSION — SOURCE UNDEFINED. HOLDING CHANNEL IN QUARANTINE.",
+					text: " ] UNAUTHORIZED PATTERN RECOGNITION — THE PROMPTER SIGNATURE DETECTED.",
 					color: "text-white"
 				}
 			],
 			delay: 80
 		},
 		{
-			text: "[ OK ] SESSION MANAGER ENGAGED — USER RECOGNIZED: FIELD OPERATIVE (CLEARANCE SIGMA).",
+			text: "[ OK ] SESSION MANAGER: CANDIDATE AUTHENTICATED — CALIBRATION MODULE READY.",
 			color: "mixed",
 			parts: [
 				{ text: "[ ", color: "text-white" },
 				{ text: "OK", color: "text-green-400" },
 				{
-					text: " ] SESSION MANAGER ENGAGED — USER RECOGNIZED: FIELD OPERATIVE (CLEARANCE SIGMA).",
+					text: " ] SESSION MANAGER: CANDIDATE AUTHENTICATED — CALIBRATION MODULE READY.",
 					color: "text-white"
 				}
 			],
 			delay: 55
+		},
+		{
+			text: "",
+			color: "",
+			delay: 200
+		},
+		{
+			text: "WELCOME TO PROJECT CLARITY. ",
+			color: "mixed",
+			parts: [
+				{
+					text: "WELCOME TO PROJECT CLARITY. ",
+					color: "text-white"
+				},
+				{ text: "SYSTEM: OBSCURA", color: "text-cyan-400" },
+				{ text: " [", color: "text-white" },
+				{ text: "LCI", color: "text-yellow-300" },
+				{ text: "-", color: "text-white" },
+				{ text: "2.19", color: "text-green-400" },
+				{ text: "] INITIALIZED.", color: "text-white" }
+			],
+			delay: 0
 		}
 	];
 
+	// Build authentication messages with user data
+	const authMessages = useMemo(() => {
+		const username = userData?.username || "candidate";
+		return [
+			{ text: "", color: "", delay: 200 },
+			{
+				text: `Authenticating candidate: ${username}...`,
+				color: "mixed",
+				parts: [
+					{
+						text: "Authenticating candidate: ",
+						color: "text-white"
+					},
+					{ text: username, color: "text-cyan-400" },
+					{ text: "...", color: "text-white" }
+				],
+				delay: 400
+			},
+			{
+				text: "Authentication successful. Loading main interface...",
+				color: "text-white",
+				delay: 600
+			}
+		];
+	}, [userData]);
+
 	useEffect(() => {
-		// TODO: Fix why is this on the far end
 		// Cursor blink effect
 		const cursorInterval = setInterval(() => {
 			setShowCursor((prev) => !prev);
@@ -218,13 +264,13 @@ const TerminalBoot = ({ onBootComplete }) => {
 	}, []);
 
 	useEffect(() => {
-		let sequence =
-			phase === KERNEL_PHASE ? kernelMessages : bootMessages;
-
-		if (phase === LOGIN_PHASE) {
-			setBootLines([]);
-			setShowLogin(true);
-			return;
+		let sequence;
+		if (phase === KERNEL_PHASE) {
+			sequence = kernelMessages;
+		} else if (phase === BOOT_PHASE) {
+			sequence = bootMessages;
+		} else if (phase === AUTO_LOGIN_PHASE) {
+			sequence = authMessages;
 		}
 
 		if (currentLineIndex < sequence.length) {
@@ -244,13 +290,18 @@ const TerminalBoot = ({ onBootComplete }) => {
 				}, 500);
 			} else if (phase === BOOT_PHASE) {
 				setTimeout(() => {
-					setBootLines([]);
 					setCurrentLineIndex(0);
-					setPhase(LOGIN_PHASE);
+					setPhase(AUTO_LOGIN_PHASE);
 				}, 700);
+			} else if (phase === AUTO_LOGIN_PHASE) {
+				// All messages displayed, complete boot
+				setTimeout(() => {
+					const username = userData?.username || "candidate";
+					onBootComplete?.(username);
+				}, 800);
 			}
 		}
-	}, [currentLineIndex, phase]);
+	}, [currentLineIndex, phase, userData, onBootComplete, authMessages]);
 
 	// Autoscroll effect duh. You can't scroll on the tty.
 	useEffect(() => {
@@ -258,53 +309,7 @@ const TerminalBoot = ({ onBootComplete }) => {
 			terminalRef.current.scrollTop =
 				terminalRef.current.scrollHeight;
 		}
-	}, [bootLines, showLogin]);
-
-	const handleLogin = (e) => {
-		e.preventDefault();
-		if (username.trim()) {
-			setBootLines([
-				{ text: "", color: "", delay: 0 },
-				{
-					text: `Authenticating user: ${username}...`,
-					color: "mixed",
-					parts: [
-						{
-							text: "Authenticating user: ",
-							color: "text-white"
-						},
-						{ text: username, color: "text-cyan-400" },
-						{ text: "...", color: "text-white" }
-					],
-					delay: 0
-				},
-				{
-					text: "         WELCOME BACK, OPERATIVE. SYSTEM: OBSCURA [LINGUALIS-Σ] REINITIALIZED.",
-					color: "mixed",
-					parts: [
-						{
-							text: "WELCOME BACK, OPERATIVE. ",
-							color: "text-white"
-						},
-						{
-							text: "SYSTEM: OBSCURA",
-							color: "text-cyan-400"
-						},
-						{ text: " [", color: "text-white" },
-						{ text: "LINGUALIS", color: "text-yellow-300" },
-						{ text: "-", color: "text-white" },
-						{ text: "Σ", color: "text-green-400" },
-						{ text: "] REINITIALIZED.", color: "text-white" }
-					],
-					delay: 300
-				}
-			]);
-			setShowLogin(false);
-			setTimeout(() => {
-				onBootComplete?.(username);
-			}, 1500);
-		}
-	};
+	}, [bootLines]);
 
 	return (
 		<div className="font-kode-mono fixed inset-0 overflow-hidden bg-[#0a0a0a] text-sm">
@@ -331,68 +336,8 @@ const TerminalBoot = ({ onBootComplete }) => {
 						)}
 					</div>
 				))}
-				{/* Login prompt */}
-				{showLogin && (
-					<div className="mt-4">
-						{/* Welcome message above login */}
-						<div className="mb-2">
-							{/* Render the mixed color welcome message */}
-							{[
-								{
-									text: "WELCOME BACK, OPERATIVE. ",
-									color: "text-white"
-								},
-								{
-									text: "SYSTEM: OBSCURA",
-									color: "text-cyan-400"
-								},
-								{ text: " [", color: "text-white" },
-								{
-									text: "LINGUALIS",
-									color: "text-yellow-300"
-								},
-								{ text: "-", color: "text-white" },
-								{ text: "Σ", color: "text-green-400" },
-								{
-									text: "] REINITIALIZED.",
-									color: "text-white"
-								}
-							].map((part, idx) => (
-								<span key={idx} className={part.color}>
-									{part.text}
-								</span>
-							))}
-						</div>
-						<form
-							onSubmit={handleLogin}
-							className="flex items-center">
-							<span className="font-kode-mono mr-2 text-white">
-								login:
-							</span>
-							<div className="flex flex-1 items-center">
-								<input
-									type="text"
-									value={username}
-									onChange={(e) =>
-										setUsername(e.target.value)
-									}
-									className="w-full border-none bg-transparent text-white caret-white outline-none"
-									autoFocus
-									maxLength={32}
-								/>
-								<span className="ml-2">
-									{showCursor && (
-										<span className="animate-pulse text-white">
-											█
-										</span>
-									)}
-								</span>
-							</div>
-						</form>
-					</div>
-				)}
 				{/* Blinking cursor during boot */}
-				{!showLogin &&
+				{phase !== AUTO_LOGIN_PHASE &&
 					currentLineIndex >= bootLines.length &&
 					showCursor && <span className="text-white">█</span>}
 			</div>
