@@ -9,11 +9,11 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 	const realTimeDate = new Date().toLocaleDateString();
 	const emailContent = [
 		{
-			text: "From: Project Clarity <recruitment@clarity.net>",
+			text: "From: recruitment@obscuracollective.org",
 			delay: 30
 		},
 		{
-			text: `To: ${userData.realName} <${userData.username}@recruit.clarity.net>`,
+			text: `To: ${userData.realName} <${userData.username}@candidate.obscura.net>`,
 			delay: 30
 		},
 		{ text: `Date: ${realTimeDate}`, delay: 30 },
@@ -21,34 +21,33 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 		{ text: "", delay: 20 },
 		{ text: "─".repeat(70), delay: 10 },
 		{ text: "", delay: 20 },
-		{ text: `Dear ${userData.realName},`, delay: 50 },
+		{ text: `Congratulations.`, delay: 50 },
 		{ text: "", delay: 20 },
 		{
-			text: "Congratulations. Your linguistic aptitude profile has been flagged for Project Clarity—a global",
+			text: "Your linguistic aptitude profile has been flagged for Project Clarity—a global initiative",
 			delay: 35
 		},
 		{
-			text: "initiative to train next-generation AI translation models.",
-			delay: 35
-		},
-		{ text: "", delay: 20 },
-		{
-			text: "As a selected candidate, you will participate in a series of calibration tasks designed to refine",
-			delay: 35
-		},
-		{
-			text: "our cryptolinguistic algorithms. Your unique language patterns are crucial to our mission.",
+			text: "to train next-generation AI translation models.",
 			delay: 35
 		},
 		{ text: "", delay: 20 },
 		{
-			text: "We appreciate your prompt attention to this matter and look forward to your valuable contributions.",
+			text: "You will decrypt historical communication samples. Your performance will be evaluated.",
+			delay: 35
+		},
+		{
+			text: "Compensation is merit-based.",
 			delay: 35
 		},
 		{ text: "", delay: 20 },
-		{ text: "Best regards,", delay: 50 },
-		{ text: "Dr. XXX", delay: 50 },
-		{ text: "Lead Researcher, Project Clarity", delay: 50 },
+		{
+			text: "Begin Calibration Module 01.",
+			delay: 50
+		},
+		{ text: "", delay: 20 },
+		{ text: "—", delay: 30 },
+		{ text: "The Obscura Collective", delay: 50 },
 		{ text: "Cryptolinguistics Division", delay: 50 },
 		{ text: "", delay: 20 }
 	];

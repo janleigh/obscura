@@ -1,6 +1,10 @@
-import BaseController from "./BaseController.js";
+import {
+	getHint,
+	getLevelById,
+	validateAnswer
+} from "../../../../packages/shared/levels.js";
 import prisma from "../services/PrismaService.js";
-import bcrypt from "bcrypt";
+import BaseController from "./BaseController.js";
 
 class GameController extends BaseController {
 	constructor() {
@@ -9,6 +13,8 @@ class GameController extends BaseController {
 		this.startGame = this.startGame.bind(this);
 		this.submitLevel = this.submitLevel.bind(this);
 		this.getPlayerLogs = this.getPlayerLogs.bind(this);
+		this.requestHint = this.requestHint.bind(this);
+		this.getCurrentLevel = this.getCurrentLevel.bind(this);
 	}
 
 	/**
@@ -50,10 +56,13 @@ class GameController extends BaseController {
 				return this.success(res, {
 					userId: existingUser.id,
 					username: existingUser.username,
-					currentLevelId: existingUser.currentLevelId,
+					currentLevel: existingUser.currentLevel,
 					score: existingUser.score,
 					phaseUnlocked: existingUser.phaseUnlocked,
 					hintsRemaining: existingUser.hintCredits,
+					completedLevels: JSON.parse(
+						existingUser.completedLevels
+					),
 					message: "Session resumed"
 				});
 			}
@@ -78,7 +87,7 @@ class GameController extends BaseController {
 			return this.created(res, {
 				userId: newUser.id,
 				username: newUser.username,
-				currentLevelId: 0,
+				currentLevel: 1,
 				score: 0,
 				phaseUnlocked: 1,
 				hintsRemaining: 3,
@@ -91,8 +100,7 @@ class GameController extends BaseController {
 	}
 
 	/**
-	 * TODO: Make levels
-	 * @description POST /api/level/:id/submit - Validate against answer_hash and cipher chains
+	 * @description POST /api/level/:id/submit - Validate answer against hardcoded levels
 	 * @param {import('express').Request} req
 	 * @param {import('express').Response} res
 	 */
@@ -109,12 +117,8 @@ class GameController extends BaseController {
 				);
 			}
 
-			// Get level data
-			// Now come to think of it, we should just hardcode levels than querying db every time LMAO
-			const level = await prisma.level.findUnique({
-				where: { id: levelId }
-			});
-
+			// Get level from hardcoded data
+			const level = getLevelById(levelId);
 			if (!level) {
 				return this.notFound(res, "Level not found");
 			}
@@ -128,37 +132,15 @@ class GameController extends BaseController {
 				return this.notFound(res, "User not found");
 			}
 
-			// Check progress
-			let progress = await prisma.playerProgress.findUnique({
-				where: {
-					userId_levelId: {
-						userId,
-						levelId
-					}
-				}
-			});
+			// Parse attempt history
+			const attemptHistory = JSON.parse(user.attemptHistory);
+			const levelAttempts = attemptHistory[levelId] || 0;
 
-			if (!progress) {
-				progress = await prisma.playerProgress.create({
-					data: {
-						userId,
-						levelId,
-						status: "in_progress"
-					}
-				});
-			}
+			// Validate answer using hardcoded validation
+			const isCorrect = validateAnswer(levelId, answer);
 
-			// Attempts++
-			await prisma.playerProgress.update({
-				where: { id: progress.id },
-				data: { attempts: { increment: 1 } }
-			});
-
-			// Validate answer against hash
-			const isCorrect = bcrypt.compareSync(
-				answer.toLowerCase().trim(),
-				level.answerHash
-			);
+			// Update attempt count
+			attemptHistory[levelId] = levelAttempts + 1;
 
 			// Log submission
 			await prisma.log.create({
@@ -168,52 +150,51 @@ class GameController extends BaseController {
 					eventType: "level_submit",
 					details: JSON.stringify({
 						correct: isCorrect,
-						attempt: progress.attempts + 1
+						attempt: attemptHistory[levelId],
+						answer: answer.substring(0, 50) // Log partial answer for debugging
 					})
 				}
 			});
 
 			if (!isCorrect) {
+				// Update attempt history even on failure
+				await prisma.user.update({
+					where: { id: userId },
+					data: {
+						attemptHistory: JSON.stringify(attemptHistory)
+					}
+				});
+
 				return this.error(res, "Incorrect answer", 400);
 			}
 
-			// Mark as completed and update user in a transaction
-			const newScore = user.score + level.pointsValue;
-			await prisma.$transaction([
-				prisma.playerProgress.update({
-					where: { id: progress.id },
-					data: {
-						status: "completed",
-						solvedAt: new Date(),
-						solutionSubmitted: answer
-					}
-				}),
-				prisma.user.update({
-					where: { id: userId },
-					data: {
-						score: newScore,
-						currentLevelId: level.nextLevelId || levelId
-					}
-				})
-			]);
+			// Mark as completed and update user
+			const completedLevels = JSON.parse(user.completedLevels);
+			if (!completedLevels.includes(levelId)) {
+				completedLevels.push(levelId);
+			}
 
-			// Get transmission for this level
-			const transmission = await prisma.transmission.findFirst({
-				where: { levelId },
-				orderBy: { transmissionNumber: "asc" }
+			const newScore = user.score + level.pointsValue;
+			const nextLevelId = levelId + 1;
+
+			await prisma.user.update({
+				where: { id: userId },
+				data: {
+					score: newScore,
+					currentLevel: nextLevelId,
+					completedLevels: JSON.stringify(completedLevels),
+					attemptHistory: JSON.stringify(attemptHistory),
+					lastActive: new Date()
+				}
 			});
 
 			return this.success(res, {
 				correct: true,
 				pointsEarned: level.pointsValue,
 				totalScore: newScore,
-				nextLevelId: level.nextLevelId,
-				transmission: transmission
-					? {
-							message: transmission.message,
-							storyFragment: transmission.storyFragment
-						}
-					: null
+				nextLevelId,
+				storyFragment: level.storyFragment,
+				transmission: level.transmission
 			});
 		} catch (error) {
 			console.error("Error submitting level:", error);
@@ -234,14 +215,6 @@ class GameController extends BaseController {
 
 			const logs = await prisma.log.findMany({
 				where: { userId },
-				include: {
-					level: {
-						select: {
-							title: true,
-							cipherType: true
-						}
-					}
-				},
 				orderBy: { createdAt: "desc" },
 				take: limit,
 				skip: offset
@@ -252,14 +225,21 @@ class GameController extends BaseController {
 			});
 
 			return this.success(res, {
-				logs: logs.map((log) => ({
-					id: log.id,
-					eventType: log.eventType,
-					details: log.details ? JSON.parse(log.details) : null,
-					levelTitle: log.level?.title,
-					cipherType: log.level?.cipherType,
-					timestamp: log.createdAt
-				})),
+				logs: logs.map((log) => {
+					const level = log.levelId
+						? getLevelById(log.levelId)
+						: null;
+					return {
+						id: log.id,
+						eventType: log.eventType,
+						details: log.details
+							? JSON.parse(log.details)
+							: null,
+						levelTitle: level?.title,
+						cipherType: level?.cipherType,
+						timestamp: log.createdAt
+					};
+				}),
 				pagination: {
 					total: totalCount,
 					limit,
@@ -270,6 +250,100 @@ class GameController extends BaseController {
 		} catch (error) {
 			console.error("Error fetching player logs:", error);
 			return this.serverError(res, "Failed to retrieve player logs");
+		}
+	}
+
+	/**
+	 * @description GET /api/level/:id/hint - Request a hint for a level
+	 * @param {import('express').Request} req
+	 * @param {import('express').Response} res
+	 */
+	async requestHint(req, res) {
+		try {
+			const levelId = parseInt(req.params.id);
+			const { userId } = req.query;
+
+			if (!userId) {
+				return this.error(res, "User ID is required", 400);
+			}
+
+			const user = await prisma.user.findUnique({
+				where: { id: parseInt(userId) }
+			});
+
+			if (!user) {
+				return this.notFound(res, "User not found");
+			}
+
+			if (user.hintCredits <= 0) {
+				return this.error(res, "No hint credits remaining", 400);
+			}
+
+			// Get next hint line
+			const hintIndex = user.hintsUsed;
+			const hintLine = getHint(levelId, hintIndex);
+
+			if (!hintLine) {
+				return this.error(
+					res,
+					"No more hints available for this level",
+					400
+				);
+			}
+
+			// Deduct hint credit
+			await prisma.user.update({
+				where: { id: parseInt(userId) },
+				data: {
+					hintCredits: { decrement: 1 },
+					hintsUsed: { increment: 1 }
+				}
+			});
+
+			// Log hint request
+			await prisma.log.create({
+				data: {
+					userId: parseInt(userId),
+					levelId,
+					eventType: "hint_request",
+					details: JSON.stringify({ hintIndex })
+				}
+			});
+
+			return this.success(res, {
+				hint: hintLine,
+				hintsRemaining: user.hintCredits - 1
+			});
+		} catch (error) {
+			console.error("Error requesting hint:", error);
+			return this.serverError(res, "Failed to retrieve hint");
+		}
+	}
+
+	/**
+	 * @description GET /api/level/:id - Get current level data (without answer)
+	 * @param {import('express').Request} req
+	 * @param {import('express').Response} res
+	 */
+	async getCurrentLevel(req, res) {
+		try {
+			const levelId = parseInt(req.params.id);
+
+			const level = getLevelById(levelId);
+			if (!level) {
+				return this.notFound(res, "Level not found");
+			}
+
+			// Return level data without the answer
+			const {
+				answer,
+				...levelDataWithoutAnswer
+			} = level;
+
+			return this.success(res, levelDataWithoutAnswer);
+		} catch (error) {
+			console.error("Error fetching level:", error);
+			return this.serverError(res, "Failed to retrieve level");
 		}
 	}
 }
