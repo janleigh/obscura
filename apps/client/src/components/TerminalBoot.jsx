@@ -255,8 +255,8 @@ const TerminalBoot = ({ userData, onBootComplete }) => {
 		];
 	}, [userData]);
 
+	// Cursor blink effect
 	useEffect(() => {
-		// Cursor blink effect
 		const cursorInterval = setInterval(() => {
 			setShowCursor((prev) => !prev);
 		}, 500);

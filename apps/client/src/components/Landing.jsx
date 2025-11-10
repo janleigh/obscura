@@ -37,8 +37,7 @@ const Landing = ({ onComplete }) => {
 		} catch (err) {
 			console.error("Registration error:", err);
 			setError(
-				err.response?.data?.error ||
-					"Failed to connect to server"
+				err.response?.data?.error || "Failed to connect to server"
 			);
 			setIsRegistering(false);
 		}

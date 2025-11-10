@@ -342,11 +342,7 @@ class GameController extends BaseController {
 				return this.notFound(res, "Level not found");
 			}
 
-			// Return level data without the answer
-			const {
-				answer,
-				...levelDataWithoutAnswer
-			} = level;
+			const { answer, ...levelDataWithoutAnswer } = level;
 
 			return this.success(res, levelDataWithoutAnswer);
 		} catch (error) {

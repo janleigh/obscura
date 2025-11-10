@@ -8,20 +8,17 @@ export const LEVELS = [
 		title: "Calibration Module 01",
 		phase: 1,
 		cipherType: "caesar",
-		cipherText:
-			"",
+		cipherText: "",
 		cipherData: { shift: 13 },
-		hintPoem:
-			"",
-		hintLines: [
-			""
-		],
+		hintPoem: "",
+		hintLines: [""],
 		answer: "",
 		pointsValue: 100,
 		storyFragment:
 			"CALIBRATION SUCCESSFUL. Neural translation patterns recorded. Proceeding to next module.",
 		transmission: {
-			message: "Welcome to Project Clarity. Your linguistic profile is exceptional.",
+			message:
+				"Welcome to Project Clarity. Your linguistic profile is exceptional.",
 			storyFragment: null
 		}
 	}
@@ -81,7 +78,11 @@ export function validateAnswer(levelId, answer) {
  */
 export function getHint(levelId, hintIndex) {
 	const level = getLevelById(levelId);
-	if (!level || !level.hintLines || hintIndex >= level.hintLines.length) {
+	if (
+		!level ||
+		!level.hintLines ||
+		hintIndex >= level.hintLines.length
+	) {
 		return null;
 	}
 	return level.hintLines[hintIndex];
@@ -95,7 +96,8 @@ export const PHASE_KEYS = [
 	{
 		keyName: "ARECIBO",
 		phase: 1,
-		description: "The name of the observatory that received the signal",
+		description:
+			"The name of the observatory that received the signal",
 		hintText:
 			"Where the impossible signal was first heard. Puerto Rico remembers."
 	},
@@ -103,7 +105,8 @@ export const PHASE_KEYS = [
 		keyName: "PROMPTER",
 		phase: 2,
 		description: "The entity within the signal",
-		hintText: "It has no hands, yet writes. It has no voice, yet speaks."
+		hintText:
+			"It has no hands, yet writes. It has no voice, yet speaks."
 	},
 	{
 		keyName: "OUROBOROS",

@@ -3,6 +3,10 @@ import { clearSession, getSession, saveSession } from "../utils/session";
 
 /**
  * Hook for managing user session state
+ * im tired now its been 3 hours and i wanna close my eyes
+ * i wanna fall asleep cause i dont miss my baby
+ * wtf?
+ * @return {Object} session state and handlers
  */
 export const useSession = () => {
 	const [session, setSession] = useState(null);

@@ -1,3 +1,5 @@
+// sometimes i think, we should have used TypeScript
+// all for the blue javascript 🙏🙏
 const SESSION_KEYS = {
 	USER_ID: "user_id",
 	USERNAME: "username",
@@ -11,8 +13,17 @@ const SESSION_KEYS = {
  * @param {object} userData - User data from backend
  */
 export const saveSession = (userData) => {
-	if (!userData || !userData.userId || !userData.username || !userData.realName) {
-		console.error("Invalid user data passed to saveSession:", userData);
+	// doesn't this if statement short circuit?
+	if (
+		!userData ||
+		!userData.userId ||
+		!userData.username ||
+		!userData.realName
+	) {
+		console.error(
+			"Invalid user data passed to saveSession:",
+			userData
+		);
 		return;
 	}
 
@@ -66,7 +77,7 @@ export const getSession = () => {
 };
 
 /**
- * Clear session from localStorage
+ * The fuck do you think it does?
  */
 export const clearSession = () => {
 	Object.values(SESSION_KEYS).forEach((key) => {
@@ -92,7 +103,10 @@ export const hasSession = () => {
  */
 export const updateSession = (updates) => {
 	if (updates.currentLevel) {
-		localStorage.setItem(SESSION_KEYS.LAST_LEVEL, updates.currentLevel);
+		localStorage.setItem(
+			SESSION_KEYS.LAST_LEVEL,
+			updates.currentLevel
+		);
 	}
 	if (updates.phaseUnlocked) {
 		localStorage.setItem(SESSION_KEYS.PHASE, updates.phaseUnlocked);

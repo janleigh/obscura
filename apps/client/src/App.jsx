@@ -6,7 +6,8 @@ import TerminalBoot from "./components/TerminalBoot";
 import { API_ENDPOINTS } from "./config/api";
 import { clearSession, getSession, saveSession } from "./utils/session";
 
-// Flow stages
+// Flow
+// Landing -> request to backend to create user -> IntroEmail -> TerminalBoot -> Main
 const STAGE_LANDING = "landing";
 const STAGE_EMAIL = "email";
 const STAGE_BOOT = "boot";
@@ -166,7 +167,9 @@ const App = () => {
 					</p>
 					<div className="mt-4 space-y-1 text-xs text-gray-600">
 						<p>Score: {userData?.score || 0}</p>
-						<p>Hint Credits: {userData?.hintsRemaining || 0}</p>
+						<p>
+							Hint Credits: {userData?.hintsRemaining || 0}
+						</p>
 						<p>
 							Completed Levels:{" "}
 							{userData?.completedLevels?.length || 0}

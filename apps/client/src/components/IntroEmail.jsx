@@ -52,8 +52,8 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 		{ text: "", delay: 20 }
 	];
 
+	// Show email after a brief delay
 	useEffect(() => {
-		// Show email after a brief delay
 		const timer = setTimeout(() => {
 			setShowEmail(true);
 			setShowSkipButton(true);
@@ -175,8 +175,7 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 								<button
 									onClick={handleSkip}
 									disabled={isComplete}
-									className={`border border-gray-700 bg-[#1a1a1a] px-4 py-2 text-xs text-gray-400 transition-colors hover:border-gray-600 hover:bg-[#202020] hover:text-gray-300${isComplete ? ' opacity-50 cursor-not-allowed' : ''}`}
-								>
+									className={`border border-gray-700 bg-[#1a1a1a] px-4 py-2 text-xs text-gray-400 transition-colors hover:border-gray-600 hover:bg-[#202020] hover:text-gray-300${isComplete ? " cursor-not-allowed opacity-50" : ""}`}>
 									[ SKIP ]{" "}
 									<span className="text-gray-600">
 										ESC
