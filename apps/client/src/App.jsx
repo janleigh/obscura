@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Console from "./components/Console";
 import IntroEmail from "./components/IntroEmail";
 import Landing from "./components/Landing";
 import TerminalBoot from "./components/TerminalBoot";
@@ -94,7 +95,7 @@ const App = () => {
 						<span className="text-green-400">ONLINE</span>
 					</p>
 					<p className="text-gray-500">
-						TBD! Make the actual TUI interface here.
+						<Console />
 					</p>
 				</div>
 			</div>
