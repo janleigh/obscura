@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "../styles/index.css";
+import { commandResponses } from "./commands";
 
 const STORAGE_KEY = "obscura_console_history_v1";
 
@@ -8,6 +9,7 @@ const Console = ({ className = "", onSubmit }) => {
 	const [input, setInput] = useState("");
 	const [navIndex, setNavIndex] = useState(-1);
 	const [cursorVisible, setCursorVisible] = useState(true);
+	const [isProcessing, setIsProcessing] = useState(false);
 	const containerRef = useRef(null);
 	const inputRef = useRef(null);
 
@@ -16,7 +18,7 @@ const Console = ({ className = "", onSubmit }) => {
 			const raw = localStorage.getItem(STORAGE_KEY);
 			if (raw) setHistory(JSON.parse(raw));
 		} catch (err) {
-			// ign
+			// ignore
 		}
 	}, []);
 
@@ -52,11 +54,66 @@ const Console = ({ className = "", onSubmit }) => {
 		if (onSubmit) onSubmit(text);
 	};
 
+	// process input as command
+	const processCommand = (commandText) => {
+		const trimmed = commandText.trim();
+
+		// Check if it's a command
+		if (!trimmed.startsWith("/")) {
+			return false;
+		}
+
+		setIsProcessing(true);
+
+		const parts = trimmed.slice(1).split(" ");
+		const command = parts[0].toLowerCase();
+		const args = parts.slice(1).join(" ");
+
+		if (command === "echo" && args) {
+			const responses = [{ text: ` ${args}`, delay: 100 }];
+			addDelayedResponses(responses);
+			setIsProcessing(false);
+			return true;
+		}
+
+		// Handle predefined commands
+		if (commandResponses[command]) {
+			addDelayedResponses(commandResponses[command]);
+			setIsProcessing(false);
+			return true;
+		}
+
+		// Unknown command
+		const unknownResponse = [
+			{ text: `Command not found: /${command}`, delay: 100 },
+			{ text: "Type '/help' for available commands", delay: 150 }
+		];
+		addDelayedResponses(unknownResponse);
+		setIsProcessing(false);
+		return true;
+	};
+
+	// Add multiple messages with delays
+	const addDelayedResponses = (responses) => {
+		responses.forEach((response, index) => {
+			setTimeout(
+				() => {
+					push(response.text);
+				},
+				responses
+					.slice(0, index)
+					.reduce((sum, r) => sum + r.delay, response.delay)
+			);
+		});
+	};
+
 	const handleKeyDown = (e) => {
 		if (e.key === "Enter") {
 			e.preventDefault();
 			if (input.trim() !== "") {
 				push(input.trim());
+				// Process as command if starts with "/"
+				processCommand(input.trim());
 				setInput("");
 				setNavIndex(-1);
 			}
