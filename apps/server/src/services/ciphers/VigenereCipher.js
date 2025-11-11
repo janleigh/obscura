@@ -42,10 +42,13 @@ class VigenereCipher extends BaseCipher {
 				// calculate shifted character
 				const charCode = char.charCodeAt(0) - base;
 				// calculate shift based on key character
-				const keyShift = normalizedKey.charCodeAt(keyIndex % normalizedKey.length) - 65;
+				const keyShift =
+					normalizedKey.charCodeAt(
+						keyIndex % normalizedKey.length
+					) - 65;
 				// apply shift
 				const shift = encrypt ? keyShift : 26 - keyShift;
-				// we use the formula: 
+				// we use the formula:
 				// c_i = (p_i + k_j) mod 26 or p_i = (c_i - k_j + 26) mod 26
 				// although the shift calculation above handles both cases
 				const newCharCode = (charCode + shift) % 26;

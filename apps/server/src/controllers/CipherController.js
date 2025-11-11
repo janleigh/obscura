@@ -112,7 +112,10 @@ class CipherController extends BaseController {
 				);
 			}
 
-			const result = CipherEngine.encryptChain(plaintext, cipherChain);
+			const result = CipherEngine.encryptChain(
+				plaintext,
+				cipherChain
+			);
 
 			return this.success(res, {
 				...result,
@@ -152,7 +155,10 @@ class CipherController extends BaseController {
 				);
 			}
 
-			const result = CipherEngine.decryptChain(ciphertext, cipherChain);
+			const result = CipherEngine.decryptChain(
+				ciphertext,
+				cipherChain
+			);
 
 			return this.success(res, {
 				...result,
@@ -210,7 +216,10 @@ class CipherController extends BaseController {
 			});
 		} catch (error) {
 			console.error("Error fetching cipher types:", error);
-			return this.serverError(res, "Failed to retrieve cipher types");
+			return this.serverError(
+				res,
+				"Failed to retrieve cipher types"
+			);
 		}
 	}
 

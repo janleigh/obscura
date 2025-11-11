@@ -7,12 +7,9 @@ class RailFenceCipher extends BaseCipher {
 	}
 
 	validateConfig() {
-		return (
-			typeof this.rails === "number" &&
-			this.rails >= 2
-		);
+		return typeof this.rails === "number" && this.rails >= 2;
 	}
-	
+
 	encrypt(plaintext, options = {}) {
 		const rails = options.rails ?? this.rails;
 		// Bro how can you do this with less than 2 rails
@@ -34,8 +31,8 @@ class RailFenceCipher extends BaseCipher {
 			// place character in the current rail
 			fence[rail].push(char);
 			// increment
-			rail += direction
-			
+			rail += direction;
+
 			// then we switch direction if we are at the top or bottom rail like a zigzag
 			if (rail === 0 || rail === rails - 1) {
 				direction *= -1;
@@ -47,7 +44,46 @@ class RailFenceCipher extends BaseCipher {
 
 	decrypt(ciphertext, options = {}) {
 		// TODO!
-		return "To be implemented";
+		// return "To be implemented";
+
+		const pattern = [];
+		const rails = options.rails ?? this.rails;
+		let rail = 0;
+		let direction = 1;
+
+		// find pattern
+		for (let i = 0; i < ciphertext.length; i++) {
+			if (!pattern[rail]) pattern[rail] = [];
+			pattern[rail].push(i);
+			rail += direction;
+			if (rail === 0 || rail === rails - 1) {
+				direction *= -1;
+			}
+		}
+
+		// fill up tje rails
+		const fence = [];
+		let index = 0;
+		for (let r = 0; r < rails; r++) {
+			fence[r] = [];
+			for (let i = 0; i < pattern[r].length; i++) {
+				fence[r].push(ciphertext[index++]);
+			}
+		}
+		
+		// read in zigzag
+		let result = "";
+		rail = 0;
+		direction = 1;
+		for (let i = 0; i < ciphertext.length; i++) {
+			result += fence[rail].shift();
+			rail += direction;
+			if (rail === 0 || rail === rails - 1) {
+				direction *= -1;
+			}
+		}
+
+		return result;
 	}
 
 	getMetadata() {

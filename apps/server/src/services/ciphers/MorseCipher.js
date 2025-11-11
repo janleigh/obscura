@@ -9,32 +9,32 @@ class MorseCipher extends BaseCipher {
 		this.wordSeparator = config.wordSeparator || " / ";
 
 		this.morseAlphabet = {
-			A: ".-",
-			B: "-...",
-			C: "-.-.",
-			D: "-..",
-			E: ".",
-			F: "..-.",
-			G: "--.",
-			H: "....",
-			I: "..",
-			J: ".---",
-			K: "-.-",
-			L: ".-..",
-			M: "--",
-			N: "-.",
-			O: "---",
-			P: ".--.",
-			Q: "--.-",
-			R: ".-.",
-			S: "...",
-			T: "-",
-			U: "..-",
-			V: "...-",
-			W: ".--",
-			X: "-..-",
-			Y: "-.--",
-			Z: "--..",
+			"A": ".-",
+			"B": "-...",
+			"C": "-.-.",
+			"D": "-..",
+			"E": ".",
+			"F": "..-.",
+			"G": "--.",
+			"H": "....",
+			"I": "..",
+			"J": ".---",
+			"K": "-.-",
+			"L": ".-..",
+			"M": "--",
+			"N": "-.",
+			"O": "---",
+			"P": ".--.",
+			"Q": "--.-",
+			"R": ".-.",
+			"S": "...",
+			"T": "-",
+			"U": "..-",
+			"V": "...-",
+			"W": ".--",
+			"X": "-..-",
+			"Y": "-.--",
+			"Z": "--..",
 			"0": "-----",
 			"1": ".----",
 			"2": "..---",
@@ -59,9 +59,9 @@ class MorseCipher extends BaseCipher {
 			"=": "-...-",
 			"+": ".-.-.",
 			"-": "-....-",
-			_: "..--.-",
+			"_": "..--.-",
 			'"': ".-..-.",
-			$: "...-..-",
+			"$": "...-..-",
 			"@": ".--.-."
 			// should I implement enye?
 		};
@@ -90,7 +90,9 @@ class MorseCipher extends BaseCipher {
 				.filter((code) => code !== "");
 
 			if (encodedLetters.length > 0) {
-				encodedWords.push(encodedLetters.join(this.letterSeparator));
+				encodedWords.push(
+					encodedLetters.join(this.letterSeparator)
+				);
 			}
 		}
 

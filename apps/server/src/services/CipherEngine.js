@@ -13,7 +13,7 @@ class CipherEngine {
 			baconian: BaconianCipher,
 			polybius: PolybiusCipher,
 			railfence: RailFenceCipher,
-			morse: MorseCipher,
+			morse: MorseCipher
 		};
 	}
 
@@ -178,12 +178,17 @@ class CipherEngine {
 			}
 
 			if (!this.cipherTypes[layer.type.toLowerCase()]) {
-				errors.push(`Layer ${i + 1}: Unknown cipher type "${layer.type}"`);
+				errors.push(
+					`Layer ${i + 1}: Unknown cipher type "${layer.type}"`
+				);
 				continue;
 			}
 
 			try {
-				const cipher = this.createCipher(layer.type, layer.config || {});
+				const cipher = this.createCipher(
+					layer.type,
+					layer.config || {}
+				);
 				if (!cipher.validateConfig()) {
 					errors.push(`Layer ${i + 1}: Invalid configuration`);
 				}
@@ -194,7 +199,9 @@ class CipherEngine {
 
 		// Warnings
 		if (cipherChain.length > 5) {
-			warnings.push("Chain has more than 5 layers - may be unnecessarily complex");
+			warnings.push(
+				"Chain has more than 5 layers - may be unnecessarily complex"
+			);
 		}
 
 		return {
@@ -278,7 +285,9 @@ class CipherEngine {
 		// Detect possible cipher type
 		// If it only has A-Z and spaces, possible substitution cipher
 		if (/^[A-Z\s]+$/.test(ciphertext)) {
-			analysis.suggestions.push("Likely substitution cipher (Caesar, Vigenere)");
+			analysis.suggestions.push(
+				"Likely substitution cipher (Caesar, Vigenere)"
+			);
 		}
 		// If it only has A and B (or spaces), possible Baconian cipher
 		if (/^[AB\s]+$/.test(ciphertext)) {
