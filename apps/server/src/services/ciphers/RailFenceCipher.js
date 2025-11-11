@@ -43,9 +43,6 @@ class RailFenceCipher extends BaseCipher {
 	}
 
 	decrypt(ciphertext, options = {}) {
-		// TODO!
-		// return "To be implemented";
-
 		const pattern = [];
 		const rails = options.rails ?? this.rails;
 		let rail = 0;
@@ -70,7 +67,7 @@ class RailFenceCipher extends BaseCipher {
 				fence[r].push(ciphertext[index++]);
 			}
 		}
-		
+
 		// read in zigzag
 		let result = "";
 		rail = 0;
