@@ -6,8 +6,9 @@ class BaseController {
 	 */
 	success(res, data, statusCode = 200) {
 		return res.status(statusCode).json({
-			success: true,
-			data
+			// used to be encapsulated in "data" object but oh well
+			// https://cdn.discordapp.com/attachments/853813746426445874/1437015763721388113/image.png?ex=69130638&is=6911b4b8&hm=295e96e5bb63aeb2794577fd748e3526b812ec2d3b6c347c45654e12ccb33302
+			...data
 		});
 	}
 
@@ -18,7 +19,6 @@ class BaseController {
 	 */
 	error(res, message, statusCode = 400) {
 		return res.status(statusCode).json({
-			success: false,
 			error: message
 		});
 	}

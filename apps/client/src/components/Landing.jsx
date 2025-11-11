@@ -1,10 +1,15 @@
+import axios from "axios";
 import { useState } from "react";
+import { API_ENDPOINTS } from "../config/api";
+import { saveSession } from "../utils/session";
 
 const Landing = ({ onComplete }) => {
 	const [username, setUsername] = useState("");
 	const [realName, setRealName] = useState("");
 	const [currentField, setCurrentField] = useState("username");
 	const [showCursor, setShowCursor] = useState(true);
+	const [isRegistering, setIsRegistering] = useState(false);
+	const [error, setError] = useState(null);
 
 	useState(() => {
 		const cursorInterval = setInterval(() => {
@@ -13,17 +18,42 @@ const Landing = ({ onComplete }) => {
 		return () => clearInterval(cursorInterval);
 	}, []);
 
+	// Register user with backend database
+	// and save session to local storage
+	// i dont wanna do authentication bro 😵‍💫
+	const registerUser = async () => {
+		setIsRegistering(true);
+		setError(null);
+
+		try {
+			const response = await axios.post(API_ENDPOINTS.GAME_START, {
+				username: username.trim(),
+				realName: realName.trim()
+			});
+
+			const userData = response.data;
+			saveSession(userData);
+			onComplete(userData);
+		} catch (err) {
+			console.error("Registration error:", err);
+			setError(
+				err.response?.data?.error || "Failed to connect to server"
+			);
+			setIsRegistering(false);
+		}
+	};
+
 	// Handle Enter key for both fields
-	// Should I just do a button?
 	const handleKeyDown = (e) => {
 		if (e.key === "Enter") {
 			if (currentField === "username" && username.trim()) {
 				setCurrentField("realName");
-			} else if (currentField === "realName" && realName.trim()) {
-				onComplete({
-					username: username.trim(),
-					realName: realName.trim()
-				});
+			} else if (
+				currentField === "realName" &&
+				realName.trim() &&
+				!isRegistering
+			) {
+				registerUser();
 			}
 		}
 	};
@@ -32,11 +62,12 @@ const Landing = ({ onComplete }) => {
 		e.preventDefault();
 		if (currentField === "username" && username.trim()) {
 			setCurrentField("realName");
-		} else if (currentField === "realName" && realName.trim()) {
-			onComplete({
-				username: username.trim(),
-				realName: realName.trim()
-			});
+		} else if (
+			currentField === "realName" &&
+			realName.trim() &&
+			!isRegistering
+		) {
+			registerUser();
 		}
 	};
 
@@ -122,14 +153,15 @@ const Landing = ({ onComplete }) => {
 											setRealName(e.target.value)
 										}
 										onKeyDown={handleKeyDown}
-										className="flex-1 border-none bg-transparent text-white outline-none"
+										disabled={isRegistering}
+										className="flex-1 border-none bg-transparent text-white outline-none disabled:text-gray-600"
 										autoFocus={
 											currentField === "realName"
 										}
 										maxLength={64}
 										placeholder="John Doe"
 									/>
-									{showCursor && (
+									{showCursor && !isRegistering && (
 										<span className="ml-1 text-cyan-400">
 											█
 										</span>
@@ -137,15 +169,32 @@ const Landing = ({ onComplete }) => {
 								</div>
 							</div>
 						)}
+						{/* Error message */}
+						{error && (
+							<div className="animate-fade-in pt-4 text-xs text-red-400">
+								<span className="mr-2">✗</span>
+								{error}
+							</div>
+						)}
 						{/* Submit */}
 						<div className="pt-4 text-right text-xs text-gray-600">
-							<span className="text-gray-500">PRESS</span>{" "}
-							<kbd className="rounded border border-gray-700 bg-[#1a1a1a] px-2 py-1 text-gray-400">
-								ENTER
-							</kbd>{" "}
-							<span className="text-gray-500">
-								TO CONTINUE
-							</span>
+							{isRegistering ? (
+								<span className="text-yellow-300">
+									[ CONNECTING TO OBSCURA SERVERS... ]
+								</span>
+							) : (
+								<>
+									<span className="text-gray-500">
+										PRESS
+									</span>{" "}
+									<kbd className="rounded border border-gray-700 bg-[#1a1a1a] px-2 py-1 text-gray-400">
+										ENTER
+									</kbd>{" "}
+									<span className="text-gray-500">
+										TO CONTINUE
+									</span>
+								</>
+							)}
 						</div>
 					</form>
 				</div>

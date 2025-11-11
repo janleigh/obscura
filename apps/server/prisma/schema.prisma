@@ -13,89 +13,24 @@ datasource db {
 model User {
   id              Int      @id @default(autoincrement())
   username        String   @unique
-  currentLevelId  Int      @default(0) @map("current_level_id")
+  realName        String?  @map("real_name")
+  currentLevel    Int      @default(1) @map("current_level")
   score           Int      @default(0)
   hintsUsed       Int      @default(0) @map("hints_used")
   hintCredits     Int      @default(3) @map("hint_credits")
   joinedAt        DateTime @default(now()) @map("joined_at")
   phaseUnlocked   Int      @default(1) @map("phase_unlocked")
   lastActive      DateTime @default(now()) @map("last_active")
+  completedLevels String   @default("[]") @map("completed_levels") // JSON array of completed level IDs
+  attemptHistory  String   @default("{}") @map("attempt_history")  // JSON object tracking attempts per level
 
-  progress        PlayerProgress[]
   logs            Log[]
   phaseKeys       PlayerPhaseKey[]
   discoveries     PlayerDiscovery[]
   leaderboard     Leaderboard?
-  hintRequests    HintRequest[]
 
   @@index([username])
   @@map("users")
-}
-
-model Level {
-  id                Int      @id @default(autoincrement())
-  title             String
-  phase             Int      @default(1)
-  cipherType        String   @map("cipher_type")
-  cipherText        String   @map("cipher_text")
-  cipherDataJson    String   @map("cipher_data_json")
-  hintPoem          String?  @map("hint_poem")
-  hintLinesTotal    Int      @default(3) @map("hint_lines_total")
-  answerHash        String   @map("answer_hash")
-  nextLevelId       Int?     @map("next_level_id")
-  isHidden          Boolean  @default(false) @map("is_hidden")
-  unlockCondition   String?  @map("unlock_condition")
-  timeRestriction   String?  @map("time_restriction")
-  storyFragment     String?  @map("story_fragment")
-  pointsValue       Int      @default(100) @map("points_value")
-  createdAt         DateTime @default(now()) @map("created_at")
-
-  progress        PlayerProgress[]
-  transmissions   Transmission[]
-  logs            Log[]
-  hintRequests    HintRequest[]
-
-  @@index([phase])
-  @@map("levels")
-}
-
-model Transmission {
-  id                Int      @id @default(autoincrement())
-  levelId           Int      @map("level_id")
-  transmissionNumber Int     @map("transmission_number")
-  message           String
-  storyFragment     String?  @map("story_fragment")
-  mediaUrl          String?  @map("media_url")
-  mediaType         String?  @map("media_type")
-  revealConditions  String?  @map("reveal_conditions")
-  isCorrupted       Boolean  @default(false) @map("is_corrupted")
-  unlockTimeUtc     String?  @map("unlock_time_utc")
-  createdAt         DateTime @default(now()) @map("created_at")
-
-  level             Level    @relation(fields: [levelId], references: [id])
-
-  @@index([levelId])
-  @@map("transmissions")
-}
-
-model PlayerProgress {
-  id                  Int       @id @default(autoincrement())
-  userId              Int       @map("user_id")
-  levelId             Int       @map("level_id")
-  status              String    @default("locked")
-  attempts            Int       @default(0)
-  hintsViewed         Int       @default(0) @map("hints_viewed")
-  solvedAt            DateTime? @map("solved_at")
-  timeSpentSeconds    Int       @default(0) @map("time_spent_seconds")
-  solutionSubmitted   String?   @map("solution_submitted")
-
-  user                User      @relation(fields: [userId], references: [id])
-  level               Level     @relation(fields: [levelId], references: [id])
-
-  @@unique([userId, levelId])
-  @@index([userId])
-  @@index([levelId])
-  @@map("player_progress")
 }
 
 model PhaseKey {
@@ -136,25 +71,10 @@ model Log {
   createdAt   DateTime  @default(now()) @map("created_at")
 
   user        User?     @relation(fields: [userId], references: [id])
-  level       Level?    @relation(fields: [levelId], references: [id])
 
   @@index([userId])
   @@index([createdAt])
   @@map("logs")
-}
-
-model HintRequest {
-  id              Int      @id @default(autoincrement())
-  userId          Int      @map("user_id")
-  levelId         Int      @map("level_id")
-  hintLineNumber  Int      @map("hint_line_number")
-  hintText        String   @map("hint_text")
-  requestedAt     DateTime @default(now()) @map("requested_at")
-
-  user            User     @relation(fields: [userId], references: [id])
-  level           Level    @relation(fields: [levelId], references: [id])
-
-  @@map("hint_requests")
 }
 
 model HiddenPage {
