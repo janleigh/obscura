@@ -1,10 +1,13 @@
+import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import { getLevelById } from "../../../../packages/shared/levels";
+import { API_ENDPOINTS } from "../config/api";
 import "../styles/index.css";
 import { commandResponses } from "./commands";
 
 const STORAGE_KEY = "obscura_console_history_v1";
 
-const Console = ({ className = "", onSubmit }) => {
+const Console = ({ className = "", onSubmit, userData = null, currentLevel = 1 }) => {
 	const [history, setHistory] = useState([]);
 	const [input, setInput] = useState("");
 	const [navIndex, setNavIndex] = useState(-1);
@@ -55,7 +58,7 @@ const Console = ({ className = "", onSubmit }) => {
 	};
 
 	// process input as command
-	const processCommand = (commandText) => {
+	const processCommand = async (commandText) => {
 		const trimmed = commandText.trim();
 
 		// Check if it's a command
@@ -68,6 +71,62 @@ const Console = ({ className = "", onSubmit }) => {
 		const parts = trimmed.slice(1).split(" ");
 		const command = parts[0].toLowerCase();
 		const args = parts.slice(1).join(" ");
+
+		// Handle /hint command with credit system
+		if (command === "hint") {
+			if (!userData) {
+				const responses = [
+					{ text: "[!] Error: User data not available", delay: 100 }
+				];
+				addDelayedResponses(responses);
+				setIsProcessing(false);
+				return true;
+			}
+
+			const hintsRemaining = userData.hintsRemaining || 0;
+
+			if (hintsRemaining <= 0) {
+				const responses = [
+					{ text: "[!] No hint credits remaining.", delay: 100 },
+					{ text: "[!] Maximum of 3 hints per session.", delay: 150 }
+				];
+				addDelayedResponses(responses);
+				setIsProcessing(false);
+				return true;
+			}
+
+			const level = getLevelById(currentLevel);
+			if (!level) {
+				const responses = [
+					{ text: "[!] Error: Level data not found", delay: 100 }
+				];
+				addDelayedResponses(responses);
+				setIsProcessing(false);
+				return true;
+			}
+
+			const hintPoem = level.hintPoem || "[!] No hint available for this level";
+			const responses = [
+				{ text: "[*] Retrieving hint...", delay: 200 },
+				{ text: `[+] Hint Credits Used: 1 (${hintsRemaining - 1} remaining)`, delay: 150 },
+				{ text: hintPoem, delay: 300 }
+			];
+
+			addDelayedResponses(responses);
+
+			// Call backend to update hint credits
+			try {
+				await axios.post(API_ENDPOINTS.GAME_HINT || "/api/game/hint", {
+					username: userData.username,
+					levelId: currentLevel
+				});
+			} catch (error) {
+				console.error("Failed to update hint credits:", error);
+			}
+
+			setIsProcessing(false);
+			return true;
+		}
 
 		if (command === "echo" && args) {
 			const responses = [{ text: ` ${args}`, delay: 100 }];

@@ -1,13 +1,13 @@
 export const commandResponses = {
 	help: [
 		{ text: "Available commands:", delay: 100 },
-		{ text: "> /help — Display this help menu", delay: 150 },
-		{ text: "> /analyze", delay: 150 },
-		{ text: "> /replay", delay: 150 },
-		{ text: "> /decrypt", delay: 150 },
-		{ text: "> /logs", delay: 150 },
-		{ text: "> /phasekey", delay: 150 },
-		{ text: "> /hint", delay: 150 }
+		{ text: "/help — Display this help menu", delay: 150 },
+		{ text: "/analyze", delay: 150 },
+		{ text: "/replay", delay: 150 },
+		{ text: "/decrypt", delay: 150 },
+		{ text: "/logs", delay: 150 },
+		{ text: "/phasekey", delay: 150 },
+		{ text: "/hint", delay: 150 }
 	],
 	analyze: [
 		{ text: "[*] Analyzing data...", delay: 300 },
