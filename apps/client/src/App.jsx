@@ -164,7 +164,14 @@ const App = () => {
 						<span className="text-green-400">ONLINE</span>
 					</p>
 					<p className="text-gray-500">
-						<Console userData={userData} currentLevel={userData?.currentLevel || 1} />
+						<Console 
+							userData={userData} 
+							currentLevel={userData?.currentLevel || 1}
+							onUserDataUpdate={(updatedData) => {
+								setUserData(updatedData);
+								saveSession(updatedData);
+							}}
+						/>
 					</p>
 					<div className="mt-4 space-y-1 text-xs text-gray-600">
 						<p>Score: {userData?.score || 0}</p>

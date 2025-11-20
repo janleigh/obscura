@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { getLevelById } from "../../../../packages/shared/levels";
+import { getLevelById, validateAnswer } from "../../../../packages/shared/levels";
 import { API_ENDPOINTS } from "../config/api";
 import "../styles/index.css";
 import { commandResponses } from "./commands";
 
 const STORAGE_KEY = "obscura_console_history_v1";
 
-const Console = ({ className = "", onSubmit, userData = null, currentLevel = 1 }) => {
+const Console = ({ className = "", onSubmit, userData = null, currentLevel = 1, onUserDataUpdate = null }) => {
 	const [history, setHistory] = useState([]);
 	const [input, setInput] = useState("");
 	const [navIndex, setNavIndex] = useState(-1);
@@ -116,16 +116,74 @@ const Console = ({ className = "", onSubmit, userData = null, currentLevel = 1 }
 
 			// Call backend to update hint credits
 			try {
-				await axios.post(API_ENDPOINTS.GAME_HINT || "/api/game/hint", {
+				const response = await axios.post(API_ENDPOINTS.GAME_HINT || "/api/game/hint", {
 					username: userData.username,
 					levelId: currentLevel
 				});
+				
+				// Update App.jsx with new userData
+				if (response.data && onUserDataUpdate) {
+					onUserDataUpdate(response.data);
+				}
 			} catch (error) {
 				console.error("Failed to update hint credits:", error);
 			}
 
 			setIsProcessing(false);
 			return true;
+		}
+
+		// Handle /decrypt command - validate answer and show story fragment
+		if (command === "decrypt" && args) {
+			const level = getLevelById(currentLevel);
+			if (!level) {
+				const responses = [
+					{ text: "[!] Error: Level data not found", delay: 100 }
+				];
+				addDelayedResponses(responses);
+				setIsProcessing(false);
+				return true;
+			}
+
+			const isCorrect = validateAnswer(currentLevel, args);
+
+			if (isCorrect) {
+				const storyFragment = level.storyFragment || "[+] Level completed!";
+				const responses = [
+					{ text: "[*] Validating answer...", delay: 300 },
+					{ text: "[+] CORRECT!", delay: 250 },
+					{ text: storyFragment, delay: 400 }
+				];
+
+				addDelayedResponses(responses);
+
+				// Call backend to mark level as complete and advance
+				try {
+					const response = await axios.post(API_ENDPOINTS.GAME_ANSWER || "/api/game/answer", {
+						username: userData.username,
+						levelId: currentLevel,
+						answer: args
+					});
+					
+					// Update App.jsx with new userData
+					if (response.data && onUserDataUpdate) {
+						onUserDataUpdate(response.data);
+					}
+				} catch (error) {
+					console.error("Failed to submit answer:", error);
+				}
+
+				setIsProcessing(false);
+				return true;
+			} else {
+				const responses = [
+					{ text: "[*] Validating answer...", delay: 300 },
+					{ text: "[!] INCORRECT.", delay: 250 }
+				];
+				addDelayedResponses(responses);
+				setIsProcessing(false);
+				return true;
+			}
 		}
 
 		if (command === "echo" && args) {
