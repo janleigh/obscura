@@ -1,24 +1,75 @@
 /**
  * Hardcoded level definitions for Obscura
  * Based on the narrative plot. Check Google Docs
+ * @neverGiveup222's job
  */
 export const LEVELS = [
+	{
+		id: 0,
+		title: "Tutorial: Calibration 00",
+		phase: 1,
+		cipherType: "caesar",
+		cipherText: "KHOOR",
+		cipherData: { shift: 3 },
+		hintPoem:
+			"A gentle push and letters fall into place; retrace three steps to see the face.",
+		hintLines: [
+			"This is a Caesar shift. Try shifting letters by a small constant.",
+			"Shift of 3 is common for an easy start. Shift back base on alphabet."
+		],
+		answer: "HELLO",
+		pointsValue: 10,
+		storyFragment:
+			"This is a basic check to familiarise you with the interface. Calibration officially begins...",
+		transmission: {
+			message:
+				"Tutorial interface online. The system greets you. Decode below to see the message.",
+			storyFragment: null
+		}
+	},
 	{
 		id: 1,
 		title: "Calibration Module 01",
 		phase: 1,
 		cipherType: "caesar",
-		cipherText: "",
+		cipherText: "VNZERNQL",
 		cipherData: { shift: 13 },
-		hintPoem: "",
-		hintLines: [""],
-		answer: "",
+		hintPoem:
+			"In silver tongues I speak of dawn; shift my letters, and truth is drawn.",
+		hintLines: ["Rotate letters by halfway around the alphabet."],
+		answer: "I AM READY",
 		pointsValue: 100,
 		storyFragment:
 			"CALIBRATION SUCCESSFUL. Neural translation patterns recorded. Proceeding to next module.",
 		transmission: {
 			message:
 				"Welcome to Project Clarity. Your linguistic profile is exceptional.",
+			storyFragment: null
+		}
+	},
+	{
+		id: 2,
+		title: "Calibration Module 02",
+		phase: 1,
+		cipherType: "caesar",
+		cipherText: "YMJPJDNXRNXXNSL",
+		cipherData: {
+			shift: 5
+		},
+		hintPoem:
+			"Forward I stepped, as letters sway, Retrace my path, and find the way. Five they tumble, shadows in line, Reveal the key where the dark letters shine.",
+		hintLines: [
+			"Rotate each letter backwards.",
+			"Observe the poem; it is reliable.",
+			"Count 5 letters back to get the original text."
+		],
+		answer: "THE KEY IS MISSING",
+		pointsValue: 120,
+		storyFragment:
+			"Module 02 complete. Neural translation patterns recorded. Proceeding to next module.",
+		transmission: {
+			message:
+				"Module 02 unlocked. Your linguistic evaluation will be continued. Solve the shift and uncover the key.",
 			storyFragment: null
 		}
 	}
