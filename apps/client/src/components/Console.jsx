@@ -5,7 +5,7 @@ import { API_ENDPOINTS } from "../config/api";
 import "../styles/index.css";
 import { commandResponses } from "./commands";
 
-const STORAGE_KEY = "obscura_console_history_v1";
+const STORAGE_KEY = "obscura_console_history_v2";
 
 const Console = ({ className = "", onSubmit, userData = null, currentLevel = 1, onUserDataUpdate = null }) => {
 	const [history, setHistory] = useState([]);
@@ -20,17 +20,13 @@ const Console = ({ className = "", onSubmit, userData = null, currentLevel = 1, 
 		try {
 			const raw = localStorage.getItem(STORAGE_KEY);
 			if (raw) setHistory(JSON.parse(raw));
-		} catch (err) {
-			// ignore
-		}
+		} catch (err) {}
 	}, []);
 
 	useEffect(() => {
 		try {
 			localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
-		} catch (err) {
-			// ignore
-		}
+		} catch (err) {}
 	}, [history]);
 
 	useEffect(() => {
@@ -47,10 +43,11 @@ const Console = ({ className = "", onSubmit, userData = null, currentLevel = 1, 
 		}
 	}, [history, input]);
 
-	const push = (text) => {
+	const push = (text, type = "output") => {
 		const entry = {
 			id: Date.now(),
 			text,
+			type,
 			ts: new Date().toISOString()
 		};
 		setHistory((h) => [...h, entry]);
@@ -215,7 +212,7 @@ const Console = ({ className = "", onSubmit, userData = null, currentLevel = 1, 
 		responses.forEach((response, index) => {
 			setTimeout(
 				() => {
-					push(response.text);
+					push(response.text, "output");
 				},
 				responses
 					.slice(0, index)
@@ -228,7 +225,7 @@ const Console = ({ className = "", onSubmit, userData = null, currentLevel = 1, 
 		if (e.key === "Enter") {
 			e.preventDefault();
 			if (input.trim() !== "") {
-				push(input.trim());
+				push(input.trim(), "input");
 				// Process as command if starts with "/"
 				processCommand(input.trim());
 				setInput("");
@@ -283,13 +280,13 @@ const Console = ({ className = "", onSubmit, userData = null, currentLevel = 1, 
 				{history.map((h) => (
 					<div
 						key={h.id}
-						className="break-words whitespace-pre-wrap">
-						<span className="select-none">&gt; </span>
+						className="wrap-break-word whitespace-pre-wrap">
+						{h.type === "input" && <span className="select-none">&gt; </span>}
 						{h.text}
 					</div>
 				))}
 
-				<div className="break-words whitespace-pre-wrap">
+				<div className="wrap-break-word whitespace-pre-wrap">
 					<span className="select-none">&gt; </span>
 					{input}
 					<span
