@@ -19,8 +19,8 @@ class GameController extends BaseController {
 
 	/**
 	 * @description POST /api/game/start - Initialize player session
-	 * @param {import('express').Request} req
-	 * @param {import('express').Response} res
+	 * @param {import('express').Request} [req]
+	 * @param {import('express').Response} [res]
 	 */
 	async startGame(req, res) {
 		try {
