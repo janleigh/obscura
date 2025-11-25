@@ -60,14 +60,14 @@ export const LEVELS = [
     	hintPoem: "Forward I stepped, as letters sway, Retrace my path, and find the way. Five they tumble, shadows in line, Reveal the key where the letters shine.",
     	hintLines: [
       		"Analyze the poem; it is reliable.", 
-      		"Observe proper spacing as previous module.",
+      		"Always observe proper spacing as previous module.",
       		"Count 5 letters back to reveal plaintext"],
     	answer: "THE KEY IS DAWN",
     	pointsValue: 120,
     	storyFragment: "Module 02 complete. Neural translation patterns recorded. Proceeding to next module.",
     	transmission: {
       		message: 
-				"Module 02 unlocked. Your linguistic evaluation will be continued. Solve the shift and uncover the key.",
+				"Module 02 unlocked. Your linguistic evaluation will be continued. Solve the shift proceed to the next module.",
       		storyFragment: null
     	}
 	},
@@ -78,14 +78,13 @@ export const LEVELS = [
     	cipherType: "vigenere",
     	cipherText: "WHAFWANFZENRUICUWOJSHBNHDRUROERRQTD",
     	cipherData: { key: "DAWN" },
-    	hintPoem: "A single key will guide your hand,Lay it above each letter, as planned. When night recedes and dawn is near, The hidden truth becomes more clear.",
+    	hintPoem: "A single key will guide your hand,Lay it above each letter, as planned. When night recedes and DAWN is near, The hidden truth becomes more clear.",
     	hintLines: [
-      		"This uses a repeating-key Vigenere. You uncovered the keyword in the previous module",
-      		"Write the keyword in-line over the ciphertext, repeating it to match length.",
-     		"Convert letters to numbers: A=0, B=1, … Z=25.",
-     		"For each ciphertext letter, subtract the paired key value (wrap below A to Z).",
-      		"Decode every letter to reconstruct the full message. Apply natural spacing afterward as previous module."
-    	],
+      		"This uses a repeating-key Vigenere. Analyze poem carefully.",
+      		"Write the keyword over the ciphertext, repeating to match it's length, convert letters to numbers (A=0...Z=25).",
+     		"Subtract the keyword values from the ciphertext numbers (wrap below A to Z) and decode full message with proper spacing.",
+			"If you are still stuck, the keyword is: DAWN."
+		],
     	answer: "THE STARS WERE RIGHT ON FEBRUARY ELEVENTH",
     	pointsValue: 140,
     	storyFragment: "Calibration continues. The interface functions normally. Your solution has been recorded; proceed to the next module.",
@@ -96,6 +95,8 @@ export const LEVELS = [
     	}
 	}
 	// TODO: Add remaining 31 levels following the narrative progression
+	//level 4: Vigenere
+	
 	// Level 5: First journal entry (Dr. XXX)
 	// Level 7: Memo about dreams
 	// Level 9: Journal about hearing voices
