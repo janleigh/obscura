@@ -36,7 +36,10 @@ export const LEVELS = [
 		cipherData: { shift: 13 },
 		hintPoem:
 			"In silver tongues I speak of dawn; shift my letters, and truth is drawn.",
-		hintLines: ["Rotate letters by halfway around the alphabet."],
+		hintLines: [
+			"Rotate letters by halfway around the alphabet (13).",
+			"This is ROT13/Caesar-13. Decode the message fully, then restore proper spacing to reveal readable sentence."
+		],
 		answer: "I AM READY",
 		pointsValue: 100,
 		storyFragment:
@@ -49,29 +52,48 @@ export const LEVELS = [
 	},
 	{
 		id: 2,
-		title: "Calibration Module 02",
-		phase: 1,
-		cipherType: "caesar",
-		cipherText: "YMJPJDNXRNXXNSL",
-		cipherData: {
-			shift: 5
-		},
-		hintPoem:
-			"Forward I stepped, as letters sway, Retrace my path, and find the way. Five they tumble, shadows in line, Reveal the key where the dark letters shine.",
-		hintLines: [
-			"Rotate each letter backwards.",
-			"Observe the poem; it is reliable.",
-			"Count 5 letters back to get the original text."
-		],
-		answer: "THE KEY IS MISSING",
-		pointsValue: 120,
-		storyFragment:
-			"Module 02 complete. Neural translation patterns recorded. Proceeding to next module.",
-		transmission: {
-			message:
+    	title: "Calibration Module 02",
+    	phase: 1,
+    	cipherType: "caesar",
+    	cipherText: "YMJPJDNXIFBS", 
+    	cipherData: { shift: 5,},
+    	hintPoem: "Forward I stepped, as letters sway, Retrace my path, and find the way. Five they tumble, shadows in line, Reveal the key where the letters shine.",
+    	hintLines: [
+      		"Analyze the poem; it is reliable.", 
+      		"Observe proper spacing as previous module.",
+      		"Count 5 letters back to reveal plaintext"],
+    	answer: "THE KEY IS DAWN",
+    	pointsValue: 120,
+    	storyFragment: "Module 02 complete. Neural translation patterns recorded. Proceeding to next module.",
+    	transmission: {
+      		message: 
 				"Module 02 unlocked. Your linguistic evaluation will be continued. Solve the shift and uncover the key.",
-			storyFragment: null
-		}
+      		storyFragment: null
+    	}
+	},
+	{
+		id: 3,
+    	title: "Calibration Module 03",
+    	phase: 1,
+    	cipherType: "vigenere",
+    	cipherText: "WHAFWANFZENRUICUWOJSHBNHDRUROERRQTD",
+    	cipherData: { key: "DAWN" },
+    	hintPoem: "A single key will guide your hand,Lay it above each letter, as planned. When night recedes and dawn is near, The hidden truth becomes more clear.",
+    	hintLines: [
+      		"This uses a repeating-key Vigenere. You uncovered the keyword in the previous module",
+      		"Write the keyword in-line over the ciphertext, repeating it to match length.",
+     		"Convert letters to numbers: A=0, B=1, … Z=25.",
+     		"For each ciphertext letter, subtract the paired key value (wrap below A to Z).",
+      		"Decode every letter to reconstruct the full message. Apply natural spacing afterward as previous module."
+    	],
+    	answer: "THE STARS WERE RIGHT ON FEBRUARY ELEVENTH",
+    	pointsValue: 140,
+    	storyFragment: "Calibration continues. The interface functions normally. Your solution has been recorded; proceed to the next module.",
+    	transmission: {
+      		message: 
+				"Module 03 initialized. Apply the provided keyword to complete decryption.",
+      		storyFragment: "Keep track of your progress as deeper layers begin to align..."
+    	}
 	}
 	// TODO: Add remaining 31 levels following the narrative progression
 	// Level 5: First journal entry (Dr. XXX)
