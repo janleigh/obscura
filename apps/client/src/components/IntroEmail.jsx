@@ -42,7 +42,7 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 		},
 		{ text: "", delay: 20 },
 		{
-			text: "Begin Calibration Module 01.",
+			text: "Begin Tutorial: Calibration 00.",
 			delay: 50
 		},
 		{ text: "", delay: 20 },

@@ -1,4 +1,6 @@
+import AtbashCipher from "./ciphers/AtbashCipher.js";
 import BaconianCipher from "./ciphers/BaconianCipher.js";
+import Base64Cipher from "./ciphers/Base64Cipher.js";
 import CaesarCipher from "./ciphers/CaesarCipher.js";
 import MorseCipher from "./ciphers/MorseCipher.js";
 import PolybiusCipher from "./ciphers/PolybiusCipher.js";
@@ -10,6 +12,8 @@ class CipherEngine {
 		this.cipherTypes = {
 			caesar: CaesarCipher,
 			vigenere: VigenereCipher,
+			atbash: AtbashCipher,
+			base64: Base64Cipher,
 			baconian: BaconianCipher,
 			polybius: PolybiusCipher,
 			railfence: RailFenceCipher,

@@ -1,6 +1,6 @@
 import {
-	getHint,
 	getLevelById,
+	PHASE_KEYS,
 	validateAnswer
 } from "../../../../packages/shared/levels.js";
 import prisma from "../services/PrismaService.js";
@@ -14,7 +14,7 @@ class GameController extends BaseController {
 		this.submitLevel = this.submitLevel.bind(this);
 		this.getPlayerLogs = this.getPlayerLogs.bind(this);
 		this.requestHint = this.requestHint.bind(this);
-		this.getCurrentLevel = this.getCurrentLevel.bind(this);
+		this.submitPhaseKey = this.submitPhaseKey.bind(this);
 	}
 
 	/**
@@ -42,7 +42,7 @@ class GameController extends BaseController {
 					updateData.realName = realName;
 				}
 
-				await prisma.$transaction([
+				const [, updatedUser] = await prisma.$transaction([
 					prisma.log.create({
 						data: {
 							userId: existingUser.id,
@@ -59,21 +59,17 @@ class GameController extends BaseController {
 				]);
 
 				return this.success(res, {
-					userId: existingUser.id,
-					username: existingUser.username,
-					realName: existingUser.realName || realName,
-					currentLevel: existingUser.currentLevel,
-					score: existingUser.score,
-					phaseUnlocked: existingUser.phaseUnlocked,
-					hintsRemaining: existingUser.hintCredits,
+					userId: updatedUser.id,
+					username: updatedUser.username,
+					realName: updatedUser.realName,
+					currentLevel: updatedUser.currentLevel,
+					phaseUnlocked: updatedUser.phaseUnlocked,
 					completedLevels: JSON.parse(
-						existingUser.completedLevels
+						updatedUser.completedLevels
 					),
 					message: "Session resumed"
 				});
-			}
-
-			// If not, we create new user
+			} // If not, we create new user
 			const newUser = await prisma.user.create({
 				data: {
 					username,
@@ -95,10 +91,9 @@ class GameController extends BaseController {
 				userId: newUser.id,
 				username: newUser.username,
 				realName: newUser.realName,
-				currentLevel: 1,
-				score: 0,
+				currentLevel: 0,
 				phaseUnlocked: 1,
-				hintsRemaining: 3,
+				completedLevels: [],
 				message: "New game session created"
 			});
 		} catch (error) {
@@ -108,7 +103,7 @@ class GameController extends BaseController {
 	}
 
 	/**
-	 * @description POST /api/level/:id/submit - Validate answer against hardcoded levels
+	 * @description POST /api/game/level/:id/submit - Validate answer against hardcoded levels
 	 * @param {import('express').Request} req
 	 * @param {import('express').Response} res
 	 */
@@ -117,18 +112,16 @@ class GameController extends BaseController {
 			const levelId = parseInt(req.params.id);
 			const { userId, answer } = req.body;
 
+			console.log(
+				`[SUBMIT] Level ${levelId} by user ${userId}: "${answer}"`
+			);
+
 			if (!userId || !answer) {
 				return this.error(
 					res,
 					"User ID and answer are required",
 					400
 				);
-			}
-
-			// Get level from hardcoded data
-			const level = getLevelById(levelId);
-			if (!level) {
-				return this.notFound(res, "Level not found");
 			}
 
 			// Get user data
@@ -140,15 +133,15 @@ class GameController extends BaseController {
 				return this.notFound(res, "User not found");
 			}
 
-			// Parse attempt history
-			const attemptHistory = JSON.parse(user.attemptHistory);
-			const levelAttempts = attemptHistory[levelId] || 0;
+			// Get level from hardcoded data
+			const level = getLevelById(levelId);
+			if (!level) {
+				return this.notFound(res, "Level not found");
+			}
 
 			// Validate answer using hardcoded validation
 			const isCorrect = validateAnswer(levelId, answer);
-
-			// Update attempt count
-			attemptHistory[levelId] = levelAttempts + 1;
+			console.log(`[SUBMIT] Answer correct: ${isCorrect}`);
 
 			// Log submission
 			await prisma.log.create({
@@ -158,21 +151,12 @@ class GameController extends BaseController {
 					eventType: "level_submit",
 					details: JSON.stringify({
 						correct: isCorrect,
-						attempt: attemptHistory[levelId],
-						answer: answer.substring(0, 50) // Log partial answer for debugging
+						answer: answer.substring(0, 50)
 					})
 				}
 			});
 
 			if (!isCorrect) {
-				// Update attempt history even on failure
-				await prisma.user.update({
-					where: { id: userId },
-					data: {
-						attemptHistory: JSON.stringify(attemptHistory)
-					}
-				});
-
 				return this.error(res, "Incorrect answer", 400);
 			}
 
@@ -182,24 +166,21 @@ class GameController extends BaseController {
 				completedLevels.push(levelId);
 			}
 
-			const newScore = user.score + level.pointsValue;
 			const nextLevelId = levelId + 1;
+
+			console.log(`[SUBMIT] Advancing user to level ${nextLevelId}`);
 
 			await prisma.user.update({
 				where: { id: userId },
 				data: {
-					score: newScore,
 					currentLevel: nextLevelId,
 					completedLevels: JSON.stringify(completedLevels),
-					attemptHistory: JSON.stringify(attemptHistory),
 					lastActive: new Date()
 				}
 			});
 
 			return this.success(res, {
 				correct: true,
-				pointsEarned: level.pointsValue,
-				totalScore: newScore,
 				nextLevelId,
 				storyFragment: level.storyFragment,
 				transmission: level.transmission
@@ -262,7 +243,8 @@ class GameController extends BaseController {
 	}
 
 	/**
-	 * @description GET /api/level/:id/hint - Request a hint for a level
+	 * @description GET /api/game/level/:id/hint - Request a hint for a level
+	 * Returns the first hintLine from the level. Hints are always available.
 	 * @param {import('express').Request} req
 	 * @param {import('express').Response} res
 	 */
@@ -283,45 +265,36 @@ class GameController extends BaseController {
 				return this.notFound(res, "User not found");
 			}
 
-			if (user.hintCredits <= 0) {
-				return this.error(res, "No hint credits remaining", 400);
+			const level = getLevelById(levelId);
+			if (!level) {
+				return this.notFound(res, "Level not found");
 			}
 
-			// Get next hint line
-			const hintIndex = user.hintsUsed;
-			const hintLine = getHint(levelId, hintIndex);
+			// Get first hint line from hintLines array
+			const hint =
+				level.hintLines && level.hintLines.length > 0
+					? level.hintLines[0]
+					: null;
 
-			if (!hintLine) {
+			if (!hint) {
 				return this.error(
 					res,
-					"No more hints available for this level",
+					"No hints available for this level",
 					400
 				);
 			}
-
-			// Deduct hint credit
-			await prisma.user.update({
-				where: { id: parseInt(userId) },
-				data: {
-					hintCredits: { decrement: 1 },
-					hintsUsed: { increment: 1 }
-				}
-			});
 
 			// Log hint request
 			await prisma.log.create({
 				data: {
 					userId: parseInt(userId),
 					levelId,
-					eventType: "hint_request",
-					details: JSON.stringify({ hintIndex })
+					eventType: "hint_view",
+					details: JSON.stringify({ hint })
 				}
 			});
 
-			return this.success(res, {
-				hint: hintLine,
-				hintsRemaining: user.hintCredits - 1
-			});
+			return this.success(res, { hint });
 		} catch (error) {
 			console.error("Error requesting hint:", error);
 			return this.serverError(res, "Failed to retrieve hint");
@@ -329,25 +302,90 @@ class GameController extends BaseController {
 	}
 
 	/**
-	 * @description GET /api/level/:id - Get current level data (without answer)
+	 * @description POST /api/game/phasekey - Submit a phase key to unlock deep archives
 	 * @param {import('express').Request} req
 	 * @param {import('express').Response} res
 	 */
-	async getCurrentLevel(req, res) {
+	async submitPhaseKey(req, res) {
 		try {
-			const levelId = parseInt(req.params.id);
+			const { userId, phaseKey } = req.body;
 
-			const level = getLevelById(levelId);
-			if (!level) {
-				return this.notFound(res, "Level not found");
+			if (!userId || !phaseKey) {
+				return this.error(
+					res,
+					"User ID and phase key are required",
+					400
+				);
 			}
 
-			const { answer, ...levelDataWithoutAnswer } = level;
+			// Get user data
+			const user = await prisma.user.findUnique({
+				where: { id: userId }
+			});
 
-			return this.success(res, levelDataWithoutAnswer);
+			if (!user) {
+				return this.notFound(res, "User not found");
+			}
+
+			// Validate phase key
+			const normalizedKey = phaseKey.trim().toUpperCase();
+			const validKey = PHASE_KEYS.find(
+				(key) => key.keyName === normalizedKey
+			);
+
+			if (!validKey) {
+				await prisma.log.create({
+					data: {
+						userId,
+						eventType: "phase_key_invalid",
+						details: JSON.stringify({
+							attempted_key: normalizedKey.substring(0, 20)
+						})
+					}
+				});
+
+				return this.error(res, "Invalid phase key", 400);
+			}
+
+			// Check if phase is already unlocked
+			if (user.phaseUnlocked >= validKey.phase) {
+				return this.success(res, {
+					success: true,
+					message: `Phase ${validKey.phase} was already unlocked`,
+					unlockedPhase: user.phaseUnlocked
+				});
+			}
+
+			// Unlock phase
+			const newPhase = Math.max(user.phaseUnlocked, validKey.phase);
+			await prisma.user.update({
+				where: { id: userId },
+				data: {
+					phaseUnlocked: newPhase,
+					lastActive: new Date()
+				}
+			});
+
+			// Log phase unlock
+			await prisma.log.create({
+				data: {
+					userId,
+					eventType: "phase_unlock",
+					details: JSON.stringify({
+						phase: validKey.phase,
+						keyName: validKey.keyName
+					})
+				}
+			});
+
+			return this.success(res, {
+				success: true,
+				message: `Phase ${validKey.phase} unlocked! Deep archives accessible.`,
+				unlockedPhase: newPhase
+			});
 		} catch (error) {
-			console.error("Error fetching level:", error);
-			return this.serverError(res, "Failed to retrieve level");
+			console.error("Error submitting phase key:", error);
+			return this.serverError(res, "Failed to submit phase key");
 		}
 	}
 }

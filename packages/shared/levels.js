@@ -2,6 +2,8 @@
  * Hardcoded level definitions for Obscura
  * Based on the narrative plot. Check Google Docs
  * @neverGiveup222's job
+ *
+ * Related utilities: See cipherUtils.js for shared cipher constants and helpers
  */
 export const LEVELS = [
 	{
@@ -13,12 +15,7 @@ export const LEVELS = [
 		cipherData: { shift: 3 },
 		hintPoem:
 			"A gentle push and letters fall into place; retrace three steps to see the face.",
-		hintLines: [
-			"This is a Caesar shift. Try shifting letters by a small constant.",
-			"Shift of 3 is common for an easy start. Shift back base on alphabet."
-		],
 		answer: "HELLO",
-		pointsValue: 10,
 		storyFragment:
 			"This is a basic check to familiarise you with the interface. Calibration officially begins...",
 		transmission: {
@@ -29,62 +26,133 @@ export const LEVELS = [
 	},
 	{
 		id: 1,
-		title: "Calibration Module 01",
+		title: "Module 01: Easy Caesar Test",
 		phase: 1,
 		cipherType: "caesar",
-		cipherText: "VNZERNQL",
-		cipherData: { shift: 13 },
+		cipherText: "BRXIRXQGPH",
+		cipherData: { shift: 3 },
 		hintPoem:
-			"In silver tongues I speak of dawn; shift my letters, and truth is drawn.",
-		hintLines: ["Rotate letters by halfway around the alphabet."],
-		answer: "I AM READY",
-		pointsValue: 100,
+			"GAIVS CAESAR SAYS MY WORDS APPEAR FOREIGN SOLELY BECAUSE THEY DO NOT STAND IN THEIR RIGHTFUL POSITION",
+		answer: "YOUFOUNDME",
 		storyFragment:
-			"CALIBRATION SUCCESSFUL. Neural translation patterns recorded. Proceeding to next module.",
+			"Great! You're getting the hang of it. Let's continue...",
 		transmission: {
-			message:
-				"Welcome to Project Clarity. Your linguistic profile is exceptional.",
+			message: "Testing basic Caesar cipher functionality.",
 			storyFragment: null
 		}
 	},
 	{
 		id: 2,
-		title: "Calibration Module 02",
+		title: "Module 02: ROT13 Challenge",
 		phase: 1,
 		cipherType: "caesar",
-		cipherText: "YMJPJDNXRNXXNSL",
+		cipherText: "IVFRIREFN",
+		cipherData: { shift: 13 },
+		hintPoem: "Thirteen steps in perfect symmetry.",
+		answer: "VISEVERSA",
+		storyFragment:
+			"ROT13 complete. The cipher is named after its creator.",
+		transmission: {
+			message: "Testing ROT13 functionality.",
+			storyFragment: null
+		}
+	},
+	{
+		id: 3,
+		title: "Module 03: Atbash Test",
+		phase: 1,
+		cipherType: "atbash",
+		cipherText: "ZGYZHS",
+		cipherData: {},
+		hintPoem:
+			"Mirror the alphabet, end meets start, Z becomes A, that's the art.",
+		answer: "ATBASH",
+		storyFragment:
+			"Atbash cipher decoded. One of the oldest ciphers known.",
+		transmission: {
+			message: "[ATBASH CIPHER TEST]",
+			storyFragment: null
+		}
+	},
+	{
+		id: 4,
+		title: "Module 04: Simple Vigenere",
+		phase: 1,
+		cipherType: "vigenere",
+		cipherText: "ZSAUIRWSLCXCBW",
+		cipherData: { key: "KEY" },
+		hintPoem: "A wild KEY appeared! What will Pikachu do?",
+		answer: "POCKETMONSTERS",
+		storyFragment:
+			"Vigenère cipher cracked! A classic polyalphabetic substitution.",
+		transmission: {
+			message: "[VIGENERE TEST - SHORT KEY]",
+			storyFragment: null
+		}
+	},
+	{
+		id: 5,
+		title: "Module 05: Base64 Basics",
+		phase: 1,
+		cipherType: "base64",
+		cipherText: "REVDT0RFRA==",
+		cipherData: {},
+		hintPoem:
+			"Encoded in sixty-four parts, digital transformation starts.",
+		answer: "DECODED",
+		storyFragment:
+			"Base64 decoded successfully. Not encryption, but encoding.",
+		transmission: {
+			message: "[BASE64 ENCODING TEST]",
+			storyFragment: null
+		}
+	},
+	{
+		id: 6,
+		title: "Module 06: Hidden Message",
+		phase: 1,
+		cipherType: "steganography",
+		cipherText: null,
+		cipherData: {},
+		hintPoem:
+			"Not all secrets are in sight. Sometimes, you gotta think outside the box too.",
+		answer: "49126",
+		storyFragment:
+			"Steganography revealed. The art of hiding messages within images.",
+		transmission: {
+			message: "[STEGANOGRAPHY TEST - EXAMINE THE IMAGE]",
+			imageUrl: "/images/module-6.png",
+			type: "image",
+			storyFragment: null
+		}
+	},
+	{
+		id: 7,
+		title: "Module 07: Cipher Chain Test",
+		phase: 1,
+		cipherType: "chain",
+		cipherText:
+			"-.- -. . --.- .... ...- --. ..-. .-.. ..-. ..-. -. .... -..- --. - .-.. . ... -.-. .. .--. .--. ..-",
 		cipherData: {
-			shift: 5
+			chain: [
+				{ type: "morse", config: {} },
+				{ type: "vigenere", config: { key: "CICADA" } },
+				{ type: "atbash", config: {} },
+				{ type: "base64", config: {} }
+			]
 		},
 		hintPoem:
-			"Forward I stepped, as letters sway, Retrace my path, and find the way. Five they tumble, shadows in line, Reveal the key where the dark letters shine.",
-		hintLines: [
-			"Rotate each letter backwards.",
-			"Observe the poem; it is reliable.",
-			"Count 5 letters back to get the original text."
-		],
-		answer: "THE KEY IS MISSING",
-		pointsValue: 120,
+			"The first speaks in dots and dashes fine, then a key from secretive design. Next, reflect to see the light, and finally, encode to end the fight.",
+		answer: "ELITEBALLREFERENCE",
 		storyFragment:
-			"Module 02 complete. Neural translation patterns recorded. Proceeding to next module.",
+			"Cipher chain decoded. Multiple layers add complexity.",
 		transmission: {
-			message:
-				"Module 02 unlocked. Your linguistic evaluation will be continued. Solve the shift and uncover the key.",
+			message: "[CIPHER CHAIN TEST]",
 			storyFragment: null
 		}
 	}
-	// TODO: Add remaining 31 levels following the narrative progression
-	// Level 5: First journal entry (Dr. XXX)
-	// Level 7: Memo about dreams
-	// Level 9: Journal about hearing voices
-	// Level 12: Emergency Protocol Alpha-9
-	// Level 15: Time loop revelation
-	// Level 18: Domain registration twist
-	// Level 21: "What is your name?"
-	// Level 23: Cryptolinguist's notes
-	// Level 28: Lab 4 incident
-	// Level 30: The Prompter's Journal
-	// Level 32: Final choice - Prime Cipher
+	// dummy levels
+	// will be replaced by afel
 ];
 
 /**

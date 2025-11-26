@@ -315,7 +315,7 @@ const TerminalBoot = ({ userData, onBootComplete }) => {
 		<div className="font-kode-mono fixed inset-0 overflow-hidden bg-[#0a0a0a] text-sm">
 			<div
 				ref={terminalRef}
-				className="scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 h-full w-full overflow-y-auto p-4">
+				className="scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 crt-glow h-full w-full overflow-y-auto p-4">
 				{/* Boot messages */}
 				{bootLines.map((line, index) => (
 					<div key={index} className="leading-relaxed">
@@ -339,12 +339,16 @@ const TerminalBoot = ({ userData, onBootComplete }) => {
 				{/* Blinking cursor during boot */}
 				{phase !== AUTO_LOGIN_PHASE &&
 					currentLineIndex >= bootLines.length &&
-					showCursor && <span className="text-white">█</span>}
+					showCursor && (
+						<span className="crt-glow text-white">█</span>
+					)}
 			</div>
 			{/* Scanline effect */}
 			<div className="animate-scanline pointer-events-none fixed inset-0 bg-linear-to-b from-transparent via-[rgba(255,255,255,0.02)] to-transparent bg-size-[100%_4px] opacity-20"></div>
 			{/* Vignette effect */}
 			<div className="pointer-events-none fixed inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.8)]"></div>
+			{/* CRT screen curvature overlay */}
+			<div className="pointer-events-none fixed inset-0 rounded-sm shadow-[inset_0_0_4px_rgba(34,211,238,0.1)]"></div>
 		</div>
 	);
 };

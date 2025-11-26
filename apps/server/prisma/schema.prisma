@@ -14,15 +14,12 @@ model User {
   id              Int      @id @default(autoincrement())
   username        String   @unique
   realName        String?  @map("real_name")
-  currentLevel    Int      @default(1) @map("current_level")
+  currentLevel    Int      @default(0) @map("current_level")
   score           Int      @default(0)
-  hintsUsed       Int      @default(0) @map("hints_used")
-  hintCredits     Int      @default(3) @map("hint_credits")
   joinedAt        DateTime @default(now()) @map("joined_at")
   phaseUnlocked   Int      @default(1) @map("phase_unlocked")
   lastActive      DateTime @default(now()) @map("last_active")
   completedLevels String   @default("[]") @map("completed_levels") // JSON array of completed level IDs
-  attemptHistory  String   @default("{}") @map("attempt_history")  // JSON object tracking attempts per level
 
   logs            Log[]
   phaseKeys       PlayerPhaseKey[]
@@ -109,7 +106,6 @@ model Leaderboard {
   totalScore        Int      @default(0) @map("total_score")
   levelsCompleted   Int      @default(0) @map("levels_completed")
   phaseReached      Int      @default(1) @map("phase_reached")
-  hintsUsed         Int      @default(0) @map("hints_used")
   rankPosition      Int?     @map("rank_position")
   updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
 
