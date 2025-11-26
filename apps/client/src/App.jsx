@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import MainGame from "./components/game";
 import IntroEmail from "./components/IntroEmail";
-import Landing from "./components/Landing";
-import MainGame from "./components/MainGame";
+import Landing from "./components/landing";
 import SignalNoise from "./components/SignalNoise";
-import TerminalBoot from "./components/TerminalBoot";
+import TerminalBoot from "./components/terminal-boot";
 import { API_ENDPOINTS } from "./config/api";
 import { clearSession, getSession, saveSession } from "./utils/session";
 

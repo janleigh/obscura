@@ -1,4 +1,47 @@
 /**
+ * Values used for Cipher Toolkit
+ */
+export const CIPHERS_CONFIG = [
+	{
+		value: "caesar",
+		label: "ROT-CRACK.BF"
+	},
+	{
+		value: "vigenere",
+		label: "KEYHUNT.VGE"
+	},
+	{
+		value: "atbash",
+		label: "MIRROR-FLIP.REV"
+	},
+	{
+		value: "base64",
+		label: "B64-DECODE.UTL"
+	},
+	{
+		value: "polybius",
+		label: "GRID-CRACK.DCDR"
+	},
+	{
+		value: "railfence",
+		label: "RAIL-PUZZLE.GME"
+	},
+	{
+		value: "morse",
+		label: "DOT-DASH-DECODER"
+	},
+	{
+		value: "baconian",
+		label: "BACON-PARSE.R"
+	},
+	{
+		value: "steganography",
+		label: "STEGO-SCANNER.LSB"
+	}
+];
+
+
+/**
  * Standard Polybius Square grid (5x5) for display
  * I/J share the same cell as per convention
  */
