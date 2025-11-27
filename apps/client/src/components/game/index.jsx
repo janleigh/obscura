@@ -54,14 +54,12 @@ const MainGame = ({ userData, currentLevel, onUserDataUpdate }) => {
 			{showTutorial && currentLevel === 0 && (
 				<TutorialOverlay onClose={() => setShowTutorial(false)} />
 			)}
-
 			{/* Tab Navigation */}
 			<TabNavigation
 				activeTab={activeTab}
 				onTabChange={setActiveTab}
 				onShowTutorial={() => setShowTutorial(true)}
 			/>
-
 			{/* Solver Tab */}
 			{activeTab === "solver" && (
 				<div className="flex flex-1 flex-col gap-4 p-4">
