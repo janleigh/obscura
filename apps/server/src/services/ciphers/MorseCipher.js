@@ -1,3 +1,7 @@
+import {
+	MORSE_ALPHABET,
+	MORSE_REVERSE
+} from "../../../../../packages/shared/cipherUtils.js";
 import BaseCipher from "./BaseCipher.js";
 
 class MorseCipher extends BaseCipher {
@@ -8,72 +12,9 @@ class MorseCipher extends BaseCipher {
 		this.letterSeparator = config.letterSeparator || " ";
 		this.wordSeparator = config.wordSeparator || " / ";
 
-		this.morseAlphabet = {
-			"A": ".-",
-			"B": "-...",
-			"C": "-.-.",
-			"D": "-..",
-			"E": ".",
-			"F": "..-.",
-			"G": "--.",
-			"H": "....",
-			"I": "..",
-			"J": ".---",
-			"K": "-.-",
-			"L": ".-..",
-			"M": "--",
-			"N": "-.",
-			"O": "---",
-			"P": ".--.",
-			"Q": "--.-",
-			"R": ".-.",
-			"S": "...",
-			"T": "-",
-			"U": "..-",
-			"V": "...-",
-			"W": ".--",
-			"X": "-..-",
-			"Y": "-.--",
-			"Z": "--..",
-			"0": "-----",
-			"1": ".----",
-			"2": "..---",
-			"3": "...--",
-			"4": "....-",
-			"5": ".....",
-			"6": "-....",
-			"7": "--...",
-			"8": "---..",
-			"9": "----.",
-			".": ".-.-.-",
-			",": "--..--",
-			"?": "..--..",
-			"'": ".----.",
-			"!": "-.-.--",
-			"/": "-..-.",
-			"(": "-.--.",
-			")": "-.--.-",
-			"&": ".-...",
-			":": "---...",
-			";": "-.-.-.",
-			"=": "-...-",
-			"+": ".-.-.",
-			"-": "-....-",
-			"_": "..--.-",
-			'"': ".-..-.",
-			"$": "...-..-",
-			"@": ".--.-."
-			// should I implement enye?
-		};
-
-		// Build reverse mapping
-		this.reverseMorse = Object.entries(this.morseAlphabet).reduce(
-			(acc, [char, morse]) => {
-				acc[morse] = char;
-				return acc;
-			},
-			{}
-		);
+		// Use shared Morse alphabet from utilities
+		this.morseAlphabet = MORSE_ALPHABET;
+		this.reverseMorse = MORSE_REVERSE;
 	}
 
 	encrypt(plaintext, options = {}) {

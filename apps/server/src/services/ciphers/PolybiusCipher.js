@@ -1,17 +1,12 @@
+import { POLYBIUS_GRID_CIPHER } from "../../../../../packages/shared/cipherUtils.js";
 import BaseCipher from "./BaseCipher.js";
 
 class PolybiusCipher extends BaseCipher {
 	constructor(config = {}) {
 		super(config);
-		// Standard Polybius square
-		// J is alwayus combined with I if yall are wondering
-		this.square = config.square || [
-			["A", "B", "C", "D", "E"],
-			["F", "G", "H", "I", "K"],
-			["L", "M", "N", "O", "P"],
-			["Q", "R", "S", "T", "U"],
-			["V", "W", "X", "Y", "Z"]
-		];
+		// Use shared Polybius square for cipher operations
+		// J is combined with I as per standard convention
+		this.square = config.square || POLYBIUS_GRID_CIPHER;
 
 		this._buildMaps();
 	}

@@ -42,7 +42,7 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 		},
 		{ text: "", delay: 20 },
 		{
-			text: "Begin Calibration Module 01.",
+			text: "Begin Tutorial: Calibration 00.",
 			delay: 50
 		},
 		{ text: "", delay: 20 },
@@ -125,23 +125,23 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 												? "text-white"
 												: line.startsWith(
 															"Dear"
-													  ) ||
-													  line.startsWith(
-															"Best regards"
-													  ) ||
-													  line.startsWith(
-															"Dr."
-													  ) ||
-													  line.startsWith(
-															"Lead Researcher"
-													  ) ||
-													  line.startsWith(
-															"Cryptolinguistics"
-													  )
-													? "text-gray-400"
-													: line.includes(
-																"ATTACHMENT"
-														  )
+													) ||
+													line.startsWith(
+														"Best regards"
+													) ||
+													line.startsWith(
+														"Dr."
+													) ||
+													line.startsWith(
+														"Lead Researcher"
+													) ||
+													line.startsWith(
+														"Cryptolinguistics"
+													)
+												? "text-gray-400"
+												: line.includes(
+															"ATTACHMENT"
+														)
 														? "text-cyan-400"
 														: ""
 										}>

@@ -4,5 +4,6 @@
 		"source.organizeImports": "explicit",
 		"source.sortMembers": "explicit"
 	},
+	// this shit laggy asf
 	"prisma.pinToPrisma6": true
 }

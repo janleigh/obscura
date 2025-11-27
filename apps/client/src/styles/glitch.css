@@ -1,0 +1,169 @@
+/* dont mind me stealing from codepen :) */
+/* hey! atleast its not AI!!!! */
+
+.noise-pattern {
+	width: 100%;
+	height: 100%;
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E");
+	animation: noise 0.2s infinite;
+}
+
+@keyframes noise {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.8;
+	}
+}
+
+.signal-noise--subtle .noise-pattern {
+	animation-duration: 1s;
+}
+
+.signal-noise--moderate .noise-pattern {
+	animation-duration: 0.5s;
+}
+
+.signal-noise--aggressive .noise-pattern {
+	animation-duration: 0.2s;
+}
+
+.signal-noise--extreme .noise-pattern {
+	animation-duration: 0.1s;
+}
+
+/* Scanlines */
+.scanlines {
+	background: linear-gradient(
+		to bottom,
+		transparent 50%,
+		rgba(0, 255, 0, 0.02) 51%
+	);
+	background-size: 100% 4px;
+	animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+	0% {
+		background-position: 0 0;
+	}
+	100% {
+		background-position: 0 100%;
+	}
+}
+
+.scanlines--aggressive,
+.scanlines--extreme {
+	animation-duration: 4s;
+}
+
+/* Glitch text effect (can be applied to text elements) */
+.glitch-text {
+	position: relative;
+	display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+	content: attr(data-text);
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.glitch-text::before {
+	left: 2px;
+	text-shadow: -2px 0 #ff00de;
+	clip: rect(44px, 450px, 56px, 0);
+	animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+	left: -2px;
+	text-shadow:
+		-2px 0 #00fff9,
+		2px 2px #ff00de;
+	animation: glitch-anim2 1s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+	0% {
+		clip: rect(61px, 9999px, 94px, 0);
+		transform: skew(0.8deg);
+	}
+	5% {
+		clip: rect(33px, 9999px, 25px, 0);
+		transform: skew(0.91deg);
+	}
+	10% {
+		clip: rect(62px, 9999px, 93px, 0);
+		transform: skew(0.53deg);
+	}
+	15% {
+		clip: rect(42px, 9999px, 50px, 0);
+		transform: skew(0.23deg);
+	}
+	20% {
+		clip: rect(78px, 9999px, 28px, 0);
+		transform: skew(0.74deg);
+	}
+	100% {
+		clip: rect(86px, 9999px, 15px, 0);
+		transform: skew(0.12deg);
+	}
+}
+
+@keyframes glitch-anim2 {
+	0% {
+		clip: rect(65px, 9999px, 100px, 0);
+		transform: skew(0.4deg);
+	}
+	5% {
+		clip: rect(75px, 9999px, 80px, 0);
+		transform: skew(0.2deg);
+	}
+	10% {
+		clip: rect(40px, 9999px, 50px, 0);
+		transform: skew(0.8deg);
+	}
+	100% {
+		clip: rect(10px, 9999px, 90px, 0);
+		transform: skew(0.5deg);
+	}
+}
+
+/* Screen distortion */
+.screen-distortion {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	pointer-events: none;
+	z-index: 10000;
+	mix-blend-mode: difference;
+	animation: distort 3s ease-in-out infinite;
+}
+
+@keyframes distort {
+	0%,
+	100% {
+		transform: translateX(0);
+	}
+	20% {
+		transform: translateX(-2px);
+	}
+	40% {
+		transform: translateX(2px);
+	}
+	60% {
+		transform: translateX(-1px);
+	}
+	80% {
+		transform: translateX(1px);
+	}
+}

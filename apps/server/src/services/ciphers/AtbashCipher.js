@@ -1,4 +1,4 @@
-import BaseCipher from "./BaseCipher";
+import BaseCipher from "./BaseCipher.js";
 
 class AtbashCipher extends BaseCipher {
 	constructor(config = {}) {
