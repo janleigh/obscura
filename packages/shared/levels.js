@@ -24,6 +24,24 @@ export const LEVELS = [
 			storyFragment: null
 		}
 	},
+	{
+		id: 1,
+    	title: "Calibration Module 01",
+    	phase: 1,
+   	 	cipherType: "caesar",
+    	cipherText: "VNZERNQL",
+    cipherData: { shift: 13 },
+    hintPoem: "In silver tongues I speak of dawn; shift my letters, and truth is drawn.",
+    hintLines: ["Rotate letters by halfway around the alphabet.", ""],
+    answer: "I AM READY",
+    pointsValue: 100,
+    storyFragment:
+      "CALIBRATION SUCCESSFUL. Neural translation patterns recorded. Proceeding to next module.",
+    transmission: {
+      message: "Welcome to Project Clarity. Your linguistic profile is exceptional.",
+      storyFragment: null
+    } 
+}
 	/**{
 		id: 1,
 		title: "Module 01: Easy Caesar Test",
