@@ -24,7 +24,7 @@ export const LEVELS = [
 			storyFragment: null
 		}
 	},
-	{
+	/**{
 		id: 1,
 		title: "Module 01: Easy Caesar Test",
 		phase: 1,
@@ -150,7 +150,7 @@ export const LEVELS = [
 			message: "[CIPHER CHAIN TEST]",
 			storyFragment: null
 		}
-	}
+	}**/
 	// dummy levels
 	// will be replaced by afel
 ];
