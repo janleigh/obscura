@@ -5,6 +5,7 @@ import {
 	kernelMessages
 } from "../../../../../packages/ui/bootMessages";
 import { useCursorBlink } from "../../hooks/useCursorBlink";
+import { useSound } from "../../hooks/useSound";
 import CRTEffects from "../shared/CRTEffects";
 import BootMessage from "./BootMessage";
 
@@ -18,6 +19,7 @@ const TerminalBoot = ({ userData, onBootComplete }) => {
 	const [currentLineIndex, setCurrentLineIndex] = useState(0);
 	const terminalRef = useRef(null);
 	const showCursor = useCursorBlink(500);
+	const { playSound } = useSound();
 
 	const authMessages = useMemo(() => {
 		const username = userData?.username || "candidate";
@@ -53,16 +55,16 @@ const TerminalBoot = ({ userData, onBootComplete }) => {
 					setCurrentLineIndex(0);
 					setPhase(AUTO_LOGIN_PHASE);
 				}, 700);
-			} else if (phase === AUTO_LOGIN_PHASE) {
-				setTimeout(() => {
-					const username = userData?.username || "candidate";
-					onBootComplete?.(username);
-				}, 800);
-			}
+		} else if (phase === AUTO_LOGIN_PHASE) {
+			setTimeout(() => {
+				// Play bootup sound when terminal loading is complete
+				playSound("bootup");
+				const username = userData?.username || "candidate";
+				onBootComplete?.(username);
+			}, 800);
 		}
-	}, [currentLineIndex, phase, userData, onBootComplete, authMessages]);
-
-	useEffect(() => {
+	}
+}, [currentLineIndex, phase, userData, onBootComplete, authMessages, playSound]);	useEffect(() => {
 		if (terminalRef.current) {
 			terminalRef.current.scrollTop =
 				terminalRef.current.scrollHeight;

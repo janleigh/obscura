@@ -1,3 +1,5 @@
+import { useSound } from "../../hooks/useSound";
+
 const UsernameInput = ({
 	username,
 	onChange,
@@ -7,6 +9,13 @@ const UsernameInput = ({
 	showCursor,
 	typingComplete
 }) => {
+	const { playSound } = useSound();
+
+	const handleSubmit = () => {
+		playSound("buttonPress");
+		onSubmit();
+	};
+
 	return (
 		<div className="crt-glow animate-fade-in">
 			<div className="mb-8 border border-gray-800 bg-[#0f0f0f] p-6">
@@ -39,7 +48,7 @@ const UsernameInput = ({
 									username.trim() &&
 									!isLoading
 								) {
-									onSubmit();
+									handleSubmit();
 								}
 							}}
 							disabled={isLoading}

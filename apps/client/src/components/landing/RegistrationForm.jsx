@@ -1,3 +1,5 @@
+import { useSound } from "../../hooks/useSound";
+
 const RegistrationForm = ({
 	username,
 	realName,
@@ -10,6 +12,18 @@ const RegistrationForm = ({
 	showCursor,
 	typingComplete
 }) => {
+	const { playSound } = useSound();
+
+	const handleSubmit = () => {
+		playSound("buttonPress");
+		onSubmit();
+	};
+
+	const handleBack = () => {
+		playSound("buttonPress");
+		onBack();
+	};
+
 	return (
 		<div className="crt-glow animate-fade-in">
 			<div className="mb-8 border border-gray-800 bg-[#0f0f0f] p-6">
@@ -49,9 +63,9 @@ const RegistrationForm = ({
 									realName.trim() &&
 									!isLoading
 								) {
-									onSubmit();
+									handleSubmit();
 								} else if (e.key === "Escape") {
-									onBack();
+									handleBack();
 								}
 							}}
 							disabled={isLoading}

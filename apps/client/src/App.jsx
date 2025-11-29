@@ -1,11 +1,12 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MainGame from "./components/game";
 import IntroEmail from "./components/IntroEmail";
 import Landing from "./components/landing";
 import SignalNoise from "./components/SignalNoise";
 import TerminalBoot from "./components/terminal-boot";
 import { API_ENDPOINTS } from "./config/api";
+import { useSound } from "./hooks/useSound";
 import { clearSession, getSession, saveSession } from "./utils/session";
 
 // Flow
@@ -20,6 +21,8 @@ const App = () => {
 	const [userData, setUserData] = useState(null);
 	const [systemUser, setSystemUser] = useState(null);
 	const [isCheckingSession, setIsCheckingSession] = useState(true);
+	const { playSound, stopSound } = useSound();
+	const loginMusicStartedRef = useRef(false);
 
 	// Check for existing session on mount
 	useEffect(() => {
@@ -66,6 +69,25 @@ const App = () => {
 		return () => window.removeEventListener("keydown", handleKeyPress);
 	}, [stage]);
 
+	// Play login music during login stages and terminal music during game
+	useEffect(() => {
+		if (isCheckingSession) return; // Don't play music while checking session
+
+		if (stage === STAGE_MAIN) {
+			// Stop login music and start terminal music
+			stopSound("loginMusic");
+			loginMusicStartedRef.current = false;
+			playSound("terminalMusic", { volume: 0.5, loop: true });
+		} else if (stage === STAGE_LANDING || stage === STAGE_EMAIL || stage === STAGE_BOOT) {
+			// Play login music only once during entire login phase
+			if (!loginMusicStartedRef.current) {
+				stopSound("terminalMusic");
+				playSound("loginMusic", { volume: 0.5, loop: true });
+				loginMusicStartedRef.current = true;
+			}
+		}
+	}, [stage, isCheckingSession, playSound, stopSound]);
+
 	const handleLandingComplete = (data) => {
 		setUserData(data);
 		setStage(STAGE_EMAIL);
@@ -89,6 +111,7 @@ const App = () => {
 		setUserData(null);
 		setSystemUser(null);
 		setStage(STAGE_LANDING);
+		loginMusicStartedRef.current = false;
 	};
 
 	// Show loading screen while checking for existing session
@@ -161,7 +184,10 @@ const App = () => {
 							</p>
 						</div>
 						<button
-							onClick={handleLogout}
+							onClick={() => {
+								playSound("buttonPress");
+								handleLogout();
+							}}
 							className="border border-gray-700 bg-[#1a1a1a] px-4 py-2 text-xs text-gray-400 transition-colors hover:border-red-700 hover:bg-red-950 hover:text-red-400">
 							[ EXIT SESSION ]
 						</button>
