@@ -33,7 +33,7 @@ export const LEVELS = [
     	cipherText: "VNZERNQL",
     	cipherData: { shift: 13 },
     	hintPoem: "In silver tongues I speak of dawn; shift my letters, and truth is drawn.",
-    	hintLines: ["Rotate letters by halfway around the alphabet.", ""],
+    	hintLines: ["Rotate letters by halfway around the alphabet.", "Restore spaces to reconstruct the message."],
     	answer: "I AM READY",
     	pointsValue: 100,
     	storyFragment:
