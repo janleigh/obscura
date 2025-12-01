@@ -94,7 +94,35 @@ export const LEVELS = [
   			message: "Module 03 initialized. Apply the provided keyword to complete decryption.",
   			storyFragment: "Keep track of your progress as deeper layers begin to align..."
 		}
-}
+	},
+	
+	{
+		id: 4,
+  		title: "Calibration Module 04",
+  		phase: 1,
+  		cipherType: "vigenere",
+  		cipherText: "LAEFFWPHFAKWIWXWKEEL",
+  		cipherData: { key: "STARS" },
+  		hintPoem: [
+			"It's echo lingers in the silent sky;",
+			"Seek the brightest word your mind supplies.",
+			"Where starlight shifts and cosmos sways,",
+			"Align each letter to find your phrase."
+		],
+  		hintLines: [
+    		"Consider a short, thematic word tied to the night sky.",
+    		"Use that word repeatedly as your guide across the ciphertext.",
+    		"Apply the same Vigenère method introduced in Module 03."
+  		],
+  		answer: "THE ONE WHO IS DIFFERENT",
+  		pointsValue: 130,
+  		storyFragment: "CALIBRATION SEQUENCE CONTINUES. Neural response patterns remain consistent. Preparing next module...",
+  		transmission: {
+    		message: "Module 04 initialized. Standard alignment parameters engaged",
+    		storyFragment: "Pattern recognition stable. Continue observing outputs for consistency."
+  		}
+	}
+
 	/**{
 		id: 1,
 		title: "Module 01: Easy Caesar Test",
