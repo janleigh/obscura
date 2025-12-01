@@ -15,7 +15,8 @@ export const LEVELS = [
 		cipherData: { shift: 3 },
 		hintPoem:
 			"A gentle push and letters fall into place; retrace three steps to see the face.",
-		answer: "HELLO",
+		hintLines:["This is easy. Just shift each letter back by 3."],
+			answer: "HELLO",
 		storyFragment:
 			"This is a basic check to familiarise you with the interface. Calibration officially begins...",
 		transmission: {
@@ -30,17 +31,69 @@ export const LEVELS = [
     	phase: 1,
    	 	cipherType: "caesar",
     	cipherText: "VNZERNQL",
-    cipherData: { shift: 13 },
-    hintPoem: "In silver tongues I speak of dawn; shift my letters, and truth is drawn.",
-    hintLines: ["Rotate letters by halfway around the alphabet.", ""],
-    answer: "I AM READY",
-    pointsValue: 100,
-    storyFragment:
-      "CALIBRATION SUCCESSFUL. Neural translation patterns recorded. Proceeding to next module.",
-    transmission: {
-      message: "Welcome to Project Clarity. Your linguistic profile is exceptional.",
-      storyFragment: null
-    } 
+    	cipherData: { shift: 13 },
+    	hintPoem: "In silver tongues I speak of dawn; shift my letters, and truth is drawn.",
+    	hintLines: ["Rotate letters by halfway around the alphabet.", ""],
+    	answer: "I AM READY",
+    	pointsValue: 100,
+    	storyFragment:
+      		"CALIBRATION SUCCESSFUL. Neural translation patterns recorded. Proceeding to next module.",
+    	transmission: {
+      		message: "Welcome to Project Clarity. Your linguistic profile is exceptional.",
+      		storyFragment: null
+    	} 
+	},
+	{
+		id: 2,
+  		title: "Calibration Module 02",
+  		phase: 1,
+  		cipherType: "caesar",
+  		cipherText: "YMJPJDNXIFBS", 
+  		cipherData: { shift: 5 },
+  		hintPoem: [
+			"Forward I stepped, as letters sway,", 
+			"Retrace my path, and find the way.",
+			"Five they tumble, shadows in line.",
+			"Reveal the truth where the letters shine."
+				],
+  		hintLines: [
+    		"Rotate each letter backwards.",
+    		"Observe the poem; it is reliable.",
+    		"Count 5 letters back to get the original text.",
+			"Observer proper spacing."
+		],
+  		answer: "THE KEY IS DAWN",
+  		pointsValue: 120,
+  		storyFragment: "Module 02 complete. Neural translation patterns recorded. Proceeding to next module.",
+  		transmission: {
+    		message: "Module 02 unlocked. Your linguistic evaluation will be continued. Solve the shift.",
+    		storyFragment: null
+ 		}
+	},
+	{
+		id: 3,
+		title: "Calibration Module 03",
+		phase: 1,
+		cipherType: "vigenere",
+		cipherText: "WHAFWANFZENRUICUWOJSHBNHDRUROERRQTD",
+		cipherData: { key: "Dawn" },
+		hintPoem: ["A single key will guide your hand",
+					"Lay it above each letter, as planned.",
+					"Repeat its cycle through the night,",
+					"Then dawn will show the hidden light."],
+		hintLines: [
+  			"Analyze the poem carefully for the keyword.",
+  			"Write the ciphertext in a line and repeat the keyword above it until lengths match.",
+  			"Convert letters to numbers (A=0 … Z=25) and subtract the keyword values from the ciphertext letters.",
+  			"Wrap around past A to Z if needed, then read the resulting letters to reconstruct the message."
+		],
+		answer: "THE STARS WERE RIGHT ON FEBRUARY ELEVENTH",
+		pointsValue: 140,
+		storyFragment: "Calibration continues. The interface functions normally. Your solution has been recorded; proceed to the next module.",
+		transmission: {
+  			message: "Module 03 initialized. Apply the provided keyword to complete decryption.",
+  			storyFragment: "Keep track of your progress as deeper layers begin to align..."
+		}
 }
 	/**{
 		id: 1,
