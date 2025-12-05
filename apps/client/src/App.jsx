@@ -175,17 +175,15 @@ const App = () => {
 								<span className="text-cyan-400">
 									LINGUISTIC CALIBRATION INTERFACE
 								</span>
-								{/* <span className="text-gray-600"> / </span>
-								<span className="text-white">
-									MAIN WINDOW
-								</span> */}
+								<span className="text-gray-600"> (v2.19.5)</span>
+								
 							</h1>
-							<p className="text-sm text-gray-500">
+							{/* <p className="text-sm text-gray-500">
 								Logged in as:{" "}
 								<span className="text-cyan-400">
 									{systemUser}
 								</span>
-							</p>
+							</p> */}
 						</div>
 						<button
 							onClick={() => {

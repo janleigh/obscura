@@ -3,7 +3,7 @@ import { useSound } from "../../hooks/useSound";
 const TabNavigation = ({ activeTab, onTabChange, onShowTutorial }) => {
 	const { playSound } = useSound();
 	const tabs = [
-		{ id: "solver", label: "SOLVER" },
+		{ id: "solver", label: "HOME" },
 		{ id: "phasekeys", label: "PHASE KEYS" },
 		{ id: "ciphertools", label: "CIPHER TOOLKIT" }
 	];

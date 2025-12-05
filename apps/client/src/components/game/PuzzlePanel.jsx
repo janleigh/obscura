@@ -3,7 +3,7 @@ const PuzzlePanel = ({ level }) => {
 		<div className="flex min-h-[400px] flex-col border border-gray-800 bg-black">
 			<div className="shrink-0 border-b border-gray-800 bg-[#0a0a0a] px-4 py-2">
 				<span className="text-xs font-bold tracking-wider text-green-400">
-					what do you call this again?
+					TRANSMISSION LOG
 				</span>
 			</div>
 			<div className="scrollbar-thin min-h-0 flex-1 overflow-y-auto p-4">
