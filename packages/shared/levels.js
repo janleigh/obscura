@@ -120,7 +120,7 @@ export const LEVELS = [
 		transmission: {
 			message:
 				"Your linguistic evaluation will be continued. Solve the shift.",
-			storyFragment: null
+			storyFragment: "never gonna give you up"
 		}
 	},
 	{

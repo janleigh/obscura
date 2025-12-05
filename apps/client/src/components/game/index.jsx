@@ -40,10 +40,54 @@ const MainGame = ({ userData, currentLevel, onUserDataUpdate }) => {
 		setNotes("");
 	}, [currentLevel]);
 
+	// Fallback when no more levels are available
 	if (!level) {
 		return (
-			<div className="text-center text-red-400">
-				<p>Error: Level {currentLevel} not found</p>
+			<div className="flex h-full flex-col">
+				<TabNavigation
+					activeTab={activeTab}
+					onTabChange={setActiveTab}
+					onShowTutorial={() => setShowTutorial(true)}
+				/>
+				{activeTab === "solver" && (
+					<div className="flex flex-1 flex-col items-center justify-center gap-6 p-8">
+						<div className="max-w-lg space-y-6 border border-cyan-800 bg-[#0a0a0a] p-8 text-center">
+							<div className="text-xs tracking-widest text-gray-500">
+								[ TRANSMISSION COMPLETE ]
+							</div>
+							<div className="text-2xl font-bold text-cyan-400">
+								CALIBRATION MODULES EXHAUSTED
+							</div>
+							<div className="space-y-4 text-sm text-gray-400">
+								<p>
+									You have successfully completed all available calibration modules.
+									Your linguistic patterns have been recorded.
+								</p>
+								<p className="text-cyan-600">
+									Standby for further transmissions...
+								</p>
+							</div>
+							<div className="border-t border-gray-800 pt-4">
+								<div className="text-xs text-gray-600">
+									Levels Completed: {currentLevel}
+								</div>
+							</div>
+						</div>
+						<div className="text-xs text-gray-600">
+							Explore PHASE KEYS or CIPHER TOOLKIT while awaiting new modules.
+						</div>
+					</div>
+				)}
+				{activeTab === "phasekeys" && (
+					<div className="flex-1 overflow-hidden">
+						<PhaseKeys />
+					</div>
+				)}
+				{activeTab === "ciphertools" && (
+					<div className="flex-1 p-4">
+						<CipherTools />
+					</div>
+				)}
 			</div>
 		);
 	}

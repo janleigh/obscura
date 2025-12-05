@@ -65,6 +65,20 @@ const PuzzlePanel = ({ level }) => {
 							</div>
 						</div>
 					</div>
+					{level.transmission.storyFragment && (
+						<div className="mt-4 border-t border-gray-800 pt-4">
+							<div className="space-y-2">
+								<div className="text-xs tracking-wider text-cyan-600">
+									# TRANSMISSION FRAGMENT
+								</div>
+								<div className="border-l-2 border-cyan-800 bg-cyan-950/20 p-3">
+									<p className="text-xs leading-relaxed text-cyan-300">
+										{level.transmission.storyFragment}
+									</p>
+								</div>
+							</div>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>
