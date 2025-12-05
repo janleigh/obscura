@@ -1,6 +1,11 @@
 import { useSound } from "../../hooks/useSound";
 
-const WelcomeScreen = ({ tutorialText, showCursor, typingComplete, onBegin }) => {
+const WelcomeScreen = ({
+	tutorialText,
+	showCursor,
+	typingComplete,
+	onBegin
+}) => {
 	const { playSound } = useSound();
 
 	const handleBegin = () => {

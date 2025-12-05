@@ -78,7 +78,11 @@ const App = () => {
 			stopSound("loginMusic");
 			loginMusicStartedRef.current = false;
 			playSound("terminalMusic", { volume: 0.5, loop: true });
-		} else if (stage === STAGE_LANDING || stage === STAGE_EMAIL || stage === STAGE_BOOT) {
+		} else if (
+			stage === STAGE_LANDING ||
+			stage === STAGE_EMAIL ||
+			stage === STAGE_BOOT
+		) {
 			// Play login music only once during entire login phase
 			if (!loginMusicStartedRef.current) {
 				stopSound("terminalMusic");

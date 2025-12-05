@@ -20,7 +20,7 @@ const Terminal = ({ onSubmit, isProcessing }) => {
 		if (e.key === "Enter" && command.trim() && !isProcessing) {
 			const cmd = command.trim();
 			addEntry("input", cmd);
-			
+
 			// Play button press sound
 			playSound("buttonPress");
 

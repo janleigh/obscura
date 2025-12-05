@@ -32,7 +32,7 @@ export const useSound = () => {
 			const audio = audioRefs.current[soundKey];
 			audio.volume = volume;
 			audio.loop = loop;
-			
+
 			if (onEnded) {
 				audio.onended = onEnded;
 			}

@@ -32,11 +32,20 @@ const ActivityLogger = ({ logs, logEndRef, onClear }) => {
 												? "text-green-400"
 												: log.type === "WARNING"
 													? "text-yellow-400"
-													: log.type === "INFO" || log.type === "CONFIG"
+													: log.type ===
+																"INFO" ||
+														  log.type ===
+																"CONFIG"
 														? "text-cyan-400"
-														: log.type === "SCAN" || log.type === "ANALYSIS" || log.type === "DECODE"
+														: log.type ===
+																	"SCAN" ||
+															  log.type ===
+																	"ANALYSIS" ||
+															  log.type ===
+																	"DECODE"
 															? "text-blue-400"
-															: log.type === "GAME"
+															: log.type ===
+																  "GAME"
 																? "text-purple-400"
 																: "text-gray-400"
 									}>

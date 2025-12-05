@@ -37,7 +37,10 @@ const CipherTools = () => {
 	const handleDecrypt = async () => {
 		const config = {};
 
-		if (selectedCipher === "caesar" || selectedCipher === "railfence") {
+		if (
+			selectedCipher === "caesar" ||
+			selectedCipher === "railfence"
+		) {
 			return;
 		} else if (selectedCipher === "vigenere") {
 			if (!key.trim()) {
@@ -112,11 +115,17 @@ const CipherTools = () => {
 							<Ciphers.PolybiusCipher />
 						)}
 						{/* Atbash Cipher */}
-						{selectedCipher === "atbash" && <Ciphers.AtbashCipher />}
+						{selectedCipher === "atbash" && (
+							<Ciphers.AtbashCipher />
+						)}
 						{/* Base64 Cipher */}
-						{selectedCipher === "base64" && <Ciphers.Base64Cipher />}
+						{selectedCipher === "base64" && (
+							<Ciphers.Base64Cipher />
+						)}
 						{/* Morse Cipher */}
-						{selectedCipher === "morse" && <Ciphers.MorseCipher />}
+						{selectedCipher === "morse" && (
+							<Ciphers.MorseCipher />
+						)}
 						{/* Baconian Cipher */}
 						{selectedCipher === "baconian" && (
 							<Ciphers.BaconianCipher />

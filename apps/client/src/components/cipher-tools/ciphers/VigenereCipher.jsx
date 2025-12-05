@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
 	calculateFrequencies,
-	getTopFrequentChars,
+	getTopFrequentChars
 } from "../../../../../../packages/shared/cipherUtils";
 import Button from "../../shared/Button";
 

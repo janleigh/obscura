@@ -40,7 +40,6 @@ export const CIPHERS_CONFIG = [
 	}
 ];
 
-
 /**
  * Standard Polybius Square grid (5x5) for display
  * I/J share the same cell as per convention

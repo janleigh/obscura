@@ -25,7 +25,7 @@ const TutorialOverlay = ({ onClose }) => {
 									PHASE KEYS
 								</span>{" "}
 								- Unlock special keys to access hidden
-								content
+								content [coming soon]
 							</div>
 							<div>
 								•{" "}
@@ -91,6 +91,9 @@ const TutorialOverlay = ({ onClose }) => {
 							</div>
 							<div>
 								• Your progress is automatically saved
+							</div>
+							<div>
+								• Use F11 (fullscreen) for best experience
 							</div>
 						</div>
 					</div>

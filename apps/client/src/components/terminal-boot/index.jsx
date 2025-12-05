@@ -55,16 +55,24 @@ const TerminalBoot = ({ userData, onBootComplete }) => {
 					setCurrentLineIndex(0);
 					setPhase(AUTO_LOGIN_PHASE);
 				}, 700);
-		} else if (phase === AUTO_LOGIN_PHASE) {
-			setTimeout(() => {
-				// Play bootup sound when terminal loading is complete
-				playSound("bootup");
-				const username = userData?.username || "candidate";
-				onBootComplete?.(username);
-			}, 800);
+			} else if (phase === AUTO_LOGIN_PHASE) {
+				setTimeout(() => {
+					// Play bootup sound when terminal loading is complete
+					playSound("bootup");
+					const username = userData?.username || "candidate";
+					onBootComplete?.(username);
+				}, 800);
+			}
 		}
-	}
-}, [currentLineIndex, phase, userData, onBootComplete, authMessages, playSound]);	useEffect(() => {
+	}, [
+		currentLineIndex,
+		phase,
+		userData,
+		onBootComplete,
+		authMessages,
+		playSound
+	]);
+	useEffect(() => {
 		if (terminalRef.current) {
 			terminalRef.current.scrollTop =
 				terminalRef.current.scrollHeight;
