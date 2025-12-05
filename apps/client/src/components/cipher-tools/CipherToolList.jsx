@@ -1,4 +1,13 @@
+import { useSound } from "../../hooks/useSound";
+
 const CipherToolList = ({ ciphers, selectedCipher, onSelect }) => {
+	const { playSound } = useSound();
+
+	const handleSelect = (cipherValue) => {
+		playSound("selectTool");
+		onSelect(cipherValue);
+	};
+
 	return (
 		<div className="flex w-1/3 flex-col gap-4">
 			{/* Header */}
@@ -21,7 +30,7 @@ const CipherToolList = ({ ciphers, selectedCipher, onSelect }) => {
 					{ciphers.map((cipher) => (
 						<button
 							key={cipher.value}
-							onClick={() => onSelect(cipher.value)}
+							onClick={() => handleSelect(cipher.value)}
 							className={`w-full border px-3 py-2 text-left text-xs transition-colors ${
 								selectedCipher === cipher.value
 									? "border-cyan-400 bg-cyan-950/30 text-cyan-400"

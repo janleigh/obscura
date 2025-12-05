@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { generateRailFencePattern } from "../../../../../../packages/shared/cipherUtils";
 import { API_ENDPOINTS } from "../../../config/api";
+import { useSound } from "../../../hooks/useSound";
 import Button from "../../shared/Button";
 import ProgressBar from "../ProgressBar";
 
@@ -11,6 +12,7 @@ const RailFenceCipher = ({ cipherText, rails, onRailsChange, addLog }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [result, setResult] = useState("");
 	const [error, setError] = useState("");
+	const { playSound } = useSound();
 
 	const initRailGame = () => {
 		if (!cipherText.trim()) {
@@ -72,6 +74,7 @@ const RailFenceCipher = ({ cipherText, rails, onRailsChange, addLog }) => {
 
 			if (isReadable) {
 				setResult(decrypted);
+				playSound("ciphertoolFinish");
 				addLog("SUCCESS", "Puzzle solved correctly!");
 				setRailGameState(null);
 			} else {
@@ -128,6 +131,7 @@ const RailFenceCipher = ({ cipherText, rails, onRailsChange, addLog }) => {
 
 			if (response.data.plaintext !== undefined) {
 				setResult(response.data.plaintext);
+				playSound("ciphertoolFinish");
 				addLog(
 					"SUCCESS",
 					`Plaintext recovered using ${rails} rails`

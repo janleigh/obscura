@@ -1,4 +1,18 @@
+import { useEffect } from "react";
+import { useSound } from "../../hooks/useSound";
+
 const SubmissionFeedback = ({ message }) => {
+	const { playSound } = useSound();
+
+	// Play sound effects based on message type
+	useEffect(() => {
+		if (message?.type === "success") {
+			playSound("correctAns");
+		} else if (message?.type === "error") {
+			playSound("wrongAns");
+		}
+	}, [message, playSound]);
+
 	if (!message) return null;
 
 	return (

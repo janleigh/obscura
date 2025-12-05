@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuthentication } from "../../hooks/useAuthentication";
 import { useCursorBlink } from "../../hooks/useCursorBlink";
+import { useSound } from "../../hooks/useSound";
 import { useTypingEffect } from "../../hooks/useTypingEffect";
 import CRTEffects from "../shared/CRTEffects";
 import CompleteScreen from "./CompleteScreen";
@@ -31,6 +32,7 @@ const Landing = ({ onComplete }) => {
 	const showCursor = useCursorBlink(500);
 	const { isLoading, error, setError, login, register } =
 		useAuthentication();
+	const { playSound } = useSound();
 	const { displayedText: tutorialText, isComplete: typingComplete } =
 		useTypingEffect(TUTORIAL_MESSAGES[step] || "", 30, true);
 
@@ -63,8 +65,14 @@ const Landing = ({ onComplete }) => {
 
 	const handleKeyDown = (e) => {
 		if (step === STEP_WELCOME && e.key) {
+			playSound("buttonPress");
 			setStep(STEP_USERNAME);
 		}
+	};
+
+	const handleBeginCalibration = () => {
+		playSound("buttonPress");
+		setStep(STEP_USERNAME);
 	};
 
 	const handleBackToUsername = () => {
@@ -85,6 +93,7 @@ const Landing = ({ onComplete }) => {
 							tutorialText={tutorialText}
 							showCursor={showCursor}
 							typingComplete={typingComplete}
+							onBegin={handleBeginCalibration}
 						/>
 					)}
 					{step === STEP_USERNAME && (

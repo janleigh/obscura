@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { useTerminalHistory } from "../../hooks/useTerminalHistory";
 import { parseCommand } from "../../../../../packages/ui/terminalCommands";
+import { useSound } from "../../hooks/useSound";
+import { useTerminalHistory } from "../../hooks/useTerminalHistory";
 import TerminalHistory from "./TerminalHistory";
 import TerminalInput from "./TerminalInput";
 
 const Terminal = ({ onSubmit, isProcessing }) => {
 	const [command, setCommand] = useState("");
+	const { playSound } = useSound();
 	const { history, addEntry, clearHistory, historyEndRef } =
 		useTerminalHistory([
 			{
@@ -18,6 +20,9 @@ const Terminal = ({ onSubmit, isProcessing }) => {
 		if (e.key === "Enter" && command.trim() && !isProcessing) {
 			const cmd = command.trim();
 			addEntry("input", cmd);
+			
+			// Play button press sound
+			playSound("buttonPress");
 
 			const result = parseCommand(cmd, onSubmit);
 

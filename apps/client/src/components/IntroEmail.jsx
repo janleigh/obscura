@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useSound } from "../hooks/useSound";
 
 const IntroEmail = ({ userData, onComplete, onSkip }) => {
 	const [showEmail, setShowEmail] = useState(false);
 	const [typedLines, setTypedLines] = useState([]);
 	const [currentLineIndex, setCurrentLineIndex] = useState(0);
 	const [showSkipButton, setShowSkipButton] = useState(false);
+	const { playSound } = useSound();
 
 	const realTimeDate = new Date().toLocaleDateString();
 	const emailContent = [
@@ -76,10 +78,12 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 	}, [showEmail, currentLineIndex, emailContent.length]);
 
 	const handleContinue = () => {
+		playSound("buttonPress");
 		onComplete();
 	};
 
 	const handleSkip = () => {
+		playSound("buttonPress");
 		onSkip();
 	};
 

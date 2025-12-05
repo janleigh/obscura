@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { API_ENDPOINTS } from "../../../config/api";
+import { useSound } from "../../../hooks/useSound";
 import Button from "../../shared/Button";
 import ProgressBar from "../ProgressBar";
 
@@ -10,6 +11,7 @@ const CaesarCipher = ({ cipherText, addLog }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [result, setResult] = useState("");
 	const [error, setError] = useState("");
+	const { playSound } = useSound();
 
 	const caesarBruteForce = async () => {
 		if (!cipherText.trim()) {
@@ -54,6 +56,7 @@ const CaesarCipher = ({ cipherText, addLog }) => {
 
 			if (response.data.plaintext !== undefined) {
 				setResult(response.data.plaintext);
+				playSound("ciphertoolFinish");
 				addLog(
 					"SUCCESS",
 					`Plaintext recovered with shift ${shift}`
@@ -93,7 +96,10 @@ const CaesarCipher = ({ cipherText, addLog }) => {
 				</label>
 				<div className="flex items-center gap-3">
 					<button
-						onClick={() => setShift(Math.max(0, shift - 1))}
+						onClick={() => {
+							playSound("rotCrackSlider");
+							setShift(Math.max(0, shift - 1));
+						}}
 						className="border border-gray-700 bg-[#0a0a0a] px-3 py-1 text-xs text-green-400 hover:border-green-400">
 						◀
 					</button>
@@ -106,7 +112,10 @@ const CaesarCipher = ({ cipherText, addLog }) => {
 						</div>
 					</div>
 					<button
-						onClick={() => setShift(Math.min(25, shift + 1))}
+						onClick={() => {
+							playSound("rotCrackSlider");
+							setShift(Math.min(25, shift + 1));
+						}}
 						className="border border-gray-700 bg-[#0a0a0a] px-3 py-1 text-xs text-green-400 hover:border-green-400">
 						▶
 					</button>

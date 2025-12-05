@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSound } from "../../../hooks/useSound";
 import Button from "../../shared/Button";
 
 const SteganographyCipher = ({ addLog }) => {
@@ -6,6 +7,7 @@ const SteganographyCipher = ({ addLog }) => {
 	const [stegoMessage, setStegoMessage] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState("");
+	const { playSound } = useSound();
 
 	const handleImageUpload = (e) => {
 		const file = e.target.files[0];
@@ -89,6 +91,7 @@ const SteganographyCipher = ({ addLog }) => {
 
 			if (message.trim()) {
 				setStegoMessage(message);
+				playSound("ciphertoolFinish");
 				setError("");
 				addLog(
 					"SUCCESS",

@@ -1,11 +1,16 @@
+import { useSound } from "../../hooks/useSound";
+
 const Button = ({
 	children,
 	onClick,
 	disabled = false,
 	variant = "primary",
 	className = "",
+	soundEffect = "buttonPress",
 	...props
 }) => {
+	const { playSound } = useSound();
+
 	const variants = {
 		primary:
 			"border border-cyan-400 bg-cyan-950/30 text-cyan-400 hover:bg-cyan-900/30",
@@ -18,9 +23,16 @@ const Button = ({
 			"border border-yellow-700 bg-yellow-950/30 text-yellow-400 hover:bg-yellow-900/30"
 	};
 
+	const handleClick = (e) => {
+		if (soundEffect) {
+			playSound(soundEffect);
+		}
+		onClick?.(e);
+	};
+
 	return (
 		<button
-			onClick={onClick}
+			onClick={handleClick}
 			disabled={disabled}
 			className={`px-4 py-2 text-xs transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${variants[variant]} ${className}`}
 			{...props}>

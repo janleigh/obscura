@@ -1,4 +1,13 @@
-const WelcomeScreen = ({ tutorialText, showCursor, typingComplete }) => {
+import { useSound } from "../../hooks/useSound";
+
+const WelcomeScreen = ({ tutorialText, showCursor, typingComplete, onBegin }) => {
+	const { playSound } = useSound();
+
+	const handleBegin = () => {
+		playSound("buttonPress");
+		onBegin();
+	};
+
 	return (
 		<div className="crt-glow animate-fade-in space-y-8 text-center">
 			<div className="space-y-4">
@@ -17,11 +26,13 @@ const WelcomeScreen = ({ tutorialText, showCursor, typingComplete }) => {
 					)}
 				</div>
 			</div>
-			<div className="pt-8 text-xs text-gray-600">
+			<button
+				onClick={handleBegin}
+				className="pt-8 text-xs text-gray-600 transition-colors hover:text-cyan-400">
 				<span className="animate-pulse">
 					[ PRESS ANY KEY TO BEGIN ]
 				</span>
-			</div>
+			</button>
 		</div>
 	);
 };
