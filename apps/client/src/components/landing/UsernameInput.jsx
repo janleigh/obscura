@@ -46,7 +46,6 @@ const UsernameInput = ({
 							className="flex-1 border-none bg-transparent text-white outline-none disabled:text-gray-600"
 							autoFocus
 							maxLength={32}
-							placeholder="enter_username"
 						/>
 						{!isLoading && showCursor && (
 							<span className="ml-1 text-cyan-400">█</span>
