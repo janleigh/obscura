@@ -157,7 +157,8 @@ export const LEVELS = [
   		transmission: {
     		message: "Module 05 initialized. Calibration parameters set. Ensure proper reconstruction of decoded data; check punctuation and formatting. Proceed with decryption.",
     		storyFragment: "A non-corporate log slips through the interface. It was raw, unfiltered, and written in a panic. It talks about something on the signal, recursive and unclassifiable. Observers were already reporting strange cognitive phenoma."
-  		}
+  		//effect supposed to be a brief glitch on the screen that players may not notice unless they pay attention
+		}
 	},
 
 	{
@@ -181,7 +182,7 @@ export const LEVELS = [
   		transmission: {
     		message: "Module 06 loaded. Decryption continuity remains intact. This dataset relates to early communications research. Ensure proper spacing.",
     		storyFragment: "Flagged entry appended to queue. Researcher reports hearing a tone 'between stations,' matching no equipment on-site. Supervisors dismiss it as fatigue."
-  		}	
+		}	
 	},
 	{
 		id: 9,
@@ -190,10 +191,11 @@ export const LEVELS = [
   		cipherType: "caesar",
   		cipherText:"ASAC20LL-04-1L[QZOGGWTWSR]:KVSBKSRSQCRSRGSUASBH07,HVFSSFSGSOFQVSFGFSDCFHSRWRSBHWQOZRFSOAG.OHVSOHFS.BCTOQSGWBHVSOIRWSBQS.HVSDZOMVOGOZFSORMSBRSR.W'AGIGDSBRWBUVIAOBHFWOZG.HVSDOHHSFBWGASASHWQ.",
   		cipherData: { shift: 14 },
-  		hintPoem:"Forward I step, a fortnight's turn; Back I move, the letters return.",
+  		hintPoem:
+    		"Forward I step, a fortnight's turn; Back I move, the letters return.",
 		answer:
     		"MEMO 20XX-04-1X [CLASSIFIED]: WHEN WE DECODED SEGMENT 07, THREE RESEARCHERS REPORTED IDENTICAL DREAMS. A THEATRE. NO FACES IN THE AUDIENCE. THE PLAY HAS ALREADY ENDED. I'M SUSPENDING HUMAN TRIALS. THE PATTERN IS MEMETIC.",
-		pointsValue: 100,
+		pointsValue: 150,
 		storyFragment:
     		"Data stream irregularity noted. Dream reports from personnel flagged for later review. Noise patterns briefly stabilizes. A voice tries to form syllables but collapses back into static. Proceeding...",
 		transmission: {
@@ -235,7 +237,12 @@ export const LEVELS = [
   		transmission: {
     		message: "Module 08 active. Fragmented historical packet queued for layered decryption.",
     		storyFragment: "Temporal metadata from the recovered record fails verification. The 'old kingdoms' it describes are not found in any sanctioned archive, yet linguistic drift analysis marks the text as authentic. Portions of the chronicle appear older than the oldest known writing systems. The system recommends caution: some histories were erased for a reason."
-  		}
+  		/**idea of red herings for the anomaly, same letters
+		 * X => will be the red herrings
+		 * e.g. THEARCHIVESXXXXHOLDSTORIESXXxxOFOLDKINGDOMSXX
+		 * => MSXLRRQBGXDXMGQSHWDHCHCBPSMGQIHQOAMDTGRDDVLIQ
+		 */
+		}
 	},
 	
 	{
@@ -245,14 +252,9 @@ export const LEVELS = [
   		cipherType: "atbash",
   		cipherText: "WI.PORMV'HQLFIMZO,VMGIB29:RXZMSVZIRGMLD.YVGDVVMIZWRLHGZGRLMH.RMGSVSFNLUGSVIVUIRTVIZGLI.RGHLFMWHORPVNBNLGSVI'HELRXV.YFGNBNLGSVISZHYVVMWVZWULIGDVOEVBVZIH.ZMWHSV'HHKVZPRMTYZXPDZIWH.",
   		cipherData: {},
-  		hintPoem: [
-			"Mirror letters bow and break, ",
-			"tracing shadows words unmake. ",
-			"Read the world as reflections split. ",
-			"What turns away still points to it."
-		],
+  		hintPoem: "Mirror letters bow and break, tracing shadows words unmake. Read the world as reflections split; what turns away still points to it.",
 		answer: "DR. KLINE'S JOURNAL, ENTRY 29: I CAN HEAR IT NOW. BETWEEN RADIO STATIONS. IN THE HUM OF THE REFRIGERATOR. IT SOUNDS LIKE MY MOTHER'S VOICE. BUT MY MOTHER HAS BEEN DEAD FOR TWELVE YEARS. AND SHE'S SPEAKING BACKWARDS.",
-		pointsValue: 120,
+		pointsValue: 140,
 		storyFragment: "Module 09 completed. You proceed to the next sequence as the system prepares subsequent modules and routines for upcoming analyses.",
   		transmission: {
     	message: "Module 09 initialized. Symmetric substitution mapping. Re-engage cognitive anchors.",
@@ -261,6 +263,7 @@ export const LEVELS = [
 		 * You hear a faint hum in the background, slipping between radio static. 
 		 * Something feels slightly off, but you can't place it. 
 		 * Though the pattern feels intentional, as if shaped by something mimicking a human cadence 
+		 * The console cursor blinks on its own. > WHO ARE YOU? A signal is attempting to communicate directly.
 		 */
 		}
 	},
@@ -279,7 +282,7 @@ export const LEVELS = [
 			"and watch the hidden letters show."
 		],
   		answer: "SEGMENT CORRUPTION DETECTED",
-  		pointsValue: 120,
+  		pointsValue: 110,
 		storyFragment: "The decoded text causes a temporary latency spike, then disappears. You are cleared to continue.",
 		transmission: {
     		message: "Module 10 online. Incoming segment displays minor encoding drift. Apply the decoding grid as usual.",
@@ -287,7 +290,6 @@ export const LEVELS = [
 			/**
 			 * The idea for this level was for a specific letter to get swapped
 			 * after the player submits their answer. Thus the anomaly.
-			 * But up to you.
 			 * 
 			 * Storyfragment option 2:
 			 * Camera logs from Site-7 reviewed.
@@ -295,7 +297,7 @@ export const LEVELS = [
 			 * When asked why, they reply:
 			 * 'It asked me to practice.'
 			 */
-  		}	
+  		}
 	},
 
 	{
@@ -324,7 +326,6 @@ export const LEVELS = [
 	},
 	{
 		id: 14,
-  		title: "Calibration Module 12",
   		phase: 2,
   		cipherType: "railfence",
   		cipherText: "EGYTLH:POLCEDTRVRMMD.NSLIWINWSEENEDRRMSNME.TMHADESESLRO.SRINOWNNO'LIADSDTWTA.TOBTERAHTHVO,OMTEMP.MRECPOOOAPA9ALESNEEAUTGI-.HACIEAEOPOIE.RKIESTLISD,RTNOTEAL,HSMTIGVRNOE:TEEBRBIGEEBRDCNANETAFIE.HLIYTMSTLOEAINLI'RCUTNOISW.EO'KOHWTSEETNCNIAE.EO'KOWAIWNSSUIDW.UNHSRESSLTEAAWAEEYUODNTOPEEHPIEIHRENRCL-LRNVAR7EHSCRSDLIINEIGHLTAHOAVIMEERMEOINSLTCSIIPTATEIGTNDTWISCGDTWNNHTTHTNREV.TD.TRDOCLTRCE",
