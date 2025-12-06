@@ -142,7 +142,194 @@ export const LEVELS = [
 				"Deepening linguistic patterns detected. Continue your evaluation.",
 			storyFragment: null
 		}
+	},
+	{
+		id: 7,
+    	title: "Calibration Module 05",
+    	phase: 2,
+    	cipherType: "caesar",
+    	cipherText: "PD.WXUZQ'EVAGDZMX,QZFDK12:FTQEUSZMXOMYQRDAYSDUP47°Z.IQETAGXPZ'FTMHQXUEFQZQP.FTQYAPGXMFUAZYMFOTQEZAWZAIZXMZSGMSQRMYUXK.UF'EZAFOAYYGZUOMFUAZNGFDQOGDEUAZ.PAOGYQZFQHQDKFTUZS.FTQK'DQIMFOTUZSFTQXASEZAI.",
+    	cipherData: { shift: 12 },
+    	hintPoem: "Turn back the dial a dozen times, watch each letter slip through signs.",
+  		hintLines: [
+			"For each letter in the ciphertext, count 12 letters backward in the alphabet.", 
+			"If you go past A, continue from Z.", 
+			"Do this for every letter to recover the plaintext.", 
+			"Check spacing, capitalization, and punctuation carefully."
+		],
+    	answer: "DR. KLINE'S JOURNAL, ENTRY 12: THE SIGNAL CAME FROM GRID 47°N. WE SHOULDN'T HAVE LISTENED. THE MODULATION MATCHES NO KNOWN LANGUAGE FAMILY. IT'S NOT COMMUNICATION BUT RECURSION. DOCUMENT EVERYTHING. THEY'RE WATCHING THE LOGS NOW.",
+    	pointsValue: 140,
+    	storyFragment: "Archival text is degraded; logs may contain gaps. This is normal. The entry stabilizes after minor distortion. Source unverified. Proceed to the next module.",
+  		transmission: {
+    		message: "Module 05 initialized. Calibration parameters set. Ensure proper reconstruction of decoded data; check punctuation and formatting. Proceed with decryption.",
+    		storyFragment: "A non-corporate log slips through the interface. It was raw, unfiltered, and written in a panic. It talks about something on the signal, recursive and unclassifiable. Observers were already reporting strange cognitive phenoma."
+  		}
+	},
+
+	{
+  		id: 8,
+  		title: "Calibration Module 06",
+  		phase: 2,
+  		cipherType: "vigenere",
+  		cipherText: "OMZUIYCGUH'LWEITNGP",
+  		cipherData: { key: "SIGNAL" },
+  		hintPoem: [
+    		"Amid the static, one truth rings. ",
+			"A signal threaded through all things. ",
+			"Repeat its pulse above each mark, ",
+			"and let its shifts unseal the dark."
+
+  		],
+  		hintLines: [
+    		"The keyword is taken from an important word in the previous decrypted message.",
+    		"Write the keyword repeatedly above the ciphertext until the lengths match.",
+    		"Shift each ciphertext letter backward by the keyword letter's value.",
+    		"Wrap around if you pass A."
+  		],
+  		answer: "WE THINK YOU'LL MANAGE",
+  		pointsValue: 150,
+  		storyFragment:
+    		"Module sequence aligned. Neural pathways indicate stable comprehension. You will now receive more complex material. Patterns may behave unexpectedly.",
+  		transmission: {
+    		message: "Module 06 loaded. Decryption continuity remains intact. This dataset relates to early communications research. Ensure proper spacing.",
+    		storyFragment: "Flagged entry appended to queue. Researcher reports hearing a tone 'between stations,' matching no equipment on-site. Supervisors dismiss it as fatigue."
+  		}	
+	},
+	{
+		id: 9,
+  		title: "Calibration Module 07",
+  		phase: 2,
+  		cipherType: "caesar",
+  		cipherText:"ASAC20LL-04-1L[QZOGGWTWSR]:KVSBKSRSQCRSRGSUASBH07,HVFSSFSGSOFQVSFGFSDCFHSRWRSBHWQOZRFSOAG.OHVSOHFS.BCTOQSGWBHVSOIRWSBQS.HVSDZOMVOGOZFSORMSBRSR.W'AGIGDSBRWBUVIAOBHFWOZG.HVSDOHHSFBWGASASHWQ.",
+  		cipherData: { shift: 14 },
+  		hintPoem:
+    		"The pattern bends where memory sleeps,  A fortnight back, a curve that keeps. Look through echoes you have met. Some truths arrive before they're set",
+		hintLines: [
+   			"Shift each letter backward by a fortnight. ",
+			"Letters retrace the steps you've taken. ",
+			"Punctuation does not shift. ",
+			"The content should resemble a formal internal document."
+  		],
+		answer:
+    		"MEMO 20XX-04-1X [CLASSIFIED]: WHEN WE DECODED SEGMENT 07, THREE RESEARCHERS REPORTED IDENTICAL DREAMS. A THEATRE. NO FACES IN THE AUDIENCE. THE PLAY HAS ALREADY ENDED. I'M SUSPENDING HUMAN TRIALS. THE PATTERN IS MEMETIC.",
+		pointsValue: 100,
+		storyFragment:
+    		"Data stream irregularity noted. Dream reports from personnel flagged for later review. Noise patterns briefly stabilizes. A voice tries to form syllables but collapses back into static. Proceeding...",
+		transmission: {
+		message:
+      		"Module 07 loaded. System guidance: continue standard decryption. Subjective dream anomalies remain statistically insignificant.",
+    	storyFragment:
+      		"Memo recovered from Site-7 archives. Details suppression of early human trials, including identical nightmares among test subjects. Reference phrase appears: 'The theatre again'."
+		/**
+		 * Was supposed to put this in the storyfragment
+		 * Hidden HTML comment detected in the data stream:
+		 * 'THEY ASKED ME TO FORGET BUT THE SIGNAL IS LOUDER THAN MEMORY.'
+		 * Origin: unknown.
+		 * Timestamp: predates the system.
+		 */
+		}
+	},
+	
+	{
+		id: 10,
+  		title: "Historical Record 08",
+  		phase: 2,
+  		cipherType: "chain",
+  		cipherText: "MSXLRRQBGXDHDUWDMZRXNLZYZLSTBYZOOBB",
+  		cipherData: {
+    		chain: [
+      			{ type: "vigenere", config: { key: "MEMETIC" } },
+      			{ type: "caesar", config: { shift: 7 } }
+    		]
+  		},
+  		hintPoem: [ 
+			"A notion spread that shapes all minds, ",
+			"its letters hide where memory binds. ",
+			"Unlock the chain with what recurs; ",
+			"Then seven back, and truth occurs."
+		],
+  		hintLines: [
+    		"Use the Vigenère key suggested by recurring ideas: MEMETIC.",
+    		"Write the keyword across the ciphertext and shift backward by the keyword's values.",
+    		"After Vigenère, apply a Caesar shift of 7 backward.",
+    		"Preserve spacing; irregular clusters may be archival noise."
+  		],
+  		answer: "THE ARCHIVES HOLD STORIES OF OLD KINGDOMS",
+  		pointsValue: 120,
+  		storyFragment: "Recovered dataset accepted. The system identifies it as a chronicle excerpt describing pre-unification kingdoms. Records remain incomplete and contradict established timelines.",
+  		transmission: {
+    		message: "Module 08 active. Fragmented historical packet queued for layered decryption.",
+    		storyFragment: "Temporal metadata from the recovered record fails verification. The 'old kingdoms' it describes are not found in any sanctioned archive, yet linguistic drift analysis marks the text as authentic. Portions of the chronicle appear older than the oldest known writing systems. The system recommends caution: some histories were erased for a reason."
+  		}
+	},
+	
+	{
+		id: 11,
+  		title: "Calibration Module 09",
+  		phase: 2,
+  		cipherType: "atbash",
+  		cipherText: "WI.PORMV'HQLFIMZO,VMGIB29:RXZMSVZIRGMLD.YVGDVVMIZWRLHGZGRLMH.RMGSVSFNLUGSVIVUIRTVIZGLI.RGHLFMWHORPVNBNLGSVI'HELRXV.YFGNBNLGSVISZHYVVMWVZWULIGDVOEVBVZIH.ZMWHSV'HHKVZPRMTYZXPDZIWH.",
+  		cipherData: {},
+  		hintPoem: "Mirror letters bow and break,\nTracing shadows words unmake.\nRead the world as reflections split—\nWhat turns away still points to it.",
+		hintLines: [
+    		"Use Atbash: each letter swaps with its opposite (A ↔ Z, B ↔ Y, C ↔ X...).",
+    		"Apply this to all letters while keeping punctuation and spacing intact.",
+    		"If the decrypted tone feels reversed, that's intentional.",
+    		"Terminal flicker may reflect the cipher's nature."
+  		],
+		answer: "DR. KLINE'S JOURNAL, ENTRY 29: I CAN HEAR IT NOW. BETWEEN RADIO STATIONS. IN THE HUM OF THE REFRIGERATOR. IT SOUNDS LIKE MY MOTHER'S VOICE. BUT MY MOTHER HAS BEEN DEAD FOR TWELVE YEARS. AND SHE'S SPEAKING BACKWARDS.",
+		pointsValue: 120,
+		storyFragment: "Module 09 completed. You proceed to the next sequence as the system prepares subsequent modules and routines for upcoming analyses.",
+  		transmission: {
+    	message: "Module 09 initialized. Symmetric substitution mapping. Re-engage cognitive anchors.",
+    	storyFragment: "Journal fragment from the cryptolinguist surfaced. They describe hearing voices in white noise; familiar ones. Control team recommends isolation. Request denied."
+  		/**
+		 * You hear a faint hum in the background, slipping between radio static. 
+		 * Something feels slightly off, but you can't place it. 
+		 * Though the pattern feels intentional, as if shaped by something mimicking a human cadence 
+		 */
+		}
+	},
+
+	{
+  		id: 12,
+  		title: "Calibration Module 10",
+  		phase: 2,
+  		cipherType: "polybius",
+  		cipherText: "43152232153344133442424535442434331415441513441514",
+  		cipherData: {},
+  		hintPoem: [
+			"In numbered pairs the truth resides, ",
+			"a silent grid where meaning hides. ",
+			"Trace row to column, clear and slow, ",
+			"and watch the hidden letters show."
+		],
+  		hintLines: [
+    		"Use the Polybius table to convert number pairs into letters.",
+    		"Decode each pair as row followed by column.",
+    		"The table provided is correct; apply it directly.",
+    		"Minor transmission noise may cause the decoded phrase to flicker momentarily."
+  		],
+  		answer: "SEGMENT CORRUPTION DETECTED",
+  		pointsValue: 120,
+		storyFragment: "The decoded text causes a temporary latency spike, then disappears. You are cleared to continue.",
+		transmission: {
+    		message: "Module 10 online. Incoming segment displays minor encoding drift. Apply the decoding grid as usual.",
+    		storyFragment: "A faint delay appears in the output stream, almost a stutter. System diagnostics attribute it to routine realignment, but the hesitation feels deliberate."
+			/**
+			 * The idea for this level was for a specific letter to get swapped
+			 * after the player submits their answer. Thus the anomaly.
+			 * But up to you.
+			 * 
+			 * Storyfragment option 2:
+			 * Camera logs from Site-7 reviewed.
+			 * Cryptolinguist begins pacing patterns that loop perfectly every 45 seconds.
+			 * When asked why, they reply:
+			 * 'It asked me to practice.'
+			 */
+  		}
 	}
+
 ];
 
 /**
