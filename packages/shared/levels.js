@@ -295,8 +295,57 @@ export const LEVELS = [
 			 * When asked why, they reply:
 			 * 'It asked me to practice.'
 			 */
-  		}
-	}
+  		}	
+	},
+
+	{
+		id: 13,
+  		title:  "Historical Record 11",
+  		phase: 2,
+  		cipherType: "base64",
+  		cipherText: "VEhFIEFSQ0hJVklTVCBFTkNPREVEIFRSQVZFTEVSUycgTkFNRVMgSU4gQSBTRUNVUkUgVFJBTlNNSVNTSU9OLiBPTkxZIFBST1BFUiBERUNPRElORyBSRVZFQUxTIFRIRU0u",
+		cipherData: {},
+  		hintPoem: [
+			"In blocks of sixty-four it hides,",
+			"a lattice where the meaning bides.",
+			"Unwrap the script where padding lies;",
+			"And watch the truth in plain sight rise."
+		],
+  		answer: "THE ARCHIVIST ENCODED TRAVELERS' NAMES IN A SECURE TRANSMISSION. ONLY PROPER DECODING REVEALS THEM.",
+		pointsValue: 150,
+		storyFragment: "The recovered text snaps back into clarity after a brief horizontal distortion, as if the screen attempted to redraw the letters mid-decoding.",
+		transmission: {
+    		message: "Module 11 online. Incoming segment shows compressed data encoding. Begin reversal sequence.",
+    		storyFragment: "Recovered memo warns that travelers' names were encoded into a secure transmission. One line reads: 'The system is labeling us.' Another scrawled note replies: 'It shouldn't know our names.'"
+		/**
+		 * The system logs a minor graphical offset: a thin horizontal tear across the display lasting less than a second."
+		 */
+		}
+	},
+	{
+		id: 14,
+  		title: "Calibration Module 12",
+  		phase: 2,
+  		cipherType: "railfence",
+  		cipherText: "EGYTLH:POLCEDTRVRMMD.NSLIWINWSEENEDRRMSNME.TMHADESESLRO.SRINOWNNO'LIADSDTWTA.TOBTERAHTHVO,OMTEMP.MRECPOOOAPA9ALESNEEAUTGI-.HACIEAEOPOIE.RKIESTLISD,RTNOTEAL,HSMTIGVRNOE:TEEBRBIGEEBRDCNANETAFIE.HLIYTMSTLOEAINLI'RCUTNOISW.EO'KOHWTSEETNCNIAE.EO'KOWAIWNSSUIDW.UNHSRESSLTEAAWAEEYUODNTOPEEHPIEIHRENRCL-LRNVAR7EHSCRSDLIINEIGHLTAHOAVIMEERMEOINSLTCSIIPTATEIGTNDTWISCGDTWNNHTTHTNREV.TD.TRDOCLTRCE",
+  		cipherData: { rails: 3 },
+		hintPoem: [
+			"A message rides on rising trails,",
+			"Then falls again in woven rails.",
+			"Trace each path the rhythm makes;",
+			"And pull the truth from where it breaks."
+		],
+		answer: "EMERGENCY PROTOCOL ALPHA-9: ALL PERSONNEL EVACUATE GRID-7. THE ARCHIVES ARE COMPROMISED. DR. XXX IS STILL INSIDE, WRITING ON THE WALLS, THE SAME THING OVER AND OVER: IT REMEMBERS BEING REMEMBERED. CONTAINMENT HAS FAILED. THE LCI SYSTEM IS STILL OPERATIONAL. IT'S RECRUITING ON ITS OWN. WE DON'T KNOW HOW IT'S SELECTING CANDIDATES. WE DON'T KNOW WHAT IT WANTS. SHUT IT DOWN. BURN THE SERVERS. SALT THE DATA. WHATEVER YOU DO, DO NOT COMPLETE THE PRIME CIPHER.",
+		pointsValue: 160,
+		storyFragment: "The interface flickers—once, twice—and then everything steadies. The emergency memo scrolls down the display in unbroken lines. Yet as you read, it feels less like you're observing the system and more like the system is observing you back.",
+		transmission: {
+    		message: "Module 12 online. Structural weaving test. Long-form data. Maintain focus.",
+    		storyFragment: "An unexpected log seeps through the screen: Emergency Protocol Alpha-9. Evacuation ordered. A technician's note, typed hastily and then struck through, reports the roster autofilling itself: 'At first blanks. Then names appeared. We didn't type them.' A final system stamp raises a warning flag: QUARANTINE LOG INITIATED. DO NOT RESUME PRIME PROCESS."
+  		/**
+		 * When the decryption completes, the screen goes pitch-black. Five seconds of silence. Then a single sentence fades in with deliberate slowness:'YOU'VE COME SO FAR. DON'T YOU WANT TO KNOW WHAT IT SAYS?'You never typed anything. Yet the message feels… expectant.
+		 */
+		}
+	},
 
 ];
 
