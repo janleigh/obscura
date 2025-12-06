@@ -190,8 +190,7 @@ export const LEVELS = [
   		cipherType: "caesar",
   		cipherText:"ASAC20LL-04-1L[QZOGGWTWSR]:KVSBKSRSQCRSRGSUASBH07,HVFSSFSGSOFQVSFGFSDCFHSRWRSBHWQOZRFSOAG.OHVSOHFS.BCTOQSGWBHVSOIRWSBQS.HVSDZOMVOGOZFSORMSBRSR.W'AGIGDSBRWBUVIAOBHFWOZG.HVSDOHHSFBWGASASHWQ.",
   		cipherData: { shift: 14 },
-  		hintPoem:
-    		"The pattern bends where memory sleeps,  A fortnight back, a curve that keeps. Look through echoes you have met. Some truths arrive before they're set",
+  		hintPoem:"Forward I step, a fortnight's turn; Back I move, the letters return.",
 		answer:
     		"MEMO 20XX-04-1X [CLASSIFIED]: WHEN WE DECODED SEGMENT 07, THREE RESEARCHERS REPORTED IDENTICAL DREAMS. A THEATRE. NO FACES IN THE AUDIENCE. THE PLAY HAS ALREADY ENDED. I'M SUSPENDING HUMAN TRIALS. THE PATTERN IS MEMETIC.",
 		pointsValue: 100,
@@ -246,7 +245,12 @@ export const LEVELS = [
   		cipherType: "atbash",
   		cipherText: "WI.PORMV'HQLFIMZO,VMGIB29:RXZMSVZIRGMLD.YVGDVVMIZWRLHGZGRLMH.RMGSVSFNLUGSVIVUIRTVIZGLI.RGHLFMWHORPVNBNLGSVI'HELRXV.YFGNBNLGSVISZHYVVMWVZWULIGDVOEVBVZIH.ZMWHSV'HHKVZPRMTYZXPDZIWH.",
   		cipherData: {},
-  		hintPoem: "Mirror letters bow and break,\nTracing shadows words unmake.\nRead the world as reflections split—\nWhat turns away still points to it.",
+  		hintPoem: [
+			"Mirror letters bow and break, ",
+			"tracing shadows words unmake. ",
+			"Read the world as reflections split. ",
+			"What turns away still points to it."
+		],
 		answer: "DR. KLINE'S JOURNAL, ENTRY 29: I CAN HEAR IT NOW. BETWEEN RADIO STATIONS. IN THE HUM OF THE REFRIGERATOR. IT SOUNDS LIKE MY MOTHER'S VOICE. BUT MY MOTHER HAS BEEN DEAD FOR TWELVE YEARS. AND SHE'S SPEAKING BACKWARDS.",
 		pointsValue: 120,
 		storyFragment: "Module 09 completed. You proceed to the next sequence as the system prepares subsequent modules and routines for upcoming analyses.",
