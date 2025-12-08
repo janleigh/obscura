@@ -110,9 +110,9 @@ const TerminalBoot = ({ userData, onBootComplete }) => {
 		<div className="font-kode-mono fixed inset-0 overflow-hidden bg-[#0a0a0a] text-sm text-[#f0f0f0] selection:bg-[#f0f0f0] selection:text-[#0a0a0a]">
 			<div
 				ref={terminalRef}
-				className="scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 crt-glow h-full w-full overflow-y-auto p-8 flex flex-col gap-1">
-				<div className="mb-6 select-none opacity-80">
-					<pre className="text-green-500 font-bold leading-none tracking-tighter">
+				className="scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 crt-glow flex h-full w-full flex-col gap-1 overflow-y-auto p-8">
+				<div className="mb-6 opacity-80 select-none">
+					<pre className="leading-none font-bold tracking-tighter text-green-500">
 						{ASCII_LOGO}
 					</pre>
 				</div>
@@ -122,8 +122,10 @@ const TerminalBoot = ({ userData, onBootComplete }) => {
 						<span>OBSCURA BIOS v2.19.5 (RELEASE)</span>
 						<MemoryCheck />
 					</div>
-					<div className="flex justify-between mt-1">
-						<span>COPYRIGHT (C) 2019 THE OBSCURA COLLECTIVE</span>
+					<div className="mt-1 flex justify-between">
+						<span>
+							COPYRIGHT (C) 2019 THE OBSCURA COLLECTIVE
+						</span>
 						<span>CPU: QUANTUM-CORE @ 4.20GHz</span>
 					</div>
 				</div>

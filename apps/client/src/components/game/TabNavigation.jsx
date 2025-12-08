@@ -34,7 +34,7 @@ const TabNavigation = ({ activeTab, onTabChange, onShowTutorial }) => {
 			</div>
 			<div className="flex items-center gap-4 pr-2">
 				<div className="hidden items-center gap-2 text-[10px] text-gray-600 sm:flex">
-					<span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
+					<span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
 					SYSTEM ONLINE
 				</div>
 				<button

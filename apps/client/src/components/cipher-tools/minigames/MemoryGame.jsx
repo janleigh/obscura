@@ -172,12 +172,19 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 			isComplete={isComplete}>
 			<div className="flex flex-col items-center justify-center gap-6">
 				{/* Stats Bar */}
-				<div className="flex w-full max-w-2xl justify-between text-xs font-mono">
+				<div className="flex w-full max-w-2xl justify-between font-mono text-xs">
 					<div className="text-yellow-600">
-						SEQUENCE: <span className="text-yellow-400">{sequence.length} CHARS</span>
+						SEQUENCE:{" "}
+						<span className="text-yellow-400">
+							{sequence.length} CHARS
+						</span>
 					</div>
 					<div className="text-yellow-600">
-						ATTEMPTS: <span className={`${attempts >= 2 ? 'text-red-500 animate-pulse' : 'text-yellow-400'}`}>{attempts}/3</span>
+						ATTEMPTS:{" "}
+						<span
+							className={`${attempts >= 2 ? "animate-pulse text-red-500" : "text-yellow-400"}`}>
+							{attempts}/3
+						</span>
 					</div>
 				</div>
 				{/* Display Area */}
@@ -188,13 +195,14 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 						</div>
 					)}
 					{isDisplaying && !currentDisplay && (
-						<div className="text-sm text-gray-500 animate-pulse">
+						<div className="animate-pulse text-sm text-gray-500">
 							[ INITIALIZING SEQUENCE... ]
 						</div>
 					)}
 					{!isDisplaying && !isComplete && (
-						<div className="text-sm text-yellow-600 font-mono">
-							&gt; INPUT SEQUENCE ({userInput.length}/{sequence.length})
+						<div className="font-mono text-sm text-yellow-600">
+							&gt; INPUT SEQUENCE ({userInput.length}/
+							{sequence.length})
 						</div>
 					)}
 					{isComplete && (
@@ -211,8 +219,8 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 								key={idx}
 								className={`flex h-12 w-12 items-center justify-center border-2 font-mono text-xl font-bold transition-all duration-200 ${
 									error
-										? "border-red-400 text-red-400 bg-red-950/20 shadow-[0_0_10px_rgba(248,113,113,0.3)]"
-										: "border-yellow-400 text-yellow-400 bg-yellow-950/20 shadow-[0_0_10px_rgba(234,179,8,0.2)]"
+										? "border-red-400 bg-red-950/20 text-red-400 shadow-[0_0_10px_rgba(248,113,113,0.3)]"
+										: "border-yellow-400 bg-yellow-950/20 text-yellow-400 shadow-[0_0_10px_rgba(234,179,8,0.2)]"
 								}`}>
 								{char}
 							</div>
@@ -232,8 +240,8 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 								disabled={error}
 								className={`h-11 w-11 border-2 font-mono text-sm font-bold transition-all duration-150 ${
 									error
-										? "border-gray-800 bg-gray-900 text-gray-600 cursor-not-allowed"
-										: "border-yellow-900 bg-black text-yellow-600 hover:border-yellow-400 hover:bg-yellow-950/30 hover:text-yellow-400 hover:scale-105 hover:shadow-[0_0_10px_rgba(234,179,8,0.2)] active:scale-95"
+										? "cursor-not-allowed border-gray-800 bg-gray-900 text-gray-600"
+										: "border-yellow-900 bg-black text-yellow-600 hover:scale-105 hover:border-yellow-400 hover:bg-yellow-950/30 hover:text-yellow-400 hover:shadow-[0_0_10px_rgba(234,179,8,0.2)] active:scale-95"
 								}`}>
 								{char}
 							</button>
@@ -241,12 +249,12 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 					</div>
 				)}
 				{error && !failed && (
-					<div className="text-sm text-red-400 font-mono animate-pulse">
+					<div className="animate-pulse font-mono text-sm text-red-400">
 						✗ INCORRECT SEQUENCE - RESETTING
 					</div>
 				)}
 				{failed && (
-					<div className="text-sm text-red-400 font-mono">
+					<div className="font-mono text-sm text-red-400">
 						✗ MAXIMUM ATTEMPTS EXCEEDED - DECRYPTION DELAYED
 					</div>
 				)}

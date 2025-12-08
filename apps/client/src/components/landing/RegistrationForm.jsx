@@ -37,9 +37,13 @@ const RegistrationForm = ({
 				<div className="mb-8 flex items-center justify-between border-b border-gray-800 pb-4">
 					<div className="flex items-center gap-2">
 						<div className="h-2 w-2 bg-yellow-500"></div>
-						<span className="font-bold tracking-widest text-yellow-400">REGISTRATION</span>
+						<span className="font-bold tracking-widest text-yellow-400">
+							REGISTRATION
+						</span>
 					</div>
-					<span className="text-[10px] text-gray-600">NEW_CANDIDATE</span>
+					<span className="text-[10px] text-gray-600">
+						NEW_CANDIDATE
+					</span>
 				</div>
 				<div className="mb-8 border-l-2 border-yellow-500/30 bg-yellow-950/10 p-4 text-xs text-yellow-200/70">
 					{tutorialText}
@@ -57,11 +61,15 @@ const RegistrationForm = ({
 						<input
 							type="text"
 							value={username}
-							onChange={(e) => onUsernameChange(e.target.value)}
+							onChange={(e) =>
+								onUsernameChange(e.target.value)
+							}
 							onKeyDown={(e) => {
 								if (e.key === "Enter" && !isLoading) {
 									document
-										.getElementById("reg-realname-input")
+										.getElementById(
+											"reg-realname-input"
+										)
 										?.focus();
 								} else if (e.key === "Escape") {
 									handleBack();
@@ -69,7 +77,7 @@ const RegistrationForm = ({
 							}}
 							onFocus={() => setFocusedField("username")}
 							disabled={isLoading}
-							className="flex-1 border-none bg-transparent font-mono text-sm text-white outline-none placeholder-gray-800 disabled:text-gray-600"
+							className="flex-1 border-none bg-transparent font-mono text-sm text-white placeholder-gray-800 outline-none disabled:text-gray-600"
 							placeholder="CREATE_USERNAME"
 							autoFocus
 							maxLength={32}
@@ -77,7 +85,9 @@ const RegistrationForm = ({
 						{!isLoading &&
 							showCursor &&
 							focusedField === "username" && (
-								<span className="ml-1 text-yellow-400">█</span>
+								<span className="ml-1 text-yellow-400">
+									█
+								</span>
 							)}
 					</div>
 				</div>
@@ -92,11 +102,15 @@ const RegistrationForm = ({
 							id="reg-realname-input"
 							type="text"
 							value={realName}
-							onChange={(e) => onRealNameChange(e.target.value)}
+							onChange={(e) =>
+								onRealNameChange(e.target.value)
+							}
 							onKeyDown={(e) => {
 								if (e.key === "Enter" && !isLoading) {
 									document
-										.getElementById("reg-password-input")
+										.getElementById(
+											"reg-password-input"
+										)
 										?.focus();
 								} else if (e.key === "Escape") {
 									handleBack();
@@ -104,14 +118,16 @@ const RegistrationForm = ({
 							}}
 							onFocus={() => setFocusedField("realName")}
 							disabled={isLoading}
-							className="flex-1 border-none bg-transparent font-mono text-sm text-white outline-none placeholder-gray-800 disabled:text-gray-600"
+							className="flex-1 border-none bg-transparent font-mono text-sm text-white placeholder-gray-800 outline-none disabled:text-gray-600"
 							placeholder="ENTER_FULL_NAME"
 							maxLength={64}
 						/>
 						{!isLoading &&
 							showCursor &&
 							focusedField === "realName" && (
-								<span className="ml-1 text-yellow-400">█</span>
+								<span className="ml-1 text-yellow-400">
+									█
+								</span>
 							)}
 					</div>
 				</div>
@@ -126,7 +142,9 @@ const RegistrationForm = ({
 							id="reg-password-input"
 							type="password"
 							value={password}
-							onChange={(e) => onPasswordChange(e.target.value)}
+							onChange={(e) =>
+								onPasswordChange(e.target.value)
+							}
 							onKeyDown={(e) => {
 								if (
 									e.key === "Enter" &&
@@ -142,14 +160,16 @@ const RegistrationForm = ({
 							}}
 							onFocus={() => setFocusedField("password")}
 							disabled={isLoading}
-							className="flex-1 border-none bg-transparent font-mono text-sm text-white outline-none placeholder-gray-800 disabled:text-gray-600"
+							className="flex-1 border-none bg-transparent font-mono text-sm text-white placeholder-gray-800 outline-none disabled:text-gray-600"
 							placeholder="CREATE_PASSWORD"
 							maxLength={64}
 						/>
 						{!isLoading &&
 							showCursor &&
 							focusedField === "password" && (
-								<span className="ml-1 text-yellow-400">█</span>
+								<span className="ml-1 text-yellow-400">
+									█
+								</span>
 							)}
 					</div>
 				</div>
@@ -166,7 +186,9 @@ const RegistrationForm = ({
 						onClick={handleBack}
 						disabled={isLoading}
 						className="group text-xs text-gray-500 transition-colors hover:text-gray-300 disabled:opacity-50">
-						<span className="mr-2 inline-block transition-transform group-hover:-translate-x-1">←</span>
+						<span className="mr-2 inline-block transition-transform group-hover:-translate-x-1">
+							←
+						</span>
 						ABORT_REGISTRATION
 					</button>
 					<button
@@ -179,7 +201,9 @@ const RegistrationForm = ({
 						}
 						className="group relative border border-yellow-700 bg-yellow-950/30 px-6 py-2 text-xs font-bold text-yellow-400 transition-all hover:bg-yellow-900/50 hover:shadow-[0_0_15px_rgba(234,179,8,0.3)] disabled:cursor-not-allowed disabled:border-gray-800 disabled:bg-transparent disabled:text-gray-600 disabled:shadow-none">
 						<span className="relative z-10">
-							{isLoading ? "PROCESSING..." : "SUBMIT_APPLICATION"}
+							{isLoading
+								? "PROCESSING..."
+								: "SUBMIT_APPLICATION"}
 						</span>
 					</button>
 				</div>

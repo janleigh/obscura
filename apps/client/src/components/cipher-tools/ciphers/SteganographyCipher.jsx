@@ -50,7 +50,8 @@ const SteganographyCipher = ({ addLog }) => {
 		setStegoMessage("");
 		addLog("INFO", "Launching two-factor authentication...");
 		const games = ["vape", "zonewall"];
-		const selectedGame = games[Math.floor(Math.random() * games.length)];
+		const selectedGame =
+			games[Math.floor(Math.random() * games.length)];
 		setMinigameType(selectedGame);
 		setShowMinigame(true);
 	};
@@ -66,7 +67,10 @@ const SteganographyCipher = ({ addLog }) => {
 		setShowMinigame(false);
 
 		if (showSuccess === true) {
-			addLog("SUCCESS", "Verification completed - Initializing LSB extraction...");
+			addLog(
+				"SUCCESS",
+				"Verification completed - Initializing LSB extraction..."
+			);
 		}
 
 		setIsLoading(true);
@@ -74,7 +78,9 @@ const SteganographyCipher = ({ addLog }) => {
 		const img = new Image();
 		img.onload = async () => {
 			addLog("SCAN", "Image loaded, extracting pixel data...");
-			await new Promise((resolve) => setTimeout(resolve, 600 + delay));
+			await new Promise((resolve) =>
+				setTimeout(resolve, 600 + delay)
+			);
 
 			const canvas = document.createElement("canvas");
 			canvas.width = img.width;
@@ -223,15 +229,20 @@ const SteganographyCipher = ({ addLog }) => {
 				</div>
 			)}
 			{stegoMessage && (
-				<div className="animate-in fade-in duration-500 border border-green-700 bg-green-950/20 p-3">
+				<div className="animate-in fade-in border border-green-700 bg-green-950/20 p-3 duration-500">
 					<div className="mb-2 flex items-center justify-between">
 						<div className="text-xs font-bold text-green-400">
 							EXTRACTION SUCCESSFUL
 						</div>
 						<button
 							onClick={() => {
-								navigator.clipboard.writeText(stegoMessage);
-								addLog("SUCCESS", "Result copied to clipboard");
+								navigator.clipboard.writeText(
+									stegoMessage
+								);
+								addLog(
+									"SUCCESS",
+									"Result copied to clipboard"
+								);
 							}}
 							className="text-[10px] font-bold text-green-600 hover:text-green-400">
 							[COPY RESULT]

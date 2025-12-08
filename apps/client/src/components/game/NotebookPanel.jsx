@@ -1,5 +1,5 @@
 const NotebookPanel = ({ notes, onChange }) => {
-	const lines = notes.split('\n');
+	const lines = notes.split("\n");
 	const lineCount = lines.length;
 
 	return (
@@ -13,17 +13,22 @@ const NotebookPanel = ({ notes, onChange }) => {
 						v1.0
 					</span>
 				</div>
-				<div className="text-[9px] text-gray-600">AUTO-SAVE ACTIVE</div>
+				<div className="text-[9px] text-gray-600">
+					AUTO-SAVE ACTIVE
+				</div>
 			</div>
-			<div className="min-h-0 flex-1 overflow-hidden flex">
+			<div className="flex min-h-0 flex-1 overflow-hidden">
 				{/* Line numbers */}
 				<div className="shrink-0 border-r border-gray-800 bg-[#050505] px-2 py-4 select-none">
-					<div className="font-mono text-xs text-gray-700 leading-normal">
-						{Array.from({ length: Math.max(lineCount, 1) }, (_, i) => (
-							<div key={i} className="text-right">
-								{String(i + 1).padStart(2, '0')}
-							</div>
-						))}
+					<div className="font-mono text-xs leading-normal text-gray-700">
+						{Array.from(
+							{ length: Math.max(lineCount, 1) },
+							(_, i) => (
+								<div key={i} className="text-right">
+									{String(i + 1).padStart(2, "0")}
+								</div>
+							)
+						)}
 					</div>
 				</div>
 				{/* Textarea */}
@@ -32,7 +37,7 @@ const NotebookPanel = ({ notes, onChange }) => {
 						value={notes}
 						onChange={(e) => onChange(e.target.value)}
 						placeholder="// Enter your observations here..."
-						className="scrollbar-thin h-full w-full resize-none border-none bg-transparent p-4 font-mono text-xs text-gray-300 outline-none leading-normal placeholder-gray-700"
+						className="scrollbar-thin h-full w-full resize-none border-none bg-transparent p-4 font-mono text-xs leading-normal text-gray-300 placeholder-gray-700 outline-none"
 					/>
 				</div>
 			</div>

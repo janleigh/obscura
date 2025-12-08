@@ -12,7 +12,7 @@ const BAR_SPEED = 1.5; // Speed of moving bar (percentage per frame)
 const MIN_TARGET_SIZE = 15; // Minimum target size (percentage)
 const MAX_TARGET_SIZE = 25; // Maximum target size (percentage)
 const MAX_MISSES = Math.max(1, Math.floor(TOTAL_LINES / 2) - 1); // Maximum allowed misses before adding delay
-const REQUIRED_HITS = Math.ceil((TOTAL_LINES * 0.7) - 1); // Require at least 70% hits to succeed
+const REQUIRED_HITS = Math.ceil(TOTAL_LINES * 0.7 - 1); // Require at least 70% hits to succeed
 
 const INTRO_MESSAGES = [
 	{
@@ -232,52 +232,65 @@ const ZoneWallGame = ({ onSuccess, onCancel, onFailure }) => {
 				{/* Stats */}
 				<div className="flex w-full max-w-3xl justify-between font-mono text-xs">
 					<div className="text-green-600">
-						LINE: <span className="text-green-400">{currentLine + 1}/{TOTAL_LINES}</span>
+						LINE:{" "}
+						<span className="text-green-400">
+							{currentLine + 1}/{TOTAL_LINES}
+						</span>
 					</div>
 					<div className="flex gap-6">
 						<div className="text-green-600">
-							HITS: <span className="text-green-400">{hits}</span>
+							HITS:{" "}
+							<span className="text-green-400">{hits}</span>
 						</div>
 						<div className="text-red-600">
-							MISSES: <span className={`${misses >= MAX_MISSES ? 'text-red-500 animate-pulse' : 'text-red-400'}`}>{misses}/{MAX_MISSES}</span>
+							MISSES:{" "}
+							<span
+								className={`${misses >= MAX_MISSES ? "animate-pulse text-red-500" : "text-red-400"}`}>
+								{misses}/{MAX_MISSES}
+							</span>
 						</div>
 					</div>
 				</div>
 				{/* Lines - Terminal Style */}
-				<div className="flex w-full max-w-3xl flex-col items-center space-y-3 font-mono text-base p-6 bg-black/30 border-2 border-green-900/50 shadow-[0_0_20px_rgba(34,197,94,0.1)]">
+				<div className="flex w-full max-w-3xl flex-col items-center space-y-3 border-2 border-green-900/50 bg-black/30 p-6 font-mono text-base shadow-[0_0_20px_rgba(34,197,94,0.1)]">
 					{lines.map((line, idx) => {
 						const isCurrent = idx === currentLine;
 						const isHit = line.hit === true;
 						const isMiss = line.hit === false;
 						const isPending = line.hit === null;
-						
+
 						let lineColor = "text-gray-600";
 						let glowClass = "";
-						
+
 						if (isHit) {
 							lineColor = "text-green-400";
-							glowClass = "drop-shadow-[0_0_8px_rgba(34,197,94,0.4)]";
+							glowClass =
+								"drop-shadow-[0_0_8px_rgba(34,197,94,0.4)]";
 						} else if (isMiss) {
 							lineColor = "text-red-400";
-							glowClass = "drop-shadow-[0_0_8px_rgba(239,68,68,0.4)]";
+							glowClass =
+								"drop-shadow-[0_0_8px_rgba(239,68,68,0.4)]";
 						} else if (isCurrent) {
 							lineColor = "text-green-400";
-							glowClass = "animate-pulse drop-shadow-[0_0_12px_rgba(34,197,94,0.6)]";
+							glowClass =
+								"animate-pulse drop-shadow-[0_0_12px_rgba(34,197,94,0.6)]";
 						}
-						
+
 						return (
 							<div
 								key={line.id}
-								className={`flex items-center gap-3 transition-all duration-300 ${isCurrent ? 'scale-105' : 'scale-100'}`}>
-								<span className={`${lineColor} ${glowClass} transition-all duration-300`}>
+								className={`flex items-center gap-3 transition-all duration-300 ${isCurrent ? "scale-105" : "scale-100"}`}>
+								<span
+									className={`${lineColor} ${glowClass} transition-all duration-300`}>
 									{renderLine(line, idx)}
 								</span>
 								{!isPending && (
-									<span className={`text-lg font-bold ${
-										isHit 
-											? "text-green-400 drop-shadow-[0_0_5px_rgba(34,197,94,0.5)]" 
-											: "text-red-400 drop-shadow-[0_0_5px_rgba(239,68,68,0.5)]"
-									}`}>
+									<span
+										className={`text-lg font-bold ${
+											isHit
+												? "text-green-400 drop-shadow-[0_0_5px_rgba(34,197,94,0.5)]"
+												: "text-red-400 drop-shadow-[0_0_5px_rgba(239,68,68,0.5)]"
+										}`}>
 										{isHit ? "✓" : "✗"}
 									</span>
 								)}
@@ -290,7 +303,7 @@ const ZoneWallGame = ({ onSuccess, onCancel, onFailure }) => {
 					<button
 						onClick={handleClick}
 						disabled={!isMoving || currentLine >= TOTAL_LINES}
-						className="mt-2 border-2 border-green-400 bg-black px-10 py-4 font-mono text-base font-bold text-green-400 transition-all duration-200 hover:bg-green-950/40 hover:shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:scale-105 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none">
+						className="mt-2 border-2 border-green-400 bg-black px-10 py-4 font-mono text-base font-bold text-green-400 transition-all duration-200 hover:scale-105 hover:bg-green-950/40 hover:shadow-[0_0_20px_rgba(34,197,94,0.3)] active:scale-95 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100 disabled:hover:shadow-none">
 						[ CLICK NOW ]
 					</button>
 				)}

@@ -39,8 +39,7 @@ const WelcomeScreen = ({
 			.catch((err) => {
 				console.error("Error fetching git hash:", err);
 			});
-	}, [gitHash])
-	
+	}, [gitHash]);
 
 	return (
 		<div className="crt-glow animate-fade-in space-y-12 text-center">
@@ -52,24 +51,31 @@ const WelcomeScreen = ({
 				<div className="flex justify-center gap-4 text-xs tracking-widest text-gray-500">
 					<span>SYSTEM_READY</span>
 					<span>::</span>
-					<span>{hash ? `BUILD_${hash.substring(0,7)}` : "BUILD_UNKNOWN"}</span>
+					<span>
+						{hash
+							? `BUILD_${hash.substring(0, 7)}`
+							: "BUILD_UNKNOWN"}
+					</span>
 				</div>
 			</div>
 			<div className="mx-auto max-w-md border-l-2 border-cyan-900/50 bg-linear-to-r from-cyan-950/10 to-transparent p-6 text-left">
-				<div className="mb-2 text-[10px] text-cyan-700">SYSTEM MESSAGE:</div>
+				<div className="mb-2 text-[10px] text-cyan-700">
+					SYSTEM MESSAGE:
+				</div>
 				<div className="text-sm leading-relaxed text-gray-300">
 					{tutorialText}
 					{!typingComplete && showCursor && (
-						<span className="animate-pulse text-cyan-400">_</span>
+						<span className="animate-pulse text-cyan-400">
+							_
+						</span>
 					)}
 				</div>
 			</div>
 			<div className="flex justify-center pt-8">
-				<Button 
-					onClick={handleAbout} 
-					variant="secondary" 
-					className="text-xs px-4 py-2 opacity-50 hover:opacity-100 transition-opacity"
-				>
+				<Button
+					onClick={handleAbout}
+					variant="secondary"
+					className="px-4 py-2 text-xs opacity-50 transition-opacity hover:opacity-100">
 					SYSTEM ARCHITECTS
 				</Button>
 			</div>

@@ -61,10 +61,7 @@ const RailFenceCipher = ({
 	const railFenceBruteForce = async () => {
 		if (!cipherText.trim()) {
 			setError("Enter cipher text to crack");
-			addLog(
-				"ERROR",
-				"No input provided for RAIL-FNC"
-			);
+			addLog("ERROR", "No input provided for RAIL-FNC");
 			return;
 		}
 
@@ -103,9 +100,7 @@ const RailFenceCipher = ({
 				addLog("ERROR", "Unable to decrypt ciphertext");
 			}
 		} catch (err) {
-			setError(
-				err.response?.data?.message || "Decryption failed"
-			);
+			setError(err.response?.data?.message || "Decryption failed");
 			addLog(
 				"ERROR",
 				err.response?.data?.message || "Decryption failed"
@@ -122,10 +117,13 @@ const RailFenceCipher = ({
 					<div className="text-xs font-bold text-purple-400">
 						RAIL-FNC MODULE
 					</div>
-					<div className="text-[10px] text-purple-600">v2.3.1</div>
+					<div className="text-[10px] text-purple-600">
+						v2.3.1
+					</div>
 				</div>
 				<div className="mt-1 text-[10px] text-gray-500">
-					Zigzag transposition cipher. Requires rail count parameter.
+					Zigzag transposition cipher. Requires rail count
+					parameter.
 				</div>
 			</div>
 			<CipherInputForm
@@ -137,7 +135,9 @@ const RailFenceCipher = ({
 					CONFIGURATION PARAMETERS
 				</label>
 				<div className="flex items-center justify-between gap-4">
-					<div className="text-xs text-purple-400">RAIL COUNT</div>
+					<div className="text-xs text-purple-400">
+						RAIL COUNT
+					</div>
 					<div className="flex items-center gap-1">
 						<button
 							onClick={() =>
@@ -180,7 +180,7 @@ const RailFenceCipher = ({
 				</div>
 			)}
 			{result && (
-				<div className="animate-in fade-in duration-500 border border-green-700 bg-green-950/20 p-3">
+				<div className="animate-in fade-in border border-green-700 bg-green-950/20 p-3 duration-500">
 					<div className="mb-2 flex items-center justify-between">
 						<div className="text-xs font-bold text-green-400">
 							DECRYPTION SUCCESSFUL
@@ -188,7 +188,10 @@ const RailFenceCipher = ({
 						<button
 							onClick={() => {
 								navigator.clipboard.writeText(result);
-								addLog("SUCCESS", "Result copied to clipboard");
+								addLog(
+									"SUCCESS",
+									"Result copied to clipboard"
+								);
 							}}
 							className="text-[10px] font-bold text-green-600 hover:text-green-400">
 							[COPY RESULT]

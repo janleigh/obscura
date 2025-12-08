@@ -60,7 +60,10 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 			.map((_, i) => i);
 
 		// Generate random dead slots (skulls)
-		const numDeadSlots = (Math.floor(Math.random() * 4) + 2) + parseInt(localStorage.getItem("last_level") || "0");
+		const numDeadSlots =
+			Math.floor(Math.random() * 4) +
+			2 +
+			parseInt(localStorage.getItem("last_level") || "0");
 		const deadSlotIndices = [];
 		while (deadSlotIndices.length < numDeadSlots) {
 			const idx = Math.floor(
@@ -144,9 +147,13 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 			const isOccupied = nodes.some((n) => n.position === cellIndex);
 			if (!isOccupied) {
 				// Check if the target cell is adjacent to the selected node's current position
-				const selectedNodeObj = nodes.find((n) => n.id === selectedNode);
-				const adjacentPositions = getAdjacentPositions(selectedNodeObj.position);
-				
+				const selectedNodeObj = nodes.find(
+					(n) => n.id === selectedNode
+				);
+				const adjacentPositions = getAdjacentPositions(
+					selectedNodeObj.position
+				);
+
 				if (adjacentPositions.includes(cellIndex)) {
 					playSound("buttonPress");
 					const newNodes = nodes.map((node) =>
@@ -177,7 +184,9 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 	const getCellContent = (cellIndex) => {
 		if (deadSlots.includes(cellIndex)) {
 			return (
-				<span className="text-2xl text-red-500 opacity-50 drop-shadow-[0_0_5px_rgba(239,68,68,0.5)]">💀</span>
+				<span className="text-2xl text-red-500 opacity-50 drop-shadow-[0_0_5px_rgba(239,68,68,0.5)]">
+					💀
+				</span>
 			);
 		}
 		const node = nodes.find((n) => n.position === cellIndex);
@@ -185,12 +194,12 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 			const isSelected = selectedNode === node.id;
 			return (
 				<div className="h-full w-full p-1.5">
-					<div className={`h-full w-full rounded-sm transition-all duration-200 ${
-						isSelected 
-							? "animate-pulse bg-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.8)]" 
-							: "bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.5)]"
-					}`}>
-					</div>
+					<div
+						className={`h-full w-full rounded-sm transition-all duration-200 ${
+							isSelected
+								? "animate-pulse bg-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.8)]"
+								: "bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.5)]"
+						}`}></div>
 				</div>
 			);
 		}
@@ -226,37 +235,51 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 			isComplete={isComplete}>
 			<div className="flex flex-col items-center justify-center gap-6">
 				{/* Stats Bar */}
-				<div className="flex w-full max-w-md justify-between text-xs font-mono">
+				<div className="flex w-full max-w-md justify-between font-mono text-xs">
 					<div className="text-cyan-600">
-						NODES: <span className="text-cyan-400">{nodes.length}</span>
+						NODES:{" "}
+						<span className="text-cyan-400">
+							{nodes.length}
+						</span>
 					</div>
 					<div className="text-cyan-600">
-						HAZARDS: <span className="text-red-400">{deadSlots.length}</span>
+						HAZARDS:{" "}
+						<span className="text-red-400">
+							{deadSlots.length}
+						</span>
 					</div>
 				</div>
 				<div
-					className="grid gap-2 p-4 bg-black/30 border-2 border-cyan-900/50 shadow-[0_0_20px_rgba(6,182,212,0.1)]"
+					className="grid gap-2 border-2 border-cyan-900/50 bg-black/30 p-4 shadow-[0_0_20px_rgba(6,182,212,0.1)]"
 					style={{
 						gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))`
 					}}>
 					{grid.map((cellIndex) => {
-						const node = nodes.find((n) => n.position === cellIndex);
-						const isSelected = node && selectedNode === node.id;
+						const node = nodes.find(
+							(n) => n.position === cellIndex
+						);
+						const isSelected =
+							node && selectedNode === node.id;
 						const isDead = deadSlots.includes(cellIndex);
 						const hasNode = !!node;
-						
-						let cellClasses = "flex h-14 w-14 cursor-pointer items-center justify-center border-2 transition-all duration-200 ";
-						
+
+						let cellClasses =
+							"flex h-14 w-14 cursor-pointer items-center justify-center border-2 transition-all duration-200 ";
+
 						if (isDead) {
-							cellClasses += "border-red-800 bg-red-950/30 cursor-not-allowed shadow-[inset_0_0_10px_rgba(127,29,29,0.5)]";
+							cellClasses +=
+								"border-red-800 bg-red-950/30 cursor-not-allowed shadow-[inset_0_0_10px_rgba(127,29,29,0.5)]";
 						} else if (isSelected) {
-							cellClasses += "border-cyan-400 bg-cyan-950/40 shadow-[0_0_15px_rgba(6,182,212,0.4)] scale-105";
+							cellClasses +=
+								"border-cyan-400 bg-cyan-950/40 shadow-[0_0_15px_rgba(6,182,212,0.4)] scale-105";
 						} else if (hasNode) {
-							cellClasses += "border-cyan-600 bg-cyan-950/20 hover:border-cyan-400 hover:scale-105 shadow-[0_0_8px_rgba(6,182,212,0.2)]";
+							cellClasses +=
+								"border-cyan-600 bg-cyan-950/20 hover:border-cyan-400 hover:scale-105 shadow-[0_0_8px_rgba(6,182,212,0.2)]";
 						} else {
-							cellClasses += "border-cyan-900 bg-black hover:border-cyan-600 hover:bg-cyan-950/10 hover:scale-105";
+							cellClasses +=
+								"border-cyan-900 bg-black hover:border-cyan-600 hover:bg-cyan-950/10 hover:scale-105";
 						}
-						
+
 						return (
 							<div
 								key={cellIndex}

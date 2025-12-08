@@ -39,7 +39,7 @@ const App = () => {
 						phaseUnlocked: session.phase,
 						completedLevels: []
 					};
-					
+
 					setUserData(userData);
 					setSystemUser(userData.username);
 					setStage(STAGE_MAIN);
@@ -178,15 +178,32 @@ const App = () => {
 								</h1>
 							</div>
 							<div className="flex items-center gap-2 text-[10px] text-gray-500">
-								<span>LINGUISTIC CALIBRATION INTERFACE</span>
+								<span>
+									LINGUISTIC CALIBRATION INTERFACE
+								</span>
 								<span className="text-gray-700">|</span>
-								<span className="text-cyan-700">v2.19.5</span>
+								<span className="text-cyan-700">
+									v2.19.5
+								</span>
 							</div>
 						</div>
 						<div className="flex items-center gap-4">
 							<div className="hidden text-right text-[10px] text-gray-500 sm:block">
-								<div>USER: <span className="text-cyan-600">{systemUser}</span></div>
-								<div>SESSION_ID: <span className="text-gray-600">{Math.random().toString(36).substr(2, 8).toUpperCase()}</span></div>
+								<div>
+									USER:{" "}
+									<span className="text-cyan-600">
+										{systemUser}
+									</span>
+								</div>
+								<div>
+									SESSION_ID:{" "}
+									<span className="text-gray-600">
+										{Math.random()
+											.toString(36)
+											.substr(2, 8)
+											.toUpperCase()}
+									</span>
+								</div>
 							</div>
 							<button
 								onClick={() => {
@@ -194,7 +211,9 @@ const App = () => {
 									handleLogout();
 								}}
 								className="group relative border border-red-900/50 bg-red-950/10 px-4 py-2 text-xs text-red-400 transition-all hover:border-red-500 hover:bg-red-950/30 hover:shadow-[0_0_15px_rgba(220,38,38,0.2)]">
-								<span className="relative z-10">[ TERMINATE SESSION ]</span>
+								<span className="relative z-10">
+									[ TERMINATE SESSION ]
+								</span>
 								<div className="absolute inset-0 z-0 bg-red-900/0 transition-colors group-hover:bg-red-900/10"></div>
 							</button>
 						</div>
@@ -205,8 +224,8 @@ const App = () => {
 						<div className="absolute top-0 left-0 h-4 w-4 border-t-2 border-l-2 border-cyan-500/50"></div>
 						<div className="absolute top-0 right-0 h-4 w-4 border-t-2 border-r-2 border-cyan-500/50"></div>
 						<div className="absolute bottom-0 left-0 h-4 w-4 border-b-2 border-l-2 border-cyan-500/50"></div>
-						<div className="absolute bottom-0 right-0 h-4 w-4 border-b-2 border-r-2 border-cyan-500/50"></div>
-						
+						<div className="absolute right-0 bottom-0 h-4 w-4 border-r-2 border-b-2 border-cyan-500/50"></div>
+
 						<MainGame
 							userData={userData}
 							currentLevel={userData?.currentLevel ?? 0}
@@ -219,8 +238,18 @@ const App = () => {
 					{/* Footer Status Bar */}
 					<div className="mt-2 flex shrink-0 justify-between text-[10px] text-gray-600">
 						<div className="flex gap-4">
-							<span>NET: <span className="text-green-600">CONNECTED</span></span>
-							<span>ENCRYPTION: <span className="text-green-600">AES-256</span></span>
+							<span>
+								NET:{" "}
+								<span className="text-green-600">
+									CONNECTED
+								</span>
+							</span>
+							<span>
+								ENCRYPTION:{" "}
+								<span className="text-green-600">
+									AES-256
+								</span>
+							</span>
 						</div>
 						<div className="animate-pulse text-cyan-900">
 							AWAITING INPUT...

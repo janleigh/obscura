@@ -6,7 +6,9 @@ const Base64Cipher = () => {
 					<div className="text-xs font-bold text-orange-400">
 						B64-DECODE MODULE
 					</div>
-					<div className="text-[10px] text-orange-600">v1.5.2</div>
+					<div className="text-[10px] text-orange-600">
+						v1.5.2
+					</div>
 				</div>
 				<div className="mt-1 text-[10px] text-gray-500">
 					Standard encoding for binary-to-text transmission.
@@ -25,7 +27,8 @@ const Base64Cipher = () => {
 					<div className="flex items-center gap-2">
 						<span className="text-orange-500">►</span>
 						<span>
-							Padding character: <span className="text-white">=</span>
+							Padding character:{" "}
+							<span className="text-white">=</span>
 						</span>
 					</div>
 					<div className="flex items-center gap-2">

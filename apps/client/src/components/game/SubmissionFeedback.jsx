@@ -16,7 +16,7 @@ const SubmissionFeedback = ({ message }) => {
 	if (!message) return null;
 
 	return (
-		<div className="shrink-0 animate-fade-in my-2">
+		<div className="animate-fade-in my-2 shrink-0">
 			<div
 				className={`border-l-2 bg-black/50 p-3 text-sm backdrop-blur-sm ${
 					message.type === "success"
@@ -26,19 +26,32 @@ const SubmissionFeedback = ({ message }) => {
 							: "border-red-500 text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.1)]"
 				}`}>
 				<div className="flex items-start gap-3">
-					<div className={`mt-0.5 shrink-0 ${
-						message.type === "success" ? "animate-pulse text-green-500" : 
-						message.type === "error" ? "text-red-500" : "text-cyan-500"
-					}`}>
-						{message.type === "success" ? "✓" : message.type === "error" ? "⚠" : "ℹ"}
+					<div
+						className={`mt-0.5 shrink-0 ${
+							message.type === "success"
+								? "animate-pulse text-green-500"
+								: message.type === "error"
+									? "text-red-500"
+									: "text-cyan-500"
+						}`}>
+						{message.type === "success"
+							? "✓"
+							: message.type === "error"
+								? "⚠"
+								: "ℹ"}
 					</div>
 					<div className="flex-1 space-y-1">
 						<div className="flex items-center justify-between">
 							<span className="text-[10px] font-bold tracking-widest opacity-70">
-								{message.type === "success" ? "DECRYPTION_SUCCESS" : 
-								 message.type === "error" ? "ERROR_LOG" : "SYSTEM_MESSAGE"}
+								{message.type === "success"
+									? "DECRYPTION_SUCCESS"
+									: message.type === "error"
+										? "ERROR_LOG"
+										: "SYSTEM_MESSAGE"}
 							</span>
-							<span className="text-[10px] opacity-50">{new Date().toLocaleTimeString()}</span>
+							<span className="text-[10px] opacity-50">
+								{new Date().toLocaleTimeString()}
+							</span>
 						</div>
 						{message.type === "story" ? (
 							<div className="space-y-2">
@@ -47,7 +60,7 @@ const SubmissionFeedback = ({ message }) => {
 										{message.transmission}
 									</div>
 								)}
-								<div className="whitespace-pre-wrap font-mono text-xs leading-relaxed">
+								<div className="font-mono text-xs leading-relaxed whitespace-pre-wrap">
 									{message.text}
 								</div>
 							</div>

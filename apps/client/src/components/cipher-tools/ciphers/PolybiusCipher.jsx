@@ -17,7 +17,9 @@ const PolybiusCipher = () => {
 			<div className="border border-gray-800 bg-[#0a0a0a] p-3">
 				<div className="mb-2 flex items-center justify-between border-b border-gray-800 pb-1 text-teal-400">
 					<span className="text-[10px]">COORDINATE MATRIX</span>
-					<span className="text-[9px] opacity-50">[ROW, COL]</span>
+					<span className="text-[9px] opacity-50">
+						[ROW, COL]
+					</span>
 				</div>
 				<div className="flex justify-center">
 					<div>
@@ -32,7 +34,9 @@ const PolybiusCipher = () => {
 							))}
 						</div>
 						{POLYBIUS_GRID.map((row, rowIndex) => (
-							<div key={rowIndex} className="mb-1 flex gap-1">
+							<div
+								key={rowIndex}
+								className="mb-1 flex gap-1">
 								<div className="flex h-7 w-7 items-center justify-center text-[10px] font-bold text-teal-500">
 									{rowIndex + 1}
 								</div>

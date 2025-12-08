@@ -97,11 +97,13 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 							<div className="h-3 w-3 rounded-full bg-red-500/20"></div>
 							<div className="h-3 w-3 rounded-full bg-yellow-500/20"></div>
 							<div className="h-3 w-3 rounded-full bg-green-500/20"></div>
-							<span className="ml-2 text-xs text-gray-500">MAIL_CLIENT_V1.0</span>
+							<span className="ml-2 text-xs text-gray-500">
+								MAIL_CLIENT_V1.0
+							</span>
 						</div>
 						<div className="text-xs text-gray-600">
 							{isComplete ? (
-								<span className="text-green-400 animate-pulse">
+								<span className="animate-pulse text-green-400">
 									● CONNECTED
 								</span>
 							) : (
@@ -115,37 +117,57 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 					{/* Email Metadata Grid */}
 					<div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 border-b border-gray-800 bg-[#0c0c0c] p-6 text-xs">
 						<div className="text-gray-500">FROM:</div>
-						<div className="text-cyan-400">recruitment@obscuracollective.org</div>
-						
+						<div className="text-cyan-400">
+							recruitment@obscuracollective.org
+						</div>
+
 						<div className="text-gray-500">TO:</div>
-						<div className="text-gray-300">{userData.realName} <span className="text-gray-600">&lt;{userData.username}@candidate.obscura.net&gt;</span></div>
-						
+						<div className="text-gray-300">
+							{userData.realName}{" "}
+							<span className="text-gray-600">
+								&lt;{userData.username}
+								@candidate.obscura.net&gt;
+							</span>
+						</div>
+
 						<div className="text-gray-500">DATE:</div>
 						<div className="text-gray-400">{realTimeDate}</div>
-						
+
 						<div className="text-gray-500">SUBJECT:</div>
-						<div className="font-bold text-white tracking-wide">YOU'VE BEEN SELECTED</div>
+						<div className="font-bold tracking-wide text-white">
+							YOU'VE BEEN SELECTED
+						</div>
 					</div>
 
 					{/* Email content */}
 					<div className="scrollbar-thin scrollbar-track-black scrollbar-thumb-gray-800 flex-1 overflow-y-auto p-8 font-mono">
 						<div className="mx-auto max-w-3xl">
 							{showEmail && (
-								<div className="space-y-1 text-gray-300 leading-relaxed">
+								<div className="space-y-1 leading-relaxed text-gray-300">
 									{typedLines.map((line, index) => {
 										// Skip metadata lines in body since we show them in header
-										if (line.startsWith("From:") || line.startsWith("To:") || line.startsWith("Date:") || line.startsWith("Subject:")) return null;
-										
+										if (
+											line.startsWith("From:") ||
+											line.startsWith("To:") ||
+											line.startsWith("Date:") ||
+											line.startsWith("Subject:")
+										)
+											return null;
+
 										return (
 											<div
 												key={index}
 												className={
-													line.startsWith("─") 
-														? "text-gray-700 my-4"
-														: line.includes("Congratulations")
-															? "text-xl text-cyan-400 font-bold mb-4"
-															: line.includes("Begin Tutorial")
-																? "text-green-400 font-bold mt-4"
+													line.startsWith("─")
+														? "my-4 text-gray-700"
+														: line.includes(
+																	"Congratulations"
+															  )
+															? "mb-4 text-xl font-bold text-cyan-400"
+															: line.includes(
+																		"Begin Tutorial"
+																  )
+																? "mt-4 font-bold text-green-400"
 																: ""
 												}>
 												{line || "\u00A0"}
@@ -165,12 +187,14 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 					{/* Footer actions */}
 					<div className="border-t border-gray-800 bg-[#0f0f0f] p-4">
 						<div className="flex items-center justify-between">
-							<div className="text-xs text-gray-600 font-mono">
+							<div className="font-mono text-xs text-gray-600">
 								{isComplete ? (
 									<span>[ END OF MESSAGE ]</span>
 								) : (
 									<span>
-										PACKETS RECEIVED: {currentLineIndex}/{emailContent.length}
+										PACKETS RECEIVED:{" "}
+										{currentLineIndex}/
+										{emailContent.length}
 									</span>
 								)}
 							</div>
@@ -180,14 +204,20 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 										onClick={handleSkip}
 										disabled={isComplete}
 										className={`group border border-gray-800 bg-transparent px-4 py-2 text-xs text-gray-500 transition-colors hover:border-gray-600 hover:text-gray-300${isComplete ? " cursor-not-allowed opacity-20" : ""}`}>
-										SKIP_ANIMATION <span className="ml-2 rounded bg-gray-800 px-1 text-[10px] group-hover:bg-gray-700">ESC</span>
+										SKIP_ANIMATION{" "}
+										<span className="ml-2 rounded bg-gray-800 px-1 text-[10px] group-hover:bg-gray-700">
+											ESC
+										</span>
 									</button>
 								)}
 								{isComplete && (
 									<button
 										onClick={handleContinue}
 										className="group border border-cyan-700 bg-cyan-950/30 px-6 py-2 text-xs font-bold text-cyan-400 transition-all hover:bg-cyan-900/50 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)]">
-										INITIALIZE_SYSTEM <span className="ml-2 text-cyan-600 group-hover:text-cyan-300">⏎</span>
+										INITIALIZE_SYSTEM{" "}
+										<span className="ml-2 text-cyan-600 group-hover:text-cyan-300">
+											⏎
+										</span>
 									</button>
 								)}
 							</div>

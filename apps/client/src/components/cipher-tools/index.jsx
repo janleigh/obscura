@@ -59,13 +59,18 @@ const CipherTools = () => {
 		const games = ["vape", "zonewall", "memory", "node"];
 		const selectedGame =
 			games[Math.floor(Math.random() * games.length)];
-		setMinigameType(selectedCipher === "vigenere" ? "memory" : selectedGame);
+		setMinigameType(
+			selectedCipher === "vigenere" ? "memory" : selectedGame
+		);
 		setShowMinigame(true);
 	};
 
 	const handleMinigameSuccess = async () => {
 		setShowMinigame(false);
-		addLog("SUCCESS", "Verification completed - Initiating decryption...");
+		addLog(
+			"SUCCESS",
+			"Verification completed - Initiating decryption..."
+		);
 
 		const config = {};
 		if (selectedCipher === "vigenere") {
@@ -107,11 +112,11 @@ const CipherTools = () => {
 			<div className="flex flex-1 flex-col gap-4 overflow-hidden">
 				<div className="flex flex-1 flex-col border border-gray-700 bg-black">
 					<div className="flex items-center justify-between border-b border-gray-800 bg-[#0a0a0a] px-4 py-2">
-					<span className="text-xs font-bold text-green-400">
-						{selectedCipherLabel.toUpperCase()}
-					</span>
-				</div>
-				<div className="scrollbar-thin flex-1 space-y-4 overflow-y-auto p-4">
+						<span className="text-xs font-bold text-green-400">
+							{selectedCipherLabel.toUpperCase()}
+						</span>
+					</div>
+					<div className="scrollbar-thin flex-1 space-y-4 overflow-y-auto p-4">
 						<>
 							{/* Caesar Cipher */}
 							{selectedCipher === "caesar" && (

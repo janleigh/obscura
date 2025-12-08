@@ -14,24 +14,29 @@ const MainGame = ({ userData, currentLevel, onUserDataUpdate }) => {
 	const [activeTab, setActiveTab] = useState("solver");
 	const [notes, setNotes] = useState("");
 	const [showTutorial, setShowTutorial] = useState(true);
-	const [showingStoryFragment, setShowingStoryFragment] = useState(false);
+	const [showingStoryFragment, setShowingStoryFragment] =
+		useState(false);
 	const [storyFragmentText, setStoryFragmentText] = useState("");
 
-	const { isSubmitting, message, submitAnswer, setMessage } = useLevelSubmission(
-		userData,
-		currentLevel,
-		onUserDataUpdate,
-		(fragment) => {
-			// Callback to show story fragment
-			setStoryFragmentText(fragment);
-			setShowingStoryFragment(true);
-			// Hide after typing completes + delay
-			setTimeout(() => {
-				setShowingStoryFragment(false);
-				setMessage(null);
-			}, fragment.length * 20 + 10000); // typing duration + 10s delay
-		}
-	);
+	const { isSubmitting, message, submitAnswer, setMessage } =
+		useLevelSubmission(
+			userData,
+			currentLevel,
+			onUserDataUpdate,
+			(fragment) => {
+				// Callback to show story fragment
+				setStoryFragmentText(fragment);
+				setShowingStoryFragment(true);
+				// Hide after typing completes + delay
+				setTimeout(
+					() => {
+						setShowingStoryFragment(false);
+						setMessage(null);
+					},
+					fragment.length * 20 + 10000
+				); // typing duration + 10s delay
+			}
+		);
 
 	const level = getLevelById(currentLevel);
 
@@ -78,14 +83,24 @@ const MainGame = ({ userData, currentLevel, onUserDataUpdate }) => {
 									available calibration modules. Your
 									linguistic patterns have been recorded.
 								</p>
-								<p className="text-cyan-600 animate-pulse">
+								<p className="animate-pulse text-cyan-600">
 									Standby for further transmissions...
 								</p>
 							</div>
 							<div className="border-t border-gray-800 pt-4">
 								<div className="flex justify-center gap-4 text-xs text-gray-600">
-									<span>LEVELS COMPLETED: <span className="text-green-400">{currentLevel}</span></span>
-									<span>STATUS: <span className="text-cyan-400">AWAITING DATA</span></span>
+									<span>
+										LEVELS COMPLETED:{" "}
+										<span className="text-green-400">
+											{currentLevel}
+										</span>
+									</span>
+									<span>
+										STATUS:{" "}
+										<span className="text-cyan-400">
+											AWAITING DATA
+										</span>
+									</span>
 								</div>
 							</div>
 						</div>
@@ -123,10 +138,10 @@ const MainGame = ({ userData, currentLevel, onUserDataUpdate }) => {
 			/>
 			{/* Solver Tab */}
 			{activeTab === "solver" && (
-				<div className="flex flex-1 flex-col gap-4 p-4 overflow-hidden">
-					<div className="grid flex-1 min-h-0 grid-cols-2 gap-4">
-						<PuzzlePanel 
-							level={level} 
+				<div className="flex flex-1 flex-col gap-4 overflow-hidden p-4">
+					<div className="grid min-h-0 flex-1 grid-cols-2 gap-4">
+						<PuzzlePanel
+							level={level}
 							showingStoryFragment={showingStoryFragment}
 							storyFragmentText={storyFragmentText}
 						/>
@@ -137,7 +152,9 @@ const MainGame = ({ userData, currentLevel, onUserDataUpdate }) => {
 						<Terminal
 							onSubmit={submitAnswer}
 							isProcessing={isSubmitting}
-							feedback={<SubmissionFeedback message={message} />}
+							feedback={
+								<SubmissionFeedback message={message} />
+							}
 						/>
 					</div>
 				</div>

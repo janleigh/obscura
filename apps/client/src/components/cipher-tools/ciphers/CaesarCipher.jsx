@@ -130,10 +130,13 @@ const CaesarCipher = ({ cipherText, onCipherTextChange, addLog }) => {
 					<div className="text-xs font-bold text-yellow-500">
 						ROT-CRACK MODULE
 					</div>
-					<div className="text-[10px] text-yellow-700">v2.0.4</div>
+					<div className="text-[10px] text-yellow-700">
+						v2.0.4
+					</div>
 				</div>
 				<div className="mt-1 text-[10px] text-gray-500">
-					Automated brute-force analysis of rotation-based ciphers.
+					Automated brute-force analysis of rotation-based
+					ciphers.
 				</div>
 			</div>
 			<CipherInputForm
@@ -172,7 +175,7 @@ const CaesarCipher = ({ cipherText, onCipherTextChange, addLog }) => {
 				</div>
 			)}
 			{results.length >= 25 && (
-				<div className="animate-in fade-in duration-500 border border-green-700 bg-green-950/20 p-3">
+				<div className="animate-in fade-in border border-green-700 bg-green-950/20 p-3 duration-500">
 					<div className="mb-2 flex items-center justify-between">
 						<div className="text-xs font-bold text-green-400">
 							DECRYPTION RESULTS
@@ -201,11 +204,11 @@ const CaesarCipher = ({ cipherText, onCipherTextChange, addLog }) => {
 													`Copied result for shift ${shift}`
 												);
 											}}
-											className="hidden text-[10px] font-bold text-green-500 hover:text-green-300 group-hover:block">
+											className="hidden text-[10px] font-bold text-green-500 group-hover:block hover:text-green-300">
 											[COPY]
 										</button>
 									</div>
-									<div className="break-all font-mono text-xs text-gray-300 group-hover:text-green-400">
+									<div className="font-mono text-xs break-all text-gray-300 group-hover:text-green-400">
 										{plaintext}
 									</div>
 								</div>

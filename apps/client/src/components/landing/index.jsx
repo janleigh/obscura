@@ -56,8 +56,7 @@ const Landing = ({ onComplete }) => {
 	};
 
 	const handleRegistrationSubmit = async () => {
-		if (!username.trim() || !realName.trim() || !password)
-			return;
+		if (!username.trim() || !realName.trim() || !password) return;
 
 		if (password.length < 8) {
 			setError("PASSWORD_TOO_SHORT_MIN_8_CHARS");
@@ -76,7 +75,8 @@ const Landing = ({ onComplete }) => {
 	};
 
 	const handleKeyDown = (e) => {
-		if (e.target.tagName === "BUTTON" || e.target.tagName === "INPUT") return;
+		if (e.target.tagName === "BUTTON" || e.target.tagName === "INPUT")
+			return;
 
 		if (step === STEP_WELCOME && e.key) {
 			playSound("buttonPress");
@@ -120,7 +120,7 @@ const Landing = ({ onComplete }) => {
 			onKeyDown={handleKeyDown}
 			tabIndex={0}>
 			{/* Background Grid */}
-			<div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(18,18,18,0)_1px,transparent_1px),linear-gradient(90deg,rgba(18,18,18,0)_1px,transparent_1px)] bg-size-[40px_40px] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+			<div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(18,18,18,0)_1px,transparent_1px),linear-gradient(90deg,rgba(18,18,18,0)_1px,transparent_1px)] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] bg-size-[40px_40px]"></div>
 			<div className="relative z-10 flex min-h-screen w-full items-center justify-center p-8">
 				<div className="flex w-full max-w-2xl flex-col items-center">
 					{step === STEP_WELCOME && (
@@ -167,7 +167,9 @@ const Landing = ({ onComplete }) => {
 					)}
 					{step === STEP_LOADING && <LoadingScreen />}
 					{step === STEP_COMPLETE && <CompleteScreen />}
-					{step === STEP_ABOUT && <AboutScreen onBack={handleBackToWelcome} />}
+					{step === STEP_ABOUT && (
+						<AboutScreen onBack={handleBackToWelcome} />
+					)}
 					{step !== STEP_WELCOME && step !== STEP_ABOUT && (
 						<div className="mt-8 flex justify-center gap-8 text-[10px] text-gray-800">
 							<span>SECURE_CONNECTION_ESTABLISHED</span>
