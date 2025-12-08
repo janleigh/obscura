@@ -4,10 +4,12 @@ import {
 	getTopFrequentChars,
 } from "../../../../../../packages/shared/cipherUtils";
 import Button from "../../shared/Button";
+import useMinigameGate from "../../../hooks/useMinigameGate";
 
 const VigenereCipher = ({ cipherText, keyValue, onKeyChange, addLog }) => {
 	const [vigenereCrackState, setVigenereCrackState] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
+	const { withMinigame, PipeGameComponent, showPipeGame, closePipeGame, handleMinigameComplete } = useMinigameGate();
 
 	const analyzeVigenereKey = async () => {
 		if (!cipherText.trim()) {
@@ -76,7 +78,7 @@ const VigenereCipher = ({ cipherText, keyValue, onKeyChange, addLog }) => {
 				/>
 			</div>
 			<Button
-				onClick={analyzeVigenereKey}
+				onClick={withMinigame(analyzeVigenereKey)}
 				disabled={!cipherText.trim() || isLoading}
 				variant="primary"
 				className="w-full">
@@ -98,6 +100,7 @@ const VigenereCipher = ({ cipherText, keyValue, onKeyChange, addLog }) => {
 					</div>
 				</div>
 			)}
+			{showPipeGame && <PipeGameComponent onComplete={handleMinigameComplete} onClose={closePipeGame} />}
 		</div>
 	);
 };

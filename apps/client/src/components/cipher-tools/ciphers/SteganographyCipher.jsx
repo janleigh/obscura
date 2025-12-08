@@ -1,11 +1,13 @@
 import { useState } from "react";
 import Button from "../../shared/Button";
+import useMinigameGate from "../../../hooks/useMinigameGate";
 
 const SteganographyCipher = ({ addLog }) => {
 	const [stegoImage, setStegoImage] = useState(null);
 	const [stegoMessage, setStegoMessage] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState("");
+	const { withMinigame, PipeGameComponent, showPipeGame, closePipeGame, handleMinigameComplete } = useMinigameGate();
 
 	const handleImageUpload = (e) => {
 		const file = e.target.files[0];
@@ -154,7 +156,7 @@ const SteganographyCipher = ({ addLog }) => {
 				</div>
 			)}
 			<Button
-				onClick={decodeSteganography}
+				onClick={withMinigame(decodeSteganography)}
 				disabled={isLoading || !stegoImage}
 				variant="primary"
 				className="w-full">
@@ -175,6 +177,7 @@ const SteganographyCipher = ({ addLog }) => {
 					</div>
 				</div>
 			)}
+			{showPipeGame && <PipeGameComponent onComplete={handleMinigameComplete} onClose={closePipeGame} />}
 		</div>
 	);
 };

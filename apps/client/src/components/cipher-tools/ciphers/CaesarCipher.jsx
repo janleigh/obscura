@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { useMinigameGate } from "../../../hooks/useMinigameGate";
 import { API_ENDPOINTS } from "../../../config/api";
 import Button from "../../shared/Button";
 import ProgressBar from "../ProgressBar";
@@ -10,6 +11,7 @@ const CaesarCipher = ({ cipherText, addLog }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [result, setResult] = useState("");
 	const [error, setError] = useState("");
+	const { withMinigame, PipeGameComponent, showPipeGame, closePipeGame, handleMinigameComplete } = useMinigameGate();
 
 	const caesarBruteForce = async () => {
 		if (!cipherText.trim()) {
@@ -117,7 +119,7 @@ const CaesarCipher = ({ cipherText, addLog }) => {
 				label="BRUTE FORCE PROGRESS"
 			/>
 			<Button
-				onClick={caesarBruteForce}
+				onClick={withMinigame(caesarBruteForce)}
 				disabled={isLoading || !cipherText.trim()}
 				variant="success"
 				className="w-full font-bold">
@@ -137,6 +139,12 @@ const CaesarCipher = ({ cipherText, addLog }) => {
 						{result}
 					</div>
 				</div>
+			)}
+			{showPipeGame && (
+				<PipeGameComponent
+					onComplete={handleMinigameComplete}
+					onClose={closePipeGame}
+				/>
 			)}
 		</div>
 	);

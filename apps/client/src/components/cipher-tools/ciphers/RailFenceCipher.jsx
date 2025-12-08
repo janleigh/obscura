@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { useMinigameGate } from "../../../hooks/useMinigameGate";
 import { generateRailFencePattern } from "../../../../../../packages/shared/cipherUtils";
 import { API_ENDPOINTS } from "../../../config/api";
 import Button from "../../shared/Button";
@@ -11,6 +12,7 @@ const RailFenceCipher = ({ cipherText, rails, onRailsChange, addLog }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [result, setResult] = useState("");
 	const [error, setError] = useState("");
+	const { withMinigame, PipeGameComponent, showPipeGame, closePipeGame, handleMinigameComplete } = useMinigameGate();
 
 	const initRailGame = () => {
 		if (!cipherText.trim()) {
@@ -303,7 +305,7 @@ const RailFenceCipher = ({ cipherText, rails, onRailsChange, addLog }) => {
 				label="BRUTE FORCE PROGRESS"
 			/>
 			<Button
-				onClick={railFenceBruteForce}
+				onClick={withMinigame(railFenceBruteForce)}
 				disabled={isLoading || !cipherText.trim()}
 				variant="success"
 				className="w-full">
@@ -323,6 +325,12 @@ const RailFenceCipher = ({ cipherText, rails, onRailsChange, addLog }) => {
 						{result}
 					</div>
 				</div>
+			)}
+			{showPipeGame && (
+				<PipeGameComponent
+					onComplete={handleMinigameComplete}
+					onClose={closePipeGame}
+				/>
 			)}
 		</div>
 	);

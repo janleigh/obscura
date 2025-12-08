@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { CIPHERS_CONFIG } from "../../../../../packages/shared/cipherUtils";
 import { useActivityLog } from "../../hooks/useActivityLog";
 import { useCipherOperations } from "../../hooks/useCipherOperations";
+import useMinigameGate from "../../hooks/useMinigameGate";
 import Button from "../shared/Button";
 import ActivityLogger from "./ActivityLogger";
 import CipherInputForm from "./CipherInputForm";
@@ -17,6 +18,7 @@ const CipherTools = () => {
 	const { logs, addLog, clearLogs, logEndRef } = useActivityLog(50);
 	const { isLoading, result, error, decrypt, clearResults } =
 		useCipherOperations(addLog);
+	const { withMinigame, PipeGameComponent, showPipeGame, closePipeGame, handleMinigameComplete } = useMinigameGate();
 
 	// Initialize toolkit
 	useEffect(() => {
@@ -129,7 +131,7 @@ const CipherTools = () => {
 						{showStandardInput && (
 							<div className="pt-2">
 								<Button
-									onClick={handleDecrypt}
+									onClick={withMinigame(handleDecrypt)}
 									disabled={
 										isLoading || !cipherText.trim()
 									}
@@ -172,6 +174,7 @@ const CipherTools = () => {
 					onClear={clearLogs}
 				/>
 			</div>
+			{showPipeGame && <PipeGameComponent onComplete={handleMinigameComplete} onClose={closePipeGame} />}
 		</div>
 	);
 };
