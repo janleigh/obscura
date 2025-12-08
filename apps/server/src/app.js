@@ -28,7 +28,9 @@ class App {
 		this.app.use("/api", routes);
 
 		this.app.use("/hash", (req, res) => {
-			const gitHash = execSync("git rev-parse --short HEAD").toString().trim();
+			const gitHash = execSync("git rev-parse --short HEAD")
+				.toString()
+				.trim();
 			res.json({ gitHash });
 		});
 

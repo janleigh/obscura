@@ -48,20 +48,24 @@ export const useLevelSubmission = (
 					setTimeout(() => {
 						setMessage(null);
 						onShowStoryFragment(storyFragment);
-						
+
 						// Update user data after story fragment starts showing
-						setTimeout(() => {
-							if (onUserDataUpdate) {
-								onUserDataUpdate({
-									...userData,
-									currentLevel: nextLevelId,
-									completedLevels: [
-										...(userData.completedLevels || []),
-										currentLevel
-									]
-								});
-							}
-						}, storyFragment.length * 20 + 1000);
+						setTimeout(
+							() => {
+								if (onUserDataUpdate) {
+									onUserDataUpdate({
+										...userData,
+										currentLevel: nextLevelId,
+										completedLevels: [
+											...(userData.completedLevels ||
+												[]),
+											currentLevel
+										]
+									});
+								}
+							},
+							storyFragment.length * 20 + 1000
+						);
 					}, 1500);
 				} else {
 					// No story fragment, proceed directly

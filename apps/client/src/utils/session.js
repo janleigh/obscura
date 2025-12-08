@@ -32,7 +32,10 @@ export const saveSession = (userData) => {
 	localStorage.setItem(SESSION_KEYS.USERNAME, userData.username);
 	localStorage.setItem(SESSION_KEYS.REAL_NAME, userData.realName);
 	localStorage.setItem(SESSION_KEYS.AUTH_TOKEN, userData.username);
-	if (userData.currentLevel !== undefined && userData.currentLevel !== null) {
+	if (
+		userData.currentLevel !== undefined &&
+		userData.currentLevel !== null
+	) {
 		localStorage.setItem(
 			SESSION_KEYS.LAST_LEVEL,
 			userData.currentLevel.toString()
@@ -43,7 +46,7 @@ export const saveSession = (userData) => {
 		userId: userData.userId,
 		username: userData.username,
 		realName: userData.realName,
-		currentLevel: userData.currentLevel,
+		currentLevel: userData.currentLevel
 	});
 };
 
@@ -98,7 +101,10 @@ export const hasSession = () => {
  * @param {object} updates - Partial user data to update
  */
 export const updateSession = (updates) => {
-	if (updates.currentLevel !== undefined && updates.currentLevel !== null) {
+	if (
+		updates.currentLevel !== undefined &&
+		updates.currentLevel !== null
+	) {
 		localStorage.setItem(
 			SESSION_KEYS.LAST_LEVEL,
 			updates.currentLevel.toString()
