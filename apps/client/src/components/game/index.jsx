@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { getLevelById } from "../../../../../packages/shared/levels";
 import { useLevelSubmission } from "../../hooks/useLevelSubmission";
+import { getCharacterName, saveCharacterName } from "../../utils/session";
+import CharacterNaming from "../CharacterNaming";
 import CipherTools from "../cipher-tools";
 import PhaseKeys from "../PhaseKeys";
 import Terminal from "../terminal";
@@ -14,6 +16,7 @@ const MainGame = ({ userData, currentLevel, onUserDataUpdate }) => {
 	const [activeTab, setActiveTab] = useState("solver");
 	const [notes, setNotes] = useState("");
 	const [showTutorial, setShowTutorial] = useState(true);
+	const [characterName, setCharacterName] = useState(getCharacterName());
 
 	const { isSubmitting, message, submitAnswer } = useLevelSubmission(
 		userData,
@@ -22,6 +25,12 @@ const MainGame = ({ userData, currentLevel, onUserDataUpdate }) => {
 	);
 
 	const level = getLevelById(currentLevel);
+
+	// Handle character name changes
+	const handleCharacterNameSet = (name) => {
+		saveCharacterName(name);
+		setCharacterName(name);
+	};
 
 	// ESC to close tutorial
 	useEffect(() => {
@@ -60,6 +69,15 @@ const MainGame = ({ userData, currentLevel, onUserDataUpdate }) => {
 				onTabChange={setActiveTab}
 				onShowTutorial={() => setShowTutorial(true)}
 			/>
+			{/* Character Naming Component */}
+			<div className="border-b border-gray-800 px-4 py-2">
+				<CharacterNaming
+					userData={userData}
+					currentLevel={currentLevel}
+					onCharacterNameSet={handleCharacterNameSet}
+					characterName={characterName}
+				/>
+			</div>
 			{/* Solver Tab */}
 			{activeTab === "solver" && (
 				<div className="flex flex-1 flex-col gap-4 p-4">

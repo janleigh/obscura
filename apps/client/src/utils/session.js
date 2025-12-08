@@ -5,7 +5,8 @@ const SESSION_KEYS = {
 	USERNAME: "username",
 	REAL_NAME: "real_name",
 	LAST_LEVEL: "last_level",
-	PHASE: "phase"
+	PHASE: "phase",
+	CHARACTER_NAME: "character_name"
 };
 
 /**
@@ -42,13 +43,20 @@ export const saveSession = (userData) => {
 			userData.phaseUnlocked.toString()
 		);
 	}
+	if (userData.characterName) {
+		localStorage.setItem(
+			SESSION_KEYS.CHARACTER_NAME,
+			userData.characterName
+		);
+	}
 
 	console.log("Session saved:", {
 		userId: userData.userId,
 		username: userData.username,
 		realName: userData.realName,
 		currentLevel: userData.currentLevel,
-		phaseUnlocked: userData.phaseUnlocked
+		phaseUnlocked: userData.phaseUnlocked,
+		characterName: userData.characterName
 	});
 };
 
@@ -69,6 +77,7 @@ export const getSession = () => {
 		userId: parseInt(userId),
 		username,
 		realName,
+		characterName: localStorage.getItem(SESSION_KEYS.CHARACTER_NAME) || "CRYPTOLINGUIST",
 		lastLevel: parseInt(
 			localStorage.getItem(SESSION_KEYS.LAST_LEVEL) || "1"
 		),
@@ -96,7 +105,6 @@ export const hasSession = () => {
 		localStorage.getItem(SESSION_KEYS.REAL_NAME) !== null
 	);
 };
-
 /**
  * Update session data (for progress updates)
  * @param {object} updates - Partial user data to update
@@ -110,5 +118,26 @@ export const updateSession = (updates) => {
 	}
 	if (updates.phaseUnlocked) {
 		localStorage.setItem(SESSION_KEYS.PHASE, updates.phaseUnlocked);
+	}
+	if (updates.characterName) {
+		localStorage.setItem(SESSION_KEYS.CHARACTER_NAME, updates.characterName);
+	}
+};
+
+/**
+ * Get character name from session
+ * @returns {string} Character name or default
+ */
+export const getCharacterName = () => {
+	return localStorage.getItem(SESSION_KEYS.CHARACTER_NAME) || "CRYPTOLINGUIST";
+};
+
+/**
+ * Save character name to session
+ * @param {string} name - Character name to save
+ */
+export const saveCharacterName = (name) => {
+	if (name && name.trim()) {
+		localStorage.setItem(SESSION_KEYS.CHARACTER_NAME, name.toUpperCase());
 	}
 };
