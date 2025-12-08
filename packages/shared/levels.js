@@ -37,7 +37,8 @@ export const LEVELS = [
 		storyFragment:
 			"Steganography revealed. The art of hiding messages within images.",
 		transmission: {
-			message: "Well done. That was too easy. Try this next one. Make sure to *think outside the box*.",
+			message:
+				"Well done. That was too easy. Try this next one. Make sure to *think outside the box*.",
 			imageUrl: "/images/module-6.png",
 			type: "image",
 			storyFragment: null
@@ -49,22 +50,23 @@ export const LEVELS = [
 		phase: 1,
 		cipherType: "chain",
 		cipherText:
-			"-.- -. . --.- .... ...- --. ..-. .-.. ..-. ..-. -. .... -..- --. - .-.. . ... -.-. .. .--. .--. ..-",
+			"-..- .-- - --. -.-- -.-- -... .-- --.- .. -.-- ..- -..- --.- -..- -- .- ...-",
 		cipherData: {
 			chain: [
 				{ type: "morse", config: {} },
 				{ type: "vigenere", config: { key: "CICADA" } },
-				{ type: "atbash", config: {} },
-				{ type: "base64", config: {} }
+				{ type: "atbash", config: {} }
 			]
 		},
+		minigameType: "memory", // Memory game for complex chains
 		hintPoem:
 			"The first speaks in dots and dashes fine, then a key from secretive design. Next, reflect to see the light, and finally, encode to end the fight.",
 		answer: "ELITEBALLREFERENCE",
 		storyFragment:
 			"Cipher chain decoded. Multiple layers add complexity. Now you're ready for real calibration.",
 		transmission: {
-			message: "Excellent work. Now, let's see how you handle multiple layers. Decrypt the following chained message.",
+			message:
+				"Excellent work. Now, let's see how you handle multiple layers. Decrypt the following chained message.",
 			storyFragment: null
 		}
 	},
@@ -112,7 +114,7 @@ export const LEVELS = [
 		cipherType: "vigenere",
 		cipherText: "WHAFWANFZENRUICUWOJSHBNHDRUROERRQTD",
 		hintPoem: [
-			"Darkness fades as time moves on, All shadows fly when night is gone. Wait for the light to paint the grey, Now begins the brand new day.",
+			"Darkness fades as time moves on, All shadows fly when night is gone. Wait for the light to paint the grey, Now begins the brand new day."
 		],
 		answer: "THESTARSWERERIGHTONFEBRUARYELEVENTH",
 		storyFragment:

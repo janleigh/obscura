@@ -226,11 +226,11 @@ export const getAuthMessages = (username) => [
 			{ text: username, color: "text-cyan-400" },
 			{ text: "...", color: "text-white" }
 		],
-		delay: 400
+		delay: 300
 	},
 	{
 		text: "Authentication successful. Loading main interface...",
 		color: "text-white",
-		delay: 600
+		delay: 200
 	}
 ];

@@ -5,7 +5,7 @@ import { useTerminalHistory } from "../../hooks/useTerminalHistory";
 import TerminalHistory from "./TerminalHistory";
 import TerminalInput from "./TerminalInput";
 
-const Terminal = ({ onSubmit, isProcessing }) => {
+const Terminal = ({ onSubmit, isProcessing, feedback }) => {
 	const [command, setCommand] = useState("");
 	const { playSound } = useSound();
 	const { history, addEntry, clearHistory, historyEndRef } =
@@ -41,11 +41,12 @@ const Terminal = ({ onSubmit, isProcessing }) => {
 	};
 
 	return (
-		<div className="font-kode-mono flex h-full flex-col bg-black">
+		<div className="terminal-container font-kode-mono flex h-full flex-col border border-gray-800 bg-black transition-colors duration-200 focus-within:border-cyan-600">
 			<TerminalHistory
 				history={history}
 				historyEndRef={historyEndRef}
 			/>
+			{feedback}
 			<TerminalInput
 				value={command}
 				onChange={setCommand}

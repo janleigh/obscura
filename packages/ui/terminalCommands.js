@@ -33,7 +33,7 @@ export const parseCommand = (cmd, onSubmit) => {
 	}
 
 	// Clear command
-	if (trimmedCmd === "/clear") {
+	if (trimmedCmd === "/clear" || trimmedCmd === "/cls") {
 		return { clear: true };
 	}
 
@@ -45,7 +45,7 @@ export const parseCommand = (cmd, onSubmit) => {
 		};
 	}
 
-	// Treat as direct answer submission
+	// If command without /, treat entire input as answer
 	const answer = trimmedCmd.toUpperCase();
 	onSubmit(answer);
 	return {

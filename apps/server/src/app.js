@@ -1,5 +1,6 @@
-import express from "express";
+import { execSync } from "child_process";
 import cors from "cors";
+import express from "express";
 import routes from "./routes/index.js";
 import prisma from "./services/PrismaService.js";
 
@@ -25,6 +26,11 @@ class App {
 	setupRoutes() {
 		// Mount all routes under /api
 		this.app.use("/api", routes);
+
+		this.app.use("/hash", (req, res) => {
+			const gitHash = execSync("git rev-parse --short HEAD").toString().trim();
+			res.json({ gitHash });
+		});
 
 		// Global 404 handler for unknown routes
 		this.app.use((req, res) => {

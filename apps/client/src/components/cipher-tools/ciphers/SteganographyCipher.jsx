@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { useSound } from "../../../hooks/useSound";
 import Button from "../../shared/Button";
+import { VAPEGame, ZoneWallGame } from "../minigames";
 
 const SteganographyCipher = ({ addLog }) => {
 	const [stegoImage, setStegoImage] = useState(null);
 	const [stegoMessage, setStegoMessage] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState("");
+	const [showMinigame, setShowMinigame] = useState(false);
+	const [minigameType, setMinigameType] = useState(null);
+	const [delay, setDelay] = useState(0);
 	const { playSound } = useSound();
 
 	const handleImageUpload = (e) => {
@@ -34,20 +38,43 @@ const SteganographyCipher = ({ addLog }) => {
 		}
 	};
 
-	const decodeSteganography = async () => {
+	const initiateScan = () => {
 		if (!stegoImage) {
 			setError("Please upload an image first");
 			addLog("ERROR", "No image loaded for STEGO-SCANNER");
 			return;
 		}
 
-		addLog("INFO", "Initializing LSB extraction scan...");
+		setError("");
+		setDelay(0);
+		setStegoMessage("");
+		addLog("INFO", "Launching two-factor authentication...");
+		const games = ["vape", "zonewall"];
+		const selectedGame = games[Math.floor(Math.random() * games.length)];
+		setMinigameType(selectedGame);
+		setShowMinigame(true);
+	};
+
+	const handleMinigameFailure = () => {
+		setShowMinigame(false);
+		addLog("WARN", "Verification failed - Adding security delay...");
+		setDelay(300);
+		handleMinigameSuccess();
+	};
+
+	const handleMinigameSuccess = async (showSuccess) => {
+		setShowMinigame(false);
+
+		if (showSuccess === true) {
+			addLog("SUCCESS", "Verification completed - Initializing LSB extraction...");
+		}
+
 		setIsLoading(true);
 
 		const img = new Image();
 		img.onload = async () => {
 			addLog("SCAN", "Image loaded, extracting pixel data...");
-			await new Promise((resolve) => setTimeout(resolve, 600));
+			await new Promise((resolve) => setTimeout(resolve, 600 + delay));
 
 			const canvas = document.createElement("canvas");
 			canvas.width = img.width;
@@ -119,23 +146,26 @@ const SteganographyCipher = ({ addLog }) => {
 
 	return (
 		<div className="space-y-3">
-			<div className="border border-pink-900 bg-pink-950/20 p-3">
-				<div className="mb-2 text-xs text-pink-400">
-					STEGO-SCANNER (LSB)
+			<div className="border-l-2 border-pink-500 bg-pink-950/10 p-3">
+				<div className="flex items-center justify-between">
+					<div className="text-xs font-bold text-pink-400">
+						STEGO-SCANNER MODULE
+					</div>
+					<div className="text-[10px] text-pink-600">v5.0.2</div>
 				</div>
-				<div className="text-[10px] text-gray-500">
-					Extract hidden messages from image LSB channels.
+				<div className="mt-1 text-[10px] text-gray-500">
+					LSB extraction tool for image steganography.
 				</div>
 			</div>
-			<div className="space-y-2">
-				<label className="text-xs text-gray-500">
-					UPLOAD TARGET IMAGE
+			<div className="space-y-2 border border-gray-800 bg-black/40 p-3">
+				<label className="text-[10px] text-gray-500">
+					TARGET IMAGE UPLOAD
 				</label>
 				<input
 					type="file"
 					accept="image/*"
 					onChange={handleImageUpload}
-					className="w-full border border-gray-700 bg-[#0a0a0a] px-2 py-2 text-xs text-green-400 outline-none file:mr-2 file:cursor-pointer file:border file:border-gray-700 file:bg-gray-900 file:px-3 file:py-1 file:text-xs file:text-green-400 hover:file:bg-gray-800 focus:border-green-400"
+					className="w-full border border-gray-700 bg-[#0a0a0a] px-2 py-2 text-xs text-green-400 outline-none file:mr-2 file:cursor-pointer file:border file:border-gray-700 file:bg-gray-900 file:px-3 file:py-1 file:text-xs file:text-green-400 file:transition-colors hover:file:bg-gray-800 focus:border-green-400"
 				/>
 			</div>
 			{stegoImage && (
@@ -151,30 +181,66 @@ const SteganographyCipher = ({ addLog }) => {
 							}}
 						/>
 					</div>
-					<div className="text-[10px] text-gray-600">
+					<div className="flex items-center gap-2 text-[10px] text-gray-600">
+						<span className="h-2 w-2 animate-pulse rounded-full bg-green-500"></span>
 						Ready for LSB extraction from RGB channels
 					</div>
 				</div>
 			)}
 			<Button
-				onClick={decodeSteganography}
+				onClick={initiateScan}
 				disabled={isLoading || !stegoImage}
 				variant="primary"
-				className="w-full">
+				className="w-full font-bold">
 				{isLoading ? "PROCESSING..." : "SCAN IMAGE"}
 			</Button>
+			{/* Minigame Modal */}
+			{showMinigame && minigameType === "vape" && (
+				<VAPEGame
+					onSuccess={handleMinigameSuccess}
+					onCancel={() => {
+						setShowMinigame(false);
+						setMinigameType(null);
+						addLog("INFO", "Verification aborted");
+					}}
+					onFailure={handleMinigameFailure}
+				/>
+			)}
+			{showMinigame && minigameType === "zonewall" && (
+				<ZoneWallGame
+					onSuccess={handleMinigameSuccess}
+					onCancel={() => {
+						setShowMinigame(false);
+						setMinigameType(null);
+						addLog("INFO", "Verification aborted");
+					}}
+					onFailure={handleMinigameFailure}
+				/>
+			)}
 			{error && (
 				<div className="border border-red-700 bg-red-950/30 p-3 text-xs text-red-300">
 					{error}
 				</div>
 			)}
 			{stegoMessage && (
-				<div className="border border-green-700 bg-green-950/20 p-3">
-					<div className="mb-2 text-xs font-bold text-green-400">
-						DECRYPTION SUCCESSFUL
+				<div className="animate-in fade-in duration-500 border border-green-700 bg-green-950/20 p-3">
+					<div className="mb-2 flex items-center justify-between">
+						<div className="text-xs font-bold text-green-400">
+							EXTRACTION SUCCESSFUL
+						</div>
+						<button
+							onClick={() => {
+								navigator.clipboard.writeText(stegoMessage);
+								addLog("SUCCESS", "Result copied to clipboard");
+							}}
+							className="text-[10px] font-bold text-green-600 hover:text-green-400">
+							[COPY RESULT]
+						</button>
 					</div>
-					<div className="border border-gray-700 bg-[#0a0a0a] p-3 font-mono text-xs break-all text-green-400">
-						{stegoMessage}
+					<div className="border border-gray-700 bg-[#0a0a0a] p-3">
+						<div className="font-mono text-xs break-all text-green-400">
+							{stegoMessage}
+						</div>
 					</div>
 				</div>
 			)}

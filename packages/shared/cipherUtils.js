@@ -24,7 +24,7 @@ export const CIPHERS_CONFIG = [
 	},
 	{
 		value: "railfence",
-		label: "RAIL-PUZZLE.GME"
+		label: "RAIL.FNC"
 	},
 	{
 		value: "morse",
@@ -232,21 +232,6 @@ export const BACONIAN_REVERSE = Object.entries(BACONIAN_ALPHABET).reduce(
 	},
 	{}
 );
-
-/**
- * Cipher difficulty ratings
- */
-export const CIPHER_DIFFICULTY = {
-	caesar: "TRIVIAL",
-	atbash: "TRIVIAL",
-	base64: "EASY",
-	morse: "EASY",
-	polybius: "MEDIUM",
-	baconian: "MEDIUM",
-	steganography: "MEDIUM",
-	railfence: "HARD",
-	vigenere: "HARD"
-};
 
 /**
  * Cipher processing time delays (in ms)

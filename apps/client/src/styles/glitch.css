@@ -34,26 +34,7 @@
 	animation-duration: 0.1s;
 }
 
-/* Scanlines */
-.scanlines {
-	background: linear-gradient(
-		to bottom,
-		transparent 50%,
-		rgba(0, 255, 0, 0.02) 51%
-	);
-	background-size: 100% 4px;
-	animation: scanline 8s linear infinite;
-}
-
-@keyframes scanline {
-	0% {
-		background-position: 0 0;
-	}
-	100% {
-		background-position: 0 100%;
-	}
-}
-
+/* Scanlines variations */
 .scanlines--aggressive,
 .scanlines--extreme {
 	animation-duration: 4s;

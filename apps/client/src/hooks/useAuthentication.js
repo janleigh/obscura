@@ -7,23 +7,21 @@ export const useAuthentication = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(null);
 
-	const login = async (username) => {
-		if (!username.trim()) return null;
+	const login = async (username, password) => {
+		if (!username.trim() || !password) return null;
 
 		setIsLoading(true);
 		setError(null);
 
 		try {
 			const response = await axios.post(API_ENDPOINTS.GAME_START, {
-				username: username.trim()
+				username: username.trim(),
+				password: password
 			});
 
 			const userData = response.data;
 
-			// Check if realName is missing (new user or incomplete registration)
-			if (!userData.realName) {
-				return { needsRegistration: true, userData };
-			} else if (userData.userId) {
+			if (userData.userId) {
 				saveSession(userData);
 				return { success: true, userData };
 			} else {
@@ -41,8 +39,13 @@ export const useAuthentication = () => {
 		}
 	};
 
-	const register = async (username, realName) => {
-		if (!realName.trim()) return null;
+	const register = async (username, realName, password) => {
+		if (!realName.trim() || !password) return null;
+
+		if (password.length < 8) {
+			setError("Password must be at least 8 characters");
+			return { error: "Password must be at least 8 characters" };
+		}
 
 		setIsLoading(true);
 		setError(null);
@@ -50,7 +53,8 @@ export const useAuthentication = () => {
 		try {
 			const response = await axios.post(API_ENDPOINTS.GAME_START, {
 				username: username.trim(),
-				realName: realName.trim()
+				realName: realName.trim(),
+				password: password
 			});
 
 			const userData = response.data;

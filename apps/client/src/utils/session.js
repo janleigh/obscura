@@ -5,7 +5,8 @@ const SESSION_KEYS = {
 	USERNAME: "username",
 	REAL_NAME: "real_name",
 	LAST_LEVEL: "last_level",
-	PHASE: "phase"
+	PHASE: "phase",
+	AUTH_TOKEN: "auth_token"
 };
 
 /**
@@ -30,16 +31,11 @@ export const saveSession = (userData) => {
 	localStorage.setItem(SESSION_KEYS.USER_ID, userData.userId.toString());
 	localStorage.setItem(SESSION_KEYS.USERNAME, userData.username);
 	localStorage.setItem(SESSION_KEYS.REAL_NAME, userData.realName);
-	if (userData.currentLevel) {
+	localStorage.setItem(SESSION_KEYS.AUTH_TOKEN, userData.username);
+	if (userData.currentLevel !== undefined && userData.currentLevel !== null) {
 		localStorage.setItem(
 			SESSION_KEYS.LAST_LEVEL,
 			userData.currentLevel.toString()
-		);
-	}
-	if (userData.phaseUnlocked) {
-		localStorage.setItem(
-			SESSION_KEYS.PHASE,
-			userData.phaseUnlocked.toString()
 		);
 	}
 
@@ -48,7 +44,6 @@ export const saveSession = (userData) => {
 		username: userData.username,
 		realName: userData.realName,
 		currentLevel: userData.currentLevel,
-		phaseUnlocked: userData.phaseUnlocked
 	});
 };
 
@@ -70,9 +65,10 @@ export const getSession = () => {
 		username,
 		realName,
 		lastLevel: parseInt(
-			localStorage.getItem(SESSION_KEYS.LAST_LEVEL) || "1"
+			localStorage.getItem(SESSION_KEYS.LAST_LEVEL) || "0"
 		),
-		phase: parseInt(localStorage.getItem(SESSION_KEYS.PHASE) || "1")
+		phase: parseInt(localStorage.getItem(SESSION_KEYS.PHASE) || "1"),
+		authToken: localStorage.getItem(SESSION_KEYS.AUTH_TOKEN)
 	};
 };
 
@@ -102,13 +98,10 @@ export const hasSession = () => {
  * @param {object} updates - Partial user data to update
  */
 export const updateSession = (updates) => {
-	if (updates.currentLevel) {
+	if (updates.currentLevel !== undefined && updates.currentLevel !== null) {
 		localStorage.setItem(
 			SESSION_KEYS.LAST_LEVEL,
-			updates.currentLevel
+			updates.currentLevel.toString()
 		);
-	}
-	if (updates.phaseUnlocked) {
-		localStorage.setItem(SESSION_KEYS.PHASE, updates.phaseUnlocked);
 	}
 };

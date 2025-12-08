@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import {
 	getLevelById,
 	PHASE_KEYS,
@@ -24,18 +25,32 @@ class GameController extends BaseController {
 	 */
 	async startGame(req, res) {
 		try {
-			const { username, realName } = req.body;
+			const { username, realName, password } = req.body;
 
 			if (!username) {
 				return this.error(res, "Username is required", 400);
 			}
 
-			// Check if user exists duh
+			// Check if user exists
 			const existingUser = await prisma.user.findUnique({
 				where: { username }
 			});
 
 			if (existingUser) {
+				// Existing user - validate password
+				if (!password) {
+					return this.error(res, "Password is required", 400);
+				}
+
+				const isPasswordValid = await bcrypt.compare(
+					password,
+					existingUser.password
+				);
+
+				if (!isPasswordValid) {
+					return this.error(res, "Invalid password", 401);
+				}
+
 				// Update last active and realName if provided
 				const updateData = { lastActive: new Date() };
 				if (realName && !existingUser.realName) {
@@ -69,16 +84,39 @@ class GameController extends BaseController {
 					),
 					message: "Session resumed"
 				});
-			} // If not, we create new user
+			}
+
+			// New user - require password
+			if (!password) {
+				return this.error(
+					res,
+					"Password is required for registration",
+					400
+				);
+			}
+
+			if (password.length < 8) {
+				return this.error(
+					res,
+					"Password must be at least 8 characters",
+					400
+				);
+			}
+
+			// Hash password
+			const hashedPassword = await bcrypt.hash(password, 10);
+
+			// Create new user
 			const newUser = await prisma.user.create({
 				data: {
 					username,
+					password: hashedPassword,
 					realName: realName || null,
 					currentLevel: 0
 				}
 			});
 
-			// Then log it. CAUSE TELEMETRY BABY
+			// Log it
 			await prisma.log.create({
 				data: {
 					userId: newUser.id,

@@ -1,18 +1,40 @@
 const NotebookPanel = ({ notes, onChange }) => {
+	const lines = notes.split('\n');
+	const lineCount = lines.length;
+
 	return (
-		<div className="flex min-h-[300px] flex-col border border-gray-800 bg-black">
-			<div className="shrink-0 border-b border-gray-800 bg-[#0a0a0a] px-4 py-2">
-				<span className="text-xs font-bold tracking-wider text-green-400">
-					NOTEBOOK
-				</span>
+		<div className="notebook-panel flex h-full flex-col border border-gray-800 bg-black transition-colors duration-200 focus-within:border-cyan-600/50">
+			<div className="flex shrink-0 items-center justify-between border-b border-gray-800 bg-[#0a0a0a] px-3 py-2">
+				<div className="flex items-center gap-2">
+					<span className="text-xs font-bold tracking-wider text-green-400">
+						FIELD NOTES MODULE
+					</span>
+					<span className="rounded bg-green-900/30 px-1 py-0.5 text-[9px] text-green-600">
+						v1.0
+					</span>
+				</div>
+				<div className="text-[9px] text-gray-600">AUTO-SAVE ACTIVE</div>
 			</div>
-			<div className="min-h-0 flex-1 overflow-hidden p-4">
-				<textarea
-					value={notes}
-					onChange={(e) => onChange(e.target.value)}
-					placeholder="Insert your notes here..."
-					className="scrollbar-thin h-full w-full resize-none border-none bg-transparent font-mono text-xs text-gray-400 outline-none"
-				/>
+			<div className="min-h-0 flex-1 overflow-hidden flex">
+				{/* Line numbers */}
+				<div className="shrink-0 border-r border-gray-800 bg-[#050505] px-2 py-4 select-none">
+					<div className="font-mono text-xs text-gray-700 leading-normal">
+						{Array.from({ length: Math.max(lineCount, 1) }, (_, i) => (
+							<div key={i} className="text-right">
+								{String(i + 1).padStart(2, '0')}
+							</div>
+						))}
+					</div>
+				</div>
+				{/* Textarea */}
+				<div className="flex-1 bg-black/50">
+					<textarea
+						value={notes}
+						onChange={(e) => onChange(e.target.value)}
+						placeholder="// Enter your observations here..."
+						className="scrollbar-thin h-full w-full resize-none border-none bg-transparent p-4 font-mono text-xs text-gray-300 outline-none leading-normal placeholder-gray-700"
+					/>
+				</div>
 			</div>
 		</div>
 	);

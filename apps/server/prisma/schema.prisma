@@ -13,18 +13,15 @@ datasource db {
 model User {
   id              Int      @id @default(autoincrement())
   username        String   @unique
+  password        String   // bcrypt hashed password
   realName        String?  @map("real_name")
   currentLevel    Int      @default(0) @map("current_level")
-  score           Int      @default(0)
   joinedAt        DateTime @default(now()) @map("joined_at")
-  phaseUnlocked   Int      @default(1) @map("phase_unlocked")
   lastActive      DateTime @default(now()) @map("last_active")
   completedLevels String   @default("[]") @map("completed_levels") // JSON array of completed level IDs
 
   logs            Log[]
   phaseKeys       PlayerPhaseKey[]
-  discoveries     PlayerDiscovery[]
-  leaderboard     Leaderboard?
 
   @@index([username])
   @@map("users")
@@ -72,45 +69,4 @@ model Log {
   @@index([userId])
   @@index([createdAt])
   @@map("logs")
-}
-
-model HiddenPage {
-  id                  Int      @id @default(autoincrement())
-  path                String   @unique
-  content             String?
-  contentType         String   @default("json") @map("content_type")
-  unlockRequirement   String?  @map("unlock_requirement")
-  isDiscoverable      Boolean  @default(false) @map("is_discoverable")
-  createdAt           DateTime @default(now()) @map("created_at")
-
-  @@map("hidden_pages")
-}
-
-model PlayerDiscovery {
-  id              Int      @id @default(autoincrement())
-  userId          Int      @map("user_id")
-  discoveryType   String   @map("discovery_type")
-  discoveryKey    String   @map("discovery_key")
-  discoveredAt    DateTime @default(now()) @map("discovered_at")
-
-  user            User     @relation(fields: [userId], references: [id])
-
-  @@unique([userId, discoveryKey])
-  @@map("player_discoveries")
-}
-
-model Leaderboard {
-  id                Int      @id @default(autoincrement())
-  userId            Int      @unique @map("user_id")
-  username          String
-  totalScore        Int      @default(0) @map("total_score")
-  levelsCompleted   Int      @default(0) @map("levels_completed")
-  phaseReached      Int      @default(1) @map("phase_reached")
-  rankPosition      Int?     @map("rank_position")
-  updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
-
-  user              User     @relation(fields: [userId], references: [id])
-
-  @@index([totalScore])
-  @@map("leaderboard")
 }

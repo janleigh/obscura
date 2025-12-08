@@ -13,6 +13,32 @@ const KERNEL_PHASE = 0;
 const BOOT_PHASE = 1;
 const AUTO_LOGIN_PHASE = 2;
 
+const ASCII_LOGO = `
+   ____  ____  ___  ___ _   _ ____    _    
+  / _ \\| __ )/ _ \\/ __| | | |  _ \\  / \\   
+ | | | |  _ \\ (_) \\__ \\ | | | |_) |/ _ \\  
+ | |_| | |_) \\__, |___/ |_| |  _ < / ___ \\ 
+  \\___/|____/  /_/|___/\\___/|_| \\_/_/   \\_\\
+`;
+
+const MemoryCheck = () => {
+	const [mem, setMem] = useState(0);
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setMem((m) => {
+				if (m >= 65536) {
+					clearInterval(interval);
+					return 65536;
+				}
+				return m + 892;
+			});
+		}, 20);
+		return () => clearInterval(interval);
+	}, []);
+
+	return <span>RAM SYSTEM CHECK: {mem} KB OK</span>;
+};
+
 const TerminalBoot = ({ userData, onBootComplete }) => {
 	const [phase, setPhase] = useState(KERNEL_PHASE);
 	const [bootLines, setBootLines] = useState([]);
@@ -52,6 +78,7 @@ const TerminalBoot = ({ userData, onBootComplete }) => {
 				}, 500);
 			} else if (phase === BOOT_PHASE) {
 				setTimeout(() => {
+					setBootLines([]);
 					setCurrentLineIndex(0);
 					setPhase(AUTO_LOGIN_PHASE);
 				}, 700);
@@ -80,10 +107,27 @@ const TerminalBoot = ({ userData, onBootComplete }) => {
 	}, [bootLines]);
 
 	return (
-		<div className="font-kode-mono fixed inset-0 overflow-hidden bg-[#0a0a0a] text-sm">
+		<div className="font-kode-mono fixed inset-0 overflow-hidden bg-[#0a0a0a] text-sm text-[#f0f0f0] selection:bg-[#f0f0f0] selection:text-[#0a0a0a]">
 			<div
 				ref={terminalRef}
-				className="scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 crt-glow h-full w-full overflow-y-auto p-4">
+				className="scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 crt-glow h-full w-full overflow-y-auto p-8 flex flex-col gap-1">
+				<div className="mb-6 select-none opacity-80">
+					<pre className="text-green-500 font-bold leading-none tracking-tighter">
+						{ASCII_LOGO}
+					</pre>
+				</div>
+
+				<div className="mb-6 border-b border-gray-800 pb-4 text-xs text-gray-500">
+					<div className="flex justify-between">
+						<span>OBSCURA BIOS v2.19.5 (RELEASE)</span>
+						<MemoryCheck />
+					</div>
+					<div className="flex justify-between mt-1">
+						<span>COPYRIGHT (C) 2019 THE OBSCURA COLLECTIVE</span>
+						<span>CPU: QUANTUM-CORE @ 4.20GHz</span>
+					</div>
+				</div>
+
 				{bootLines.map((line, index) => (
 					<BootMessage key={index} line={line} />
 				))}

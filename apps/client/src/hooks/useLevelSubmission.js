@@ -5,7 +5,8 @@ import { API_ENDPOINTS } from "../config/api";
 export const useLevelSubmission = (
 	userData,
 	currentLevel,
-	onUserDataUpdate
+	onUserDataUpdate,
+	onShowStoryFragment
 ) => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [message, setMessage] = useState(null);
@@ -42,32 +43,40 @@ export const useLevelSubmission = (
 					text: "✓ CIPHER DECRYPTED!"
 				});
 
-				// Show story fragment before proceeding
-				if (storyFragment) {
+				// Show story fragment before proceeding to next level
+				if (storyFragment && onShowStoryFragment) {
 					setTimeout(() => {
-						setMessage({
-							type: "story",
-							text: storyFragment,
-							transmission: transmission?.message
-						});
+						setMessage(null);
+						onShowStoryFragment(storyFragment);
+						
+						// Update user data after story fragment starts showing
+						setTimeout(() => {
+							if (onUserDataUpdate) {
+								onUserDataUpdate({
+									...userData,
+									currentLevel: nextLevelId,
+									completedLevels: [
+										...(userData.completedLevels || []),
+										currentLevel
+									]
+								});
+							}
+						}, storyFragment.length * 20 + 1000);
 					}, 1500);
+				} else {
+					// No story fragment, proceed directly
+					if (onUserDataUpdate) {
+						onUserDataUpdate({
+							...userData,
+							currentLevel: nextLevelId,
+							completedLevels: [
+								...(userData.completedLevels || []),
+								currentLevel
+							]
+						});
+					}
+					setTimeout(() => setMessage(null), 3000);
 				}
-
-				if (onUserDataUpdate) {
-					onUserDataUpdate({
-						...userData,
-						currentLevel: nextLevelId,
-						completedLevels: [
-							...(userData.completedLevels || []),
-							currentLevel
-						]
-					});
-				}
-
-				// Clear for the next level
-				setTimeout(() => {
-					setMessage(null);
-				}, 5000);
 			} else {
 				setMessage({
 					type: "error",

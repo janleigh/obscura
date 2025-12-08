@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
 export const useTypingEffect = (text, speed = 30, enabled = true) => {
-	const [displayedText, setDisplayedText] = useState("");
+	const [displayedText, setDisplayedText] = useState(enabled ? "" : text);
 	const [currentIndex, setCurrentIndex] = useState(0);
-	const [isComplete, setIsComplete] = useState(false);
+	const [isComplete, setIsComplete] = useState(!enabled);
 
 	useEffect(() => {
 		if (!enabled) {

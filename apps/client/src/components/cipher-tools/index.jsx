@@ -7,12 +7,15 @@ import ActivityLogger from "./ActivityLogger";
 import CipherInputForm from "./CipherInputForm";
 import CipherToolList from "./CipherToolList";
 import * as Ciphers from "./ciphers";
+import { MemoryGame, NodeGame, VAPEGame, ZoneWallGame } from "./minigames";
 
 const CipherTools = () => {
 	const [cipherText, setCipherText] = useState("");
 	const [key, setKey] = useState("");
 	const [selectedCipher, setSelectedCipher] = useState("caesar");
 	const [rails, setRails] = useState(3);
+	const [showMinigame, setShowMinigame] = useState(false);
+	const [minigameType, setMinigameType] = useState(null);
 
 	const { logs, addLog, clearLogs, logEndRef } = useActivityLog(50);
 	const { isLoading, result, error, decrypt, clearResults } =
@@ -51,7 +54,37 @@ const CipherTools = () => {
 			addLog("CONFIG", `Key length: ${key.length} characters`);
 		}
 
+		// Launch minigame before decryption
+		addLog("INFO", "Launching two-factor authentication...");
+		const games = ["vape", "zonewall", "memory", "node"];
+		const selectedGame =
+			games[Math.floor(Math.random() * games.length)];
+		setMinigameType(selectedCipher === "vigenere" ? "memory" : selectedGame);
+		setShowMinigame(true);
+	};
+
+	const handleMinigameSuccess = async () => {
+		setShowMinigame(false);
+		addLog("SUCCESS", "Verification completed - Initiating decryption...");
+
+		const config = {};
+		if (selectedCipher === "vigenere") {
+			config.key = key;
+		}
+
 		await decrypt(cipherText, selectedCipher, config);
+	};
+
+	const handleMinigameCancel = () => {
+		setShowMinigame(false);
+		setMinigameType(null);
+		addLog("INFO", "Verification aborted");
+	};
+
+	const handleMinigameFailure = () => {
+		setShowMinigame(false);
+		setMinigameType(null);
+		addLog("WARN", "Verification failed - Adding security delay...");
 	};
 
 	const showSteganography = selectedCipher === "steganography";
@@ -74,65 +107,71 @@ const CipherTools = () => {
 			<div className="flex flex-1 flex-col gap-4 overflow-hidden">
 				<div className="flex flex-1 flex-col border border-gray-700 bg-black">
 					<div className="flex items-center justify-between border-b border-gray-800 bg-[#0a0a0a] px-4 py-2">
-						<span className="text-xs font-bold text-green-400">
-							{selectedCipherLabel.toUpperCase()}
-						</span>
-					</div>
-					<div className="scrollbar-thin flex-1 space-y-4 overflow-y-auto p-4">
-						{!showSteganography && (
+					<span className="text-xs font-bold text-green-400">
+						{selectedCipherLabel.toUpperCase()}
+					</span>
+				</div>
+				<div className="scrollbar-thin flex-1 space-y-4 overflow-y-auto p-4">
+						<>
+							{/* Caesar Cipher */}
+							{selectedCipher === "caesar" && (
+								<Ciphers.CaesarCipher
+									cipherText={cipherText}
+									onCipherTextChange={setCipherText}
+									addLog={addLog}
+								/>
+							)}
+							{/* Vigenere Cipher */}
+							{selectedCipher === "vigenere" && (
+								<Ciphers.VigenereCipher
+									cipherText={cipherText}
+									keyValue={key}
+									onKeyChange={setKey}
+									addLog={addLog}
+								/>
+							)}
+							{/* Rail Fence Cipher */}
+							{selectedCipher === "railfence" && (
+								<Ciphers.RailFenceCipher
+									cipherText={cipherText}
+									onCipherTextChange={setCipherText}
+									rails={rails}
+									onRailsChange={setRails}
+									addLog={addLog}
+								/>
+							)}
+							{/* Polybius Cipher */}
+							{selectedCipher === "polybius" && (
+								<Ciphers.PolybiusCipher />
+							)}
+							{/* Atbash Cipher */}
+							{selectedCipher === "atbash" && (
+								<Ciphers.AtbashCipher />
+							)}
+							{/* Base64 Cipher */}
+							{selectedCipher === "base64" && (
+								<Ciphers.Base64Cipher />
+							)}
+							{/* Morse Cipher */}
+							{selectedCipher === "morse" && (
+								<Ciphers.MorseCipher />
+							)}
+							{/* Baconian Cipher */}
+							{selectedCipher === "baconian" && (
+								<Ciphers.BaconianCipher />
+							)}
+							{/* Steganography */}
+							{selectedCipher === "steganography" && (
+								<Ciphers.SteganographyCipher
+									addLog={addLog}
+								/>
+							)}
+						</>
+						{showStandardInput && (
 							<CipherInputForm
 								value={cipherText}
 								onChange={setCipherText}
 							/>
-						)}
-						{/* Caesar Cipher */}
-						{selectedCipher === "caesar" && (
-							<Ciphers.CaesarCipher
-								cipherText={cipherText}
-								addLog={addLog}
-							/>
-						)}
-						{/* Vigenere Cipher */}
-						{selectedCipher === "vigenere" && (
-							<Ciphers.VigenereCipher
-								cipherText={cipherText}
-								keyValue={key}
-								onKeyChange={setKey}
-								addLog={addLog}
-							/>
-						)}
-						{/* Rail Fence Cipher */}
-						{selectedCipher === "railfence" && (
-							<Ciphers.RailFenceCipher
-								cipherText={cipherText}
-								rails={rails}
-								onRailsChange={setRails}
-								addLog={addLog}
-							/>
-						)}
-						{/* Polybius Cipher */}
-						{selectedCipher === "polybius" && (
-							<Ciphers.PolybiusCipher />
-						)}
-						{/* Atbash Cipher */}
-						{selectedCipher === "atbash" && (
-							<Ciphers.AtbashCipher />
-						)}
-						{/* Base64 Cipher */}
-						{selectedCipher === "base64" && (
-							<Ciphers.Base64Cipher />
-						)}
-						{/* Morse Cipher */}
-						{selectedCipher === "morse" && (
-							<Ciphers.MorseCipher />
-						)}
-						{/* Baconian Cipher */}
-						{selectedCipher === "baconian" && (
-							<Ciphers.BaconianCipher />
-						)}
-						{/* Steganography */}
-						{selectedCipher === "steganography" && (
-							<Ciphers.SteganographyCipher addLog={addLog} />
 						)}
 						{/* Execute Button for standard ciphers */}
 						{showStandardInput && (
@@ -149,6 +188,35 @@ const CipherTools = () => {
 										: "EXECUTE DECRYPT"}
 								</Button>
 							</div>
+						)}
+						{/* Minigame Modals */}
+						{showMinigame && minigameType === "vape" && (
+							<VAPEGame
+								onSuccess={handleMinigameSuccess}
+								onCancel={handleMinigameCancel}
+								onFailure={handleMinigameFailure}
+							/>
+						)}
+						{showMinigame && minigameType === "zonewall" && (
+							<ZoneWallGame
+								onSuccess={handleMinigameSuccess}
+								onCancel={handleMinigameCancel}
+								onFailure={handleMinigameFailure}
+							/>
+						)}
+						{showMinigame && minigameType === "memory" && (
+							<MemoryGame
+								onSuccess={handleMinigameSuccess}
+								onCancel={handleMinigameCancel}
+								onFailure={handleMinigameFailure}
+							/>
+						)}
+						{showMinigame && minigameType === "node" && (
+							<NodeGame
+								onSuccess={handleMinigameSuccess}
+								onCancel={handleMinigameCancel}
+								onFailure={handleMinigameFailure}
+							/>
 						)}
 						{/* Results Display */}
 						{error && (

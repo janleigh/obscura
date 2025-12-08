@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { useSound } from "../../hooks/useSound";
 
 const RegistrationForm = ({
 	username,
 	realName,
-	onChange,
+	password,
+	onUsernameChange,
+	onRealNameChange,
+	onPasswordChange,
 	onSubmit,
 	onBack,
 	isLoading,
@@ -13,10 +17,13 @@ const RegistrationForm = ({
 	typingComplete
 }) => {
 	const { playSound } = useSound();
+	const [focusedField, setFocusedField] = useState("username");
 
 	const handleSubmit = () => {
-		playSound("buttonPress");
-		onSubmit();
+		if (username.trim() && realName.trim() && password) {
+			playSound("buttonPress");
+			onSubmit();
+		}
 	};
 
 	const handleBack = () => {
@@ -25,42 +32,107 @@ const RegistrationForm = ({
 	};
 
 	return (
-		<div className="crt-glow animate-fade-in">
-			<div className="mb-8 border border-gray-800 bg-[#0f0f0f] p-6">
-				<div className="mb-6 border-b border-gray-800 pb-4">
-					<span className="text-cyan-400">OBSCURA</span>
-					<span className="text-gray-600"> / </span>
-					<span className="text-white">NEW CANDIDATE</span>
+		<div className="crt-glow animate-fade-in w-full max-w-md">
+			<div className="mb-8 border border-gray-800 bg-[#0a0a0a] p-8 shadow-[0_0_30px_rgba(0,0,0,0.3)]">
+				<div className="mb-8 flex items-center justify-between border-b border-gray-800 pb-4">
+					<div className="flex items-center gap-2">
+						<div className="h-2 w-2 bg-yellow-500"></div>
+						<span className="font-bold tracking-widest text-yellow-400">REGISTRATION</span>
+					</div>
+					<span className="text-[10px] text-gray-600">NEW_CANDIDATE</span>
 				</div>
-				{/* Tutorial */}
-				<div className="mb-6 border-l-2 border-yellow-300 pl-4 text-xs text-gray-400">
+				<div className="mb-8 border-l-2 border-yellow-500/30 bg-yellow-950/10 p-4 text-xs text-yellow-200/70">
 					{tutorialText}
 					{!typingComplete && showCursor && (
-						<span className="text-yellow-300">█</span>
+						<span className="text-yellow-400">_</span>
 					)}
 				</div>
-				{/* Username display */}
-				<div className="mb-4 space-y-2">
-					<label className="block text-xs text-gray-600">
-						SYSTEM IDENTIFIER
+				{/* Username input */}
+				<div className="group mb-4 space-y-2">
+					<label className="flex items-center justify-between text-[10px] tracking-wider text-gray-500 group-focus-within:text-yellow-400">
+						<span>SYSTEM IDENTIFIER</span>
 					</label>
-					<div className="text-cyan-400">→ {username}</div>
-				</div>
-				{/* Real name input */}
-				<div className="space-y-4">
-					<label className="block text-xs text-gray-500">
-						CANDIDATE DESIGNATION
-					</label>
-					<div className="flex items-center border-b border-gray-700 bg-transparent pb-2">
-						<span className="mr-2 text-cyan-400">→</span>
+					<div className="flex items-center border border-gray-800 bg-black/50 px-3 py-2 transition-colors group-focus-within:border-yellow-500/50 group-focus-within:bg-yellow-950/10">
+						<span className="mr-3 text-yellow-600">❯</span>
 						<input
 							type="text"
+							value={username}
+							onChange={(e) => onUsernameChange(e.target.value)}
+							onKeyDown={(e) => {
+								if (e.key === "Enter" && !isLoading) {
+									document
+										.getElementById("reg-realname-input")
+										?.focus();
+								} else if (e.key === "Escape") {
+									handleBack();
+								}
+							}}
+							onFocus={() => setFocusedField("username")}
+							disabled={isLoading}
+							className="flex-1 border-none bg-transparent font-mono text-sm text-white outline-none placeholder-gray-800 disabled:text-gray-600"
+							placeholder="CREATE_USERNAME"
+							autoFocus
+							maxLength={32}
+						/>
+						{!isLoading &&
+							showCursor &&
+							focusedField === "username" && (
+								<span className="ml-1 text-yellow-400">█</span>
+							)}
+					</div>
+				</div>
+				{/* Real name input */}
+				<div className="group mb-4 space-y-2">
+					<label className="flex items-center justify-between text-[10px] tracking-wider text-gray-500 group-focus-within:text-yellow-400">
+						<span>CANDIDATE DESIGNATION</span>
+					</label>
+					<div className="flex items-center border border-gray-800 bg-black/50 px-3 py-2 transition-colors group-focus-within:border-yellow-500/50 group-focus-within:bg-yellow-950/10">
+						<span className="mr-3 text-yellow-600">❯</span>
+						<input
+							id="reg-realname-input"
+							type="text"
 							value={realName}
-							onChange={(e) => onChange(e.target.value)}
+							onChange={(e) => onRealNameChange(e.target.value)}
+							onKeyDown={(e) => {
+								if (e.key === "Enter" && !isLoading) {
+									document
+										.getElementById("reg-password-input")
+										?.focus();
+								} else if (e.key === "Escape") {
+									handleBack();
+								}
+							}}
+							onFocus={() => setFocusedField("realName")}
+							disabled={isLoading}
+							className="flex-1 border-none bg-transparent font-mono text-sm text-white outline-none placeholder-gray-800 disabled:text-gray-600"
+							placeholder="ENTER_FULL_NAME"
+							maxLength={64}
+						/>
+						{!isLoading &&
+							showCursor &&
+							focusedField === "realName" && (
+								<span className="ml-1 text-yellow-400">█</span>
+							)}
+					</div>
+				</div>
+				{/* Password input */}
+				<div className="group mb-8 space-y-2">
+					<label className="flex items-center justify-between text-[10px] tracking-wider text-gray-500 group-focus-within:text-yellow-400">
+						<span>ACCESS KEY</span>
+					</label>
+					<div className="flex items-center border border-gray-800 bg-black/50 px-3 py-2 transition-colors group-focus-within:border-yellow-500/50 group-focus-within:bg-yellow-950/10">
+						<span className="mr-3 text-yellow-600">❯</span>
+						<input
+							id="reg-password-input"
+							type="password"
+							value={password}
+							onChange={(e) => onPasswordChange(e.target.value)}
 							onKeyDown={(e) => {
 								if (
 									e.key === "Enter" &&
+									username.trim() &&
 									realName.trim() &&
+									password.trim() &&
 									!isLoading
 								) {
 									handleSubmit();
@@ -68,38 +140,48 @@ const RegistrationForm = ({
 									handleBack();
 								}
 							}}
+							onFocus={() => setFocusedField("password")}
 							disabled={isLoading}
-							className="flex-1 border-none bg-transparent text-white outline-none disabled:text-gray-600"
-							autoFocus
+							className="flex-1 border-none bg-transparent font-mono text-sm text-white outline-none placeholder-gray-800 disabled:text-gray-600"
+							placeholder="CREATE_PASSWORD"
 							maxLength={64}
 						/>
-						{!isLoading && showCursor && (
-							<span className="ml-1 text-cyan-400">█</span>
-						)}
+						{!isLoading &&
+							showCursor &&
+							focusedField === "password" && (
+								<span className="ml-1 text-yellow-400">█</span>
+							)}
 					</div>
 				</div>
 				{/* Error message */}
 				{error && (
-					<div className="mt-4 text-xs text-red-400">
-						<span className="mr-2">✗</span>
+					<div className="mb-6 border border-red-900/50 bg-red-950/20 p-3 text-xs text-red-400">
+						<span className="mr-2 font-bold">ERROR:</span>
 						{error}
 					</div>
 				)}
-				{/* Instructions */}
-				<div className="mt-6 flex items-center justify-between text-xs text-gray-600">
-					<div>
-						<kbd className="rounded border border-gray-700 bg-[#1a1a1a] px-2 py-1 text-gray-400">
-							ESC
-						</kbd>{" "}
-						<span className="text-gray-500">TO GO BACK</span>
-					</div>
-					<div>
-						<span className="text-gray-500">PRESS</span>{" "}
-						<kbd className="rounded border border-gray-700 bg-[#1a1a1a] px-2 py-1 text-gray-400">
-							ENTER
-						</kbd>{" "}
-						<span className="text-gray-500">TO REGISTER</span>
-					</div>
+				{/* Actions */}
+				<div className="flex items-center justify-between pt-4">
+					<button
+						onClick={handleBack}
+						disabled={isLoading}
+						className="group text-xs text-gray-500 transition-colors hover:text-gray-300 disabled:opacity-50">
+						<span className="mr-2 inline-block transition-transform group-hover:-translate-x-1">←</span>
+						ABORT_REGISTRATION
+					</button>
+					<button
+						onClick={handleSubmit}
+						disabled={
+							isLoading ||
+							!username.trim() ||
+							!realName.trim() ||
+							!password.trim()
+						}
+						className="group relative border border-yellow-700 bg-yellow-950/30 px-6 py-2 text-xs font-bold text-yellow-400 transition-all hover:bg-yellow-900/50 hover:shadow-[0_0_15px_rgba(234,179,8,0.3)] disabled:cursor-not-allowed disabled:border-gray-800 disabled:bg-transparent disabled:text-gray-600 disabled:shadow-none">
+						<span className="relative z-10">
+							{isLoading ? "PROCESSING..." : "SUBMIT_APPLICATION"}
+						</span>
+					</button>
 				</div>
 			</div>
 		</div>

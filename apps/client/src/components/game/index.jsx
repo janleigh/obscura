@@ -14,11 +14,23 @@ const MainGame = ({ userData, currentLevel, onUserDataUpdate }) => {
 	const [activeTab, setActiveTab] = useState("solver");
 	const [notes, setNotes] = useState("");
 	const [showTutorial, setShowTutorial] = useState(true);
+	const [showingStoryFragment, setShowingStoryFragment] = useState(false);
+	const [storyFragmentText, setStoryFragmentText] = useState("");
 
-	const { isSubmitting, message, submitAnswer } = useLevelSubmission(
+	const { isSubmitting, message, submitAnswer, setMessage } = useLevelSubmission(
 		userData,
 		currentLevel,
-		onUserDataUpdate
+		onUserDataUpdate,
+		(fragment) => {
+			// Callback to show story fragment
+			setStoryFragmentText(fragment);
+			setShowingStoryFragment(true);
+			// Hide after typing completes + delay
+			setTimeout(() => {
+				setShowingStoryFragment(false);
+				setMessage(null);
+			}, fragment.length * 20 + 10000); // typing duration + 10s delay
+		}
 	);
 
 	const level = getLevelById(currentLevel);
@@ -51,30 +63,35 @@ const MainGame = ({ userData, currentLevel, onUserDataUpdate }) => {
 				/>
 				{activeTab === "solver" && (
 					<div className="flex flex-1 flex-col items-center justify-center gap-6 p-8">
-						<div className="max-w-lg space-y-6 border border-cyan-800 bg-[#0a0a0a] p-8 text-center">
-							<div className="text-xs tracking-widest text-gray-500">
+						<div className="max-w-lg space-y-6 border border-cyan-800 bg-[#0a0a0a] p-8 text-center shadow-[0_0_30px_rgba(8,145,178,0.1)]">
+							<div className="flex items-center justify-center gap-2 text-xs tracking-widest text-gray-500">
+								<span className="h-px w-8 bg-gray-800"></span>
 								[ TRANSMISSION COMPLETE ]
+								<span className="h-px w-8 bg-gray-800"></span>
 							</div>
 							<div className="text-2xl font-bold text-cyan-400">
 								CALIBRATION MODULES EXHAUSTED
 							</div>
 							<div className="space-y-4 text-sm text-gray-400">
 								<p>
-									You have successfully completed all available calibration modules.
-									Your linguistic patterns have been recorded.
+									You have successfully completed all
+									available calibration modules. Your
+									linguistic patterns have been recorded.
 								</p>
-								<p className="text-cyan-600">
+								<p className="text-cyan-600 animate-pulse">
 									Standby for further transmissions...
 								</p>
 							</div>
 							<div className="border-t border-gray-800 pt-4">
-								<div className="text-xs text-gray-600">
-									Levels Completed: {currentLevel}
+								<div className="flex justify-center gap-4 text-xs text-gray-600">
+									<span>LEVELS COMPLETED: <span className="text-green-400">{currentLevel}</span></span>
+									<span>STATUS: <span className="text-cyan-400">AWAITING DATA</span></span>
 								</div>
 							</div>
 						</div>
 						<div className="text-xs text-gray-600">
-							Explore PHASE KEYS or CIPHER TOOLKIT while awaiting new modules.
+							Explore PHASE KEYS or CIPHER TOOLKIT while
+							awaiting new modules.
 						</div>
 					</div>
 				)}
@@ -93,7 +110,7 @@ const MainGame = ({ userData, currentLevel, onUserDataUpdate }) => {
 	}
 
 	return (
-		<div className="flex h-full flex-col">
+		<div className="relative flex h-full w-full flex-col">
 			{/* Tutorial Overlay */}
 			{showTutorial && currentLevel === 0 && (
 				<TutorialOverlay onClose={() => setShowTutorial(false)} />
@@ -106,20 +123,23 @@ const MainGame = ({ userData, currentLevel, onUserDataUpdate }) => {
 			/>
 			{/* Solver Tab */}
 			{activeTab === "solver" && (
-				<div className="flex flex-1 flex-col gap-4 p-4">
-					<div className="grid min-h-[400px] grid-cols-2 gap-4">
-						<PuzzlePanel level={level} />
+				<div className="flex flex-1 flex-col gap-4 p-4 overflow-hidden">
+					<div className="grid flex-1 min-h-0 grid-cols-2 gap-4">
+						<PuzzlePanel 
+							level={level} 
+							showingStoryFragment={showingStoryFragment}
+							storyFragmentText={storyFragmentText}
+						/>
 						<NotebookPanel notes={notes} onChange={setNotes} />
 					</div>
 					{/* Terminal Input */}
-					<div className="h-32 shrink-0 border border-gray-800 bg-black">
+					<div className="h-32 shrink-0">
 						<Terminal
 							onSubmit={submitAnswer}
 							isProcessing={isSubmitting}
+							feedback={<SubmissionFeedback message={message} />}
 						/>
 					</div>
-					{/* Submission Feedback */}
-					<SubmissionFeedback message={message} />
 				</div>
 			)}
 			{/* Phase Keys Tab */}
