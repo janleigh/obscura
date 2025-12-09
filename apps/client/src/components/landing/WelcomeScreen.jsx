@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_ENDPOINTS } from "../../config/api";
 import { useSound } from "../../hooks/useSound";
 import Button from "../shared/Button";
 
@@ -29,7 +30,7 @@ const WelcomeScreen = ({
 			return;
 		}
 		// fetch from http://localhost:3000/hash
-		fetch("http://localhost:3000/hash")
+		fetch(API_ENDPOINTS.HASH)
 			.then((res) => res.json())
 			.then((data) => {
 				if (data.gitHash) {
