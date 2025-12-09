@@ -19,6 +19,7 @@ const App = () => {
 	const [userData, setUserData] = useState(null);
 	const [systemUser, setSystemUser] = useState(null);
 	const [isCheckingSession, setIsCheckingSession] = useState(true);
+	const [isLogin, setIsLogin] = useState(false);
 	const { playSound, stopSound } = useSound();
 	const loginMusicStartedRef = useRef(false);
 
@@ -90,9 +91,15 @@ const App = () => {
 		}
 	}, [stage, isCheckingSession, playSound, stopSound]);
 
-	const handleLandingComplete = (data) => {
+	const handleLandingComplete = (data, isLoginUser = false) => {
 		setUserData(data);
-		setStage(STAGE_EMAIL);
+		setIsLogin(isLoginUser);
+		// Skip email stage for login users
+		if (isLoginUser) {
+			setStage(STAGE_BOOT);
+		} else {
+			setStage(STAGE_EMAIL);
+		}
 	};
 
 	const handleEmailComplete = () => {
@@ -224,18 +231,19 @@ const App = () => {
 						<div className="absolute top-0 left-0 h-4 w-4 border-t-2 border-l-2 border-cyan-500/50"></div>
 						<div className="absolute top-0 right-0 h-4 w-4 border-t-2 border-r-2 border-cyan-500/50"></div>
 						<div className="absolute bottom-0 left-0 h-4 w-4 border-b-2 border-l-2 border-cyan-500/50"></div>
-						<div className="absolute right-0 bottom-0 h-4 w-4 border-r-2 border-b-2 border-cyan-500/50"></div>
+					<div className="absolute right-0 bottom-0 h-4 w-4 border-r-2 border-b-2 border-cyan-500/50"></div>
 
-						<MainGame
-							userData={userData}
-							currentLevel={userData?.currentLevel ?? 0}
-							onUserDataUpdate={(updatedData) => {
-								setUserData(updatedData);
-								saveSession(updatedData);
-							}}
-						/>
-					</div>
-					{/* Footer Status Bar */}
+					<MainGame
+						userData={userData}
+						currentLevel={userData?.currentLevel ?? 0}
+						onUserDataUpdate={(updatedData) => {
+							setUserData(updatedData);
+							saveSession(updatedData);
+						}}
+						isLogin={isLogin}
+					/>
+				</div>
+				{/* Footer Status Bar */}
 					<div className="mt-2 flex shrink-0 justify-between text-[10px] text-gray-600">
 						<div className="flex gap-4">
 							<span>

@@ -49,7 +49,7 @@ const PuzzlePanel = ({
 		return markdown;
 	};
 
-	const command = `> /ftchlvl --level=${level.id} --format=markdown`;
+	const command = `# ftchlvl --lvl-server="projectclarity@lvlserver.org" --format=markdown`;
 	const { displayedText: typedCommand, isComplete: commandComplete } =
 		useTypingEffect(
 			command,
@@ -61,7 +61,7 @@ const PuzzlePanel = ({
 	const { displayedText: typedContent, isComplete: contentComplete } =
 		useTypingEffect(levelMarkdown, 15, fetchComplete && !isVisited);
 
-	const storyCommand = `> /sysctl -dmsg --priority=high`;
+	const storyCommand = `# sysctl -dmsg --priority=high`;
 	const {
 		displayedText: typedStoryCommand,
 		isComplete: storyCommandComplete
@@ -80,6 +80,23 @@ const PuzzlePanel = ({
 			visitedLevels.add(level.id);
 		}
 	}, [contentComplete, level.id]);
+
+	// Track previous story fragment state
+	const prevShowingStoryRef = useRef(showingStoryFragment);
+	
+	// When story fragment ends, reset the level to allow re-typing
+	useEffect(() => {
+		if (prevShowingStoryRef.current && !showingStoryFragment) {
+			// Story just ended, reset states to allow the next level to type
+			visitedLevels.delete(level.id);
+			setCommandTyped(false);
+			setShowFetchingDots(false);
+			setFetchComplete(false);
+			setDots("");
+		}
+		
+		prevShowingStoryRef.current = showingStoryFragment;
+	}, [showingStoryFragment, level.id]);
 
 	// xommand typing sequence
 	useEffect(() => {
@@ -147,20 +164,21 @@ const PuzzlePanel = ({
 						<div
 							key={`codeblock-${codeBlockStart}`}
 							className="group animate-fadeIn relative my-4 border border-gray-700 bg-[#0a0a0a] transition-all duration-300 hover:border-green-500/30">
-							<div className="flex items-center justify-between border-b border-gray-800 bg-black/50 px-3 py-1">
-								<span className="text-[10px] text-gray-500">
-									ENCRYPTED DATA BLOCK
-								</span>
-								<button
-									onClick={() =>
-										navigator.clipboard.writeText(
-											codeBlockContent.join("\n")
-										)
-									}
-									className="hidden text-[10px] text-green-500 group-hover:block hover:text-green-300">
-									[COPY]
-								</button>
-							</div>
+						<div className="flex items-center justify-between border-b border-gray-800 bg-black/50 px-3 py-1">
+							<span className="text-[10px] text-gray-500">
+								ENCRYPTED DATA BLOCK
+							</span>
+							<button
+								onClick={(e) => {
+									e.preventDefault();
+									navigator.clipboard.writeText(
+										codeBlockContent.join("\n")
+									);
+								}}
+								className="text-[10px] text-green-500 opacity-70 hover:opacity-100 hover:text-green-300 transition-opacity">
+								[COPY]
+							</button>
+						</div>
 							<div className="p-3 font-mono text-sm break-all text-green-400">
 								{codeBlockContent.join("\n")}
 							</div>

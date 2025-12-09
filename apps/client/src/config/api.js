@@ -1,5 +1,6 @@
 // Base URL for API requests
-export const API_BASE_URL = process.env.API_URL ?? 'http://localhost:3000';
+// In production (Vercel), use relative URLs. In development, use localhost:3000
+export const API_BASE_URL = import.meta.env.PROD ? '' : 'http://localhost:3000';
 
 // API endpoints
 export const API_ENDPOINTS = {

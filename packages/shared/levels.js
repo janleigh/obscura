@@ -14,7 +14,7 @@ export const LEVELS = [
 		cipherText: "KHOOR",
 		cipherData: { shift: 3 },
 		hintPoem:
-			"GAIVS CAESAR SAYS MY WORDS APPEAR FOREIGN SOLELY BECAUSE THEY DO NOT STAND IN THEIR RIGHTFUL POSITION",
+			"GAIVS CAESAR SAYS MY WORDS APPEAR FOREIGN, FOR THEY HAVE MARCHED AWAY FROM THEIR RIGHTFUL POSITION.",
 		answer: "HELLO",
 		storyFragment:
 			"This is a basic check to familiarize you with the interface. Proceeding to next tutorial.",
@@ -60,7 +60,7 @@ export const LEVELS = [
 		},
 		minigameType: "memory", // Memory game for complex chains
 		hintPoem:
-			"The first speaks in dots and dashes fine, then a key from secretive design. Next, reflect to see the light, and finally, encode to end the fight.",
+			"Samuel's dots hide a sleeping swarm. The 17-year bug is the key you need. When Alpha becomes Omega, the message will bleed.",
 		answer: "ELITEBALLREFERENCE",
 		storyFragment:
 			"Cipher chain decoded. Multiple layers add complexity. Now you're ready for real calibration.",
@@ -136,7 +136,6 @@ export const LEVELS = [
 			"I vanish in the morning light, But I am the ruler of the night. I am not the Moon, lonely and pale, But a burning legion that tells the tale."
 		],
 		answer: "THEONEWHOISDIFFERENT",
-		pointsValue: 130,
 		storyFragment:
 			"Neural response patterns remain consistent. Preparing next module.",
 		transmission: {
@@ -227,19 +226,3 @@ export const PHASE_KEYS = [
 			"A serpent eating its own tail. A message that teaches how to decode itself."
 	}
 ];
-
-/**
- * Terminal commands available to players
- */
-export const TERMINAL_COMMANDS = {
-	HINT: "Request a hint (costs 1 hint credit)",
-	SUBMIT: "Submit your answer for validation",
-	LOGS: "View your activity log",
-	HELP: "Display available commands",
-	PHASEKEY: "Enter a Phase Key to unlock Deep Archives",
-	CLEAR: "Clear the terminal screen",
-	STATUS: "Show your current progress",
-	REPLAY: "Replay the current level's introduction",
-	ANALYZE: "Show cipher type and difficulty",
-	DECRYPT: "Attempt to decrypt with a specified key"
-};

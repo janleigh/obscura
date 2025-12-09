@@ -18,6 +18,7 @@
 		"start": "NODE_ENV=production bun .",
 		"dev": "NODE_ENV=development nodemon .",
 		"watch": "NODE_ENV=production nodemon --watch src .",
+		"postinstall": "bun prisma:generate",
 		"prisma:generate": "prisma generate",
 		"prisma:push": "prisma db push",
 		"prisma:studio": "prisma studio"

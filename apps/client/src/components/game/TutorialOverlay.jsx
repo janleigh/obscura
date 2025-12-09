@@ -1,7 +1,19 @@
+import { useState } from "react";
+
 const TutorialOverlay = ({ onClose }) => {
+	const [isClosing, setIsClosing] = useState(false);
+
+	const handleClose = () => {
+		setIsClosing(true);
+		setTimeout(() => {
+			onClose();
+		}, 400);
+	};
+
 	return (
 		<div className="animate-fade-in fixed inset-0 z-100 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
-			<div className="crt-glow max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-cyan-500/50 bg-[#0a0a0a] shadow-[0_0_50px_rgba(6,182,212,0.2)]">
+			<div
+				className={`${isClosing ? "animate-crt-turn-off" : "animate-crt-turn-on"} crt-glow max-h-[90vh] w-full max-w-2xl overflow-y-auto border border-cyan-500/50 bg-[#0a0a0a] shadow-[0_0_50px_rgba(6,182,212,0.2)]`}>
 				{/* Header */}
 				<div className="sticky top-0 z-10 flex items-center justify-between border-b border-cyan-500/30 bg-[#0a0a0a] px-6 py-4">
 					<div className="flex items-center gap-3">
@@ -11,7 +23,7 @@ const TutorialOverlay = ({ onClose }) => {
 						</h2>
 					</div>
 					<button
-						onClick={onClose}
+						onClick={handleClose}
 						className="group flex items-center gap-2 text-xs text-gray-500 hover:text-cyan-400">
 						<span>[ CLOSE MANUAL ]</span>
 						<span className="flex h-5 w-5 items-center justify-center rounded border border-gray-700 bg-black text-[10px] group-hover:border-cyan-500">
@@ -126,7 +138,7 @@ const TutorialOverlay = ({ onClose }) => {
 						</ul>
 					</div>
 					<button
-						onClick={onClose}
+						onClick={handleClose}
 						className="w-full border border-cyan-900/50 bg-cyan-950/20 py-3 text-xs font-bold tracking-widest text-cyan-400 transition-all hover:bg-cyan-900/40 hover:shadow-[0_0_20px_rgba(6,182,212,0.2)]">
 						ACKNOWLEDGE AND CLOSE
 					</button>

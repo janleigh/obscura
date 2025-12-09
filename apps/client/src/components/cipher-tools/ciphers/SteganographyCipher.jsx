@@ -59,11 +59,12 @@ const SteganographyCipher = ({ addLog }) => {
 	const handleMinigameFailure = () => {
 		setShowMinigame(false);
 		addLog("WARN", "Verification failed - Adding security delay...");
-		setDelay(300);
-		handleMinigameSuccess();
+		const punishmentDelay = 300;
+		setDelay(punishmentDelay);
+		handleMinigameSuccess(undefined, punishmentDelay);
 	};
 
-	const handleMinigameSuccess = async (showSuccess) => {
+	const handleMinigameSuccess = async (showSuccess, additionalDelay = 0) => {
 		setShowMinigame(false);
 
 		if (showSuccess === true) {
@@ -79,7 +80,7 @@ const SteganographyCipher = ({ addLog }) => {
 		img.onload = async () => {
 			addLog("SCAN", "Image loaded, extracting pixel data...");
 			await new Promise((resolve) =>
-				setTimeout(resolve, 600 + delay)
+				setTimeout(resolve, 600 + additionalDelay)
 			);
 
 			const canvas = document.createElement("canvas");

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Button from "../../shared/Button";
 
 const MiniGameWrapper = ({
@@ -9,10 +10,19 @@ const MiniGameWrapper = ({
 	isComplete = false,
 	hideFooter = false
 }) => {
+	const [isClosing, setIsClosing] = useState(false);
+
+	const handleSuccess = () => {
+		setIsClosing(true);
+		setTimeout(() => {
+			onSuccess();
+		}, 400);
+	};
+
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
 			<div
-				className={`flex w-full max-w-3xl flex-col border border-${colors}-400 bg-black shadow-lg shadow-${colors}-400/20`}>
+				className={`${isClosing ? "animate-crt-turn-off" : "animate-crt-turn-on"} flex w-full max-w-3xl flex-col border border-${colors}-400 bg-black shadow-lg shadow-${colors}-400/20`}>
 				{/* Header */}
 				<div
 					className={`border-b border-${colors}-400 bg-[#0a0a0a] px-4 py-3`}>
@@ -34,7 +44,7 @@ const MiniGameWrapper = ({
 						className={`border-t border-${colors}-400 bg-[#0a0a0a] px-4 py-3`}>
 						<div className="flex gap-2">
 							<Button
-								onClick={onSuccess}
+								onClick={handleSuccess}
 								variant="success"
 								className="flex-1">
 								CONTINUE

@@ -40,7 +40,7 @@ export const useLevelSubmission = (
 			if (correct) {
 				setMessage({
 					type: "success",
-					text: "✓ CIPHER DECRYPTED!"
+					text: "CIPHER DECRYPTED!"
 				});
 
 				// Show story fragment before proceeding to next level
@@ -84,7 +84,7 @@ export const useLevelSubmission = (
 			} else {
 				setMessage({
 					type: "error",
-					text: "✗ INCORRECT. Try again."
+					text: "INCORRECT. Try again."
 				});
 			}
 		} catch (error) {

@@ -39,11 +39,12 @@ const CaesarCipher = ({ cipherText, onCipherTextChange, addLog }) => {
 	const handleMinigameFailure = () => {
 		setShowMinigame(false);
 		addLog("WARN", "Verification failed - Adding security delay...");
-		setDelay(300);
-		handleMinigameSuccess();
+		const punishmentDelay = 300;
+		setDelay(punishmentDelay);
+		handleMinigameSuccess(undefined, punishmentDelay);
 	};
 
-	const handleMinigameSuccess = async (showSuccess) => {
+	const handleMinigameSuccess = async (showSuccess, additionalDelay = 0) => {
 		setShowMinigame(false);
 
 		if (showSuccess === true) {
@@ -67,7 +68,7 @@ const CaesarCipher = ({ cipherText, onCipherTextChange, addLog }) => {
 
 		for (let i = 1; i <= 25; i++) {
 			await new Promise((resolve) =>
-				setTimeout(resolve, 150 + delay)
+				setTimeout(resolve, 150 + additionalDelay)
 			);
 			setBruteForceProgress((i / 25) * 100);
 

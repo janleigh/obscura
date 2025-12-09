@@ -33,7 +33,7 @@ const RailFenceCipher = ({
 		setShowMinigame(true);
 	};
 
-	const handleMinigameSuccess = (showSuccess) => {
+	const handleMinigameSuccess = (showSuccess, additionalDelay = 0) => {
 		setShowMinigame(false);
 
 		if (showSuccess === true) {
@@ -43,7 +43,7 @@ const RailFenceCipher = ({
 			);
 		}
 
-		railFenceBruteForce();
+		railFenceBruteForce(additionalDelay);
 	};
 
 	const handleMinigameCancel = () => {
@@ -54,11 +54,12 @@ const RailFenceCipher = ({
 	const handleMinigameFailure = () => {
 		setShowMinigame(false);
 		addLog("WARN", "Verification failed - Adding security delay...");
-		setDelay(700);
-		handleMinigameSuccess();
+		const punishmentDelay = 700;
+		setDelay(punishmentDelay);
+		handleMinigameSuccess(undefined, punishmentDelay);
 	};
 
-	const railFenceBruteForce = async () => {
+	const railFenceBruteForce = async (additionalDelay = 0) => {
 		if (!cipherText.trim()) {
 			setError("Enter cipher text to crack");
 			addLog("ERROR", "No input provided for RAIL-FNC");
@@ -70,10 +71,10 @@ const RailFenceCipher = ({
 		setError("");
 		setResult("");
 
-		await new Promise((resolve) => setTimeout(resolve, 500 + delay));
+		await new Promise((resolve) => setTimeout(resolve, 500 + additionalDelay));
 		addLog("SCAN", `Decrypting with ${rails} rails...`);
 
-		await new Promise((resolve) => setTimeout(resolve, 400 + delay));
+		await new Promise((resolve) => setTimeout(resolve, 400 + additionalDelay));
 		addLog("ANALYSIS", "Analyzing results for readable plaintext...");
 
 		try {

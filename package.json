@@ -15,6 +15,7 @@
 		"dev": "turbo dev",
 		"build": "turbo build",
 		"start": "turbo start",
+		"postinstall": "cd apps/server && bun prisma:generate",
 		"lint": "bunx eslint . --ext .ts,.tsx,.js,.jsx",
 		"lint:fix": "bunx eslint . --ext .ts,.tsx,.js,.jsx --fix",
 		"format": "bunx prettier --write ."

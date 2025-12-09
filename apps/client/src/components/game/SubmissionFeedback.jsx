@@ -34,11 +34,6 @@ const SubmissionFeedback = ({ message }) => {
 									? "text-red-500"
 									: "text-cyan-500"
 						}`}>
-						{message.type === "success"
-							? "✓"
-							: message.type === "error"
-								? "⚠"
-								: "ℹ"}
 					</div>
 					<div className="flex-1 space-y-1">
 						<div className="flex items-center justify-between">

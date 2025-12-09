@@ -48,7 +48,7 @@ const Landing = ({ onComplete }) => {
 
 		if (result?.success) {
 			setStep(STEP_COMPLETE);
-			setTimeout(() => onComplete(result.userData), 2000);
+			setTimeout(() => onComplete(result.userData, true), 2000); // Pass true for login
 		} else if (result?.error) {
 			setStep(STEP_LOGIN);
 			setPassword(""); // Clear password on error
@@ -68,7 +68,7 @@ const Landing = ({ onComplete }) => {
 
 		if (result?.success) {
 			setStep(STEP_COMPLETE);
-			setTimeout(() => onComplete(result.userData), 2000);
+			setTimeout(() => onComplete(result.userData, false), 2000); // Pass false for registration
 		} else if (result?.error) {
 			setStep(STEP_REGISTER);
 		}

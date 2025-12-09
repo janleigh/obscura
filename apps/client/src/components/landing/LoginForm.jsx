@@ -49,6 +49,7 @@ const LoginForm = ({
 						<span className="text-cyan-400">_</span>
 					)}
 				</div>
+				<form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
 				{/* Username input */}
 				<div className="group mb-6 space-y-2">
 					<label className="flex items-center justify-between text-[10px] tracking-wider text-gray-500 group-focus-within:text-cyan-400">
@@ -139,6 +140,7 @@ const LoginForm = ({
 						{error}
 					</div>
 				)}
+				</form>
 				{/* Actions */}
 				<div className="flex items-center justify-between pt-4">
 					<button

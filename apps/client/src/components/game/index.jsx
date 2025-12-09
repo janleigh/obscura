@@ -6,14 +6,13 @@ import PhaseKeys from "../PhaseKeys";
 import Terminal from "../terminal";
 import NotebookPanel from "./NotebookPanel";
 import PuzzlePanel from "./PuzzlePanel";
-import SubmissionFeedback from "./SubmissionFeedback";
 import TabNavigation from "./TabNavigation";
 import TutorialOverlay from "./TutorialOverlay";
 
-const MainGame = ({ userData, currentLevel, onUserDataUpdate }) => {
+const MainGame = ({ userData, currentLevel, onUserDataUpdate, isLogin = false }) => {
 	const [activeTab, setActiveTab] = useState("solver");
 	const [notes, setNotes] = useState("");
-	const [showTutorial, setShowTutorial] = useState(true);
+	const [showTutorial, setShowTutorial] = useState(!isLogin); // Don't show tutorial for login users
 	const [showingStoryFragment, setShowingStoryFragment] =
 		useState(false);
 	const [storyFragmentText, setStoryFragmentText] = useState("");
@@ -127,7 +126,7 @@ const MainGame = ({ userData, currentLevel, onUserDataUpdate }) => {
 	return (
 		<div className="relative flex h-full w-full flex-col">
 			{/* Tutorial Overlay */}
-			{showTutorial && currentLevel === 0 && (
+			{showTutorial && (
 				<TutorialOverlay onClose={() => setShowTutorial(false)} />
 			)}
 			{/* Tab Navigation */}
@@ -152,9 +151,7 @@ const MainGame = ({ userData, currentLevel, onUserDataUpdate }) => {
 						<Terminal
 							onSubmit={submitAnswer}
 							isProcessing={isSubmitting}
-							feedback={
-								<SubmissionFeedback message={message} />
-							}
+							message={message}
 						/>
 					</div>
 				</div>

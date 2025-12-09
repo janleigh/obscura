@@ -1,11 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 
-const MiniGameIntro = ({ title, messages, onComplete }) => {
+const MiniGameIntro = ({ title, messages, onComplete, startDelay = 600 }) => {
 	const [displayedLines, setDisplayedLines] = useState([]);
 	const [currentIndex, setCurrentIndex] = useState(0);
+	const [hasStarted, setHasStarted] = useState(false);
 	const terminalRef = useRef(null);
 
 	useEffect(() => {
+		const timer = setTimeout(() => {
+			setHasStarted(true);
+		}, startDelay);
+		return () => clearTimeout(timer);
+	}, [startDelay]);
+
+	useEffect(() => {
+		if (!hasStarted) return;
+
 		if (currentIndex < messages.length) {
 			const currentMessage = messages[currentIndex];
 			const timer = setTimeout(() => {
@@ -21,7 +31,7 @@ const MiniGameIntro = ({ title, messages, onComplete }) => {
 			}, 500);
 			return () => clearTimeout(completeTimer);
 		}
-	}, [currentIndex, messages, onComplete]);
+	}, [currentIndex, messages, onComplete, hasStarted]);
 
 	useEffect(() => {
 		if (terminalRef.current) {

@@ -28,9 +28,22 @@ class App {
 		this.app.use("/api", routes);
 
 		this.app.use("/hash", (req, res) => {
-			const gitHash = execSync("git rev-parse --short HEAD")
-				.toString()
-				.trim();
+			let gitHash = "dev";
+			
+			// fallback to environment variable set by Vercel
+			// long live the triangle company
+			if (process.env.VERCEL_GIT_COMMIT_SHA) {
+				gitHash = process.env.VERCEL_GIT_COMMIT_SHA.substring(0, 7);
+			} else {
+				try {
+					gitHash = execSync("git rev-parse --short HEAD")
+						.toString()
+						.trim();
+				} catch (err) {
+					// Git command failed, keep "dev"
+				}
+			}
+			
 			res.json({ gitHash });
 		});
 

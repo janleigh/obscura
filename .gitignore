@@ -40,3 +40,4 @@ private/
 **/data/
 **/prisma/migrations/
 *.sqlite
+.vercel
