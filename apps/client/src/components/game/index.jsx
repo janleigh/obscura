@@ -18,15 +18,31 @@ const MainGame = ({
 }) => {
 	const [activeTab, setActiveTab] = useState("solver");
 	const [notes, setNotes] = useState("");
-	const [showTutorial, setShowTutorial] = useState(!isLogin); // don't show tutorial for login users
-	const [isSmallScreen, setIsSmallScreen] = useState(false);
+	const [showTutorial, setShowTutorial] = useState(() => {
+		if (isLogin) return false;
+		if (typeof window === "undefined") return false;
+
+		const hasSeenTutorial = localStorage.getItem("obscura_tutorial_seen");
+		if (hasSeenTutorial) return false;
+
+		if (Number(currentLevel) > 0) return false;
+
+		return true;
+	});
+	const [isSmallScreen, setIsSmallScreen] = useState(() => 
+		typeof window !== "undefined" ? window.innerWidth < 1440 : false
+	);
+
+	const handleCloseTutorial = () => {
+		setShowTutorial(false);
+		localStorage.setItem("obscura_tutorial_seen", "true");
+	};
 
 	useEffect(() => {
 		const checkScreenSize = () => {
 			setIsSmallScreen(window.innerWidth < 1440); // lg breakpoint
 		};
 		
-		checkScreenSize();
 		window.addEventListener('resize', checkScreenSize);
 		return () => window.removeEventListener('resize', checkScreenSize);
 	}, []);
@@ -36,7 +52,7 @@ const MainGame = ({
 	const [storyFragmentText, setStoryFragmentText] = useState("");
 	const [pendingLevelData, setPendingLevelData] = useState(null);
 
-	// Track initial focus for terminal
+	// initial focus for terminal
 	const initialFocusRef = useRef(true);
 	useEffect(() => {
 		initialFocusRef.current = false;
@@ -165,10 +181,10 @@ const MainGame = ({
 			{/* Tutorial Overlay */}
 			{showTutorial && (
 				isSmallScreen ? (
-					<TutorialOverlay onClose={() => setShowTutorial(false)} />
+					<TutorialOverlay onClose={handleCloseTutorial} />
 				) : (
 					<InteractiveTutorial
-						onClose={() => setShowTutorial(false)}
+						onClose={handleCloseTutorial}
 						onRequestTabChange={setActiveTab}
 					/>
 				)
