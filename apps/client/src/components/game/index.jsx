@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getLevelById } from "../../../../../packages/shared/levels";
 import { useLevelSubmission } from "../../hooks/useLevelSubmission";
 import CipherTools from "../cipher-tools";
@@ -21,26 +21,41 @@ const MainGame = ({
 	const [showingStoryFragment, setShowingStoryFragment] =
 		useState(false);
 	const [storyFragmentText, setStoryFragmentText] = useState("");
+	const [pendingLevelData, setPendingLevelData] = useState(null);
 
+	// Track initial focus for terminal
+	const initialFocusRef = useRef(true);
+	useEffect(() => {
+		initialFocusRef.current = false;
+	}, []);
+
+	// biome-ignore lint/correctness/noUnusedVariables: intended
 	const { isSubmitting, message, submitAnswer, setMessage } =
 		useLevelSubmission(
 			userData,
 			currentLevel,
 			onUserDataUpdate,
-			(fragment) => {
+			(fragment, levelData) => {
 				// Callback to show story fragment
 				setStoryFragmentText(fragment);
 				setShowingStoryFragment(true);
-				// Hide after typing completes + delay
-				setTimeout(
-					() => {
-						setShowingStoryFragment(false);
-						setMessage(null);
-					},
-					fragment.length * 20 + 10000
-				); // typing duration + 10s delay
+				setPendingLevelData(levelData);
 			}
 		);
+
+	const handleStoryFragmentContinue = () => {
+		if (pendingLevelData && onUserDataUpdate) {
+			onUserDataUpdate({
+				...pendingLevelData.userData,
+				currentLevel: pendingLevelData.nextLevelId,
+				completedLevels: [
+					...(pendingLevelData.userData.completedLevels || []),
+					pendingLevelData.currentLevel
+				]
+			});
+			setPendingLevelData(null);
+		}
+	};
 
 	const level = getLevelById(currentLevel);
 
@@ -56,9 +71,13 @@ const MainGame = ({
 		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, [showTutorial]);
 
-	// Clear notes when level changes
+	// Clear notes and reset story fragment when level changes
+	// biome-ignore lint/correctness/useExhaustiveDependencies: true
 	useEffect(() => {
 		setNotes("");
+		setShowingStoryFragment(false);
+		setStoryFragmentText("");
+		setPendingLevelData(null);
 	}, [currentLevel]);
 
 	// Fallback when no more levels are available
@@ -142,21 +161,30 @@ const MainGame = ({
 			/>
 			{/* Solver Tab */}
 			{activeTab === "solver" && (
-				<div className="flex flex-1 flex-col gap-4 overflow-hidden p-4">
-					<div className="grid min-h-0 flex-1 grid-cols-2 gap-4">
-						<PuzzlePanel
-							level={level}
-							showingStoryFragment={showingStoryFragment}
-							storyFragmentText={storyFragmentText}
-						/>
-						<NotebookPanel notes={notes} onChange={setNotes} />
+				<div className="flex flex-col gap-2 p-2 md:gap-4 md:p-4">
+					<div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4">
+						<div className="flex flex-col">
+							<PuzzlePanel
+								level={level}
+								showingStoryFragment={showingStoryFragment}
+								storyFragmentText={storyFragmentText}
+								onStoryFragmentContinue={handleStoryFragmentContinue}
+							/>
+						</div>
+						<div className="flex flex-col">
+							<NotebookPanel
+								notes={notes}
+								onChange={setNotes}
+							/>
+						</div>
 					</div>
 					{/* Terminal Input */}
-					<div className="h-32 shrink-0">
+					<div className="h-24 shrink-0 md:h-32">
 						<Terminal
 							onSubmit={submitAnswer}
 							isProcessing={isSubmitting}
 							message={message}
+							shouldAutoFocus={initialFocusRef.current}
 						/>
 					</div>
 				</div>
@@ -170,7 +198,7 @@ const MainGame = ({
 			{/* Cipher Tools Tab */}
 			{activeTab === "ciphertools" && (
 				<div className="flex-1 p-4">
-					<CipherTools />
+					<CipherTools isActive={activeTab === "ciphertools"} />
 				</div>
 			)}
 		</div>

@@ -167,16 +167,16 @@ const App = () => {
 
 	if (stage === STAGE_MAIN) {
 		return (
-			<div className="crt-screen fixed inset-0 overflow-hidden bg-[#050505]">
+			<div className="crt-screen min-h-screen relative bg-[#050505] text-sm md:text-base 2xl:text-lg">
 				{/* Signal Noise Overlay */}
 				<SignalNoise
 					level={userData?.currentLevel || 1}
 					phase={userData?.phaseUnlocked || 1}
 				/>
 				{/* Main Layout Grid */}
-				<div className="font-kode-mono crt-glow relative flex h-full w-full flex-col p-4 text-white md:p-8">
+				<div className="font-kode-mono crt-glow relative flex min-h-screen w-full flex-col p-2 text-white md:p-6 2xl:p-12 transition-all duration-300">
 					{/* Top Bar */}
-					<div className="mb-6 flex shrink-0 items-end justify-between border-b-2 border-gray-800 bg-[#0a0a0a]/80 pb-4 backdrop-blur-sm">
+					<div className="mb-2 flex shrink-0 items-end justify-between border-b-2 border-gray-800 bg-[#0a0a0a]/80 pb-2 backdrop-blur-sm md:mb-6 md:pb-4">
 						<div className="flex flex-col gap-1">
 							<div className="flex items-center gap-3">
 								<div className="h-3 w-3 animate-pulse bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.8)]"></div>
@@ -227,13 +227,12 @@ const App = () => {
 						</div>
 					</div>
 					{/* Main Content Area */}
-					<div className="relative flex-1 overflow-hidden rounded-lg border border-gray-800 bg-[#0f0f0f] shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+					<div className="relative flex flex-col rounded-lg border border-gray-800 bg-[#0f0f0f] shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden">
 						{/* Corner Accents */}
-						<div className="absolute top-0 left-0 h-4 w-4 border-t-2 border-l-2 border-cyan-500/50"></div>
-						<div className="absolute top-0 right-0 h-4 w-4 border-t-2 border-r-2 border-cyan-500/50"></div>
-						<div className="absolute bottom-0 left-0 h-4 w-4 border-b-2 border-l-2 border-cyan-500/50"></div>
-						<div className="absolute right-0 bottom-0 h-4 w-4 border-r-2 border-b-2 border-cyan-500/50"></div>
-
+						<div className="pointer-events-none absolute top-0 left-0 h-4 w-4 border-t-2 border-l-2 border-cyan-500/50 z-50"></div>
+						<div className="pointer-events-none absolute top-0 right-0 h-4 w-4 border-t-2 border-r-2 border-cyan-500/50 z-50"></div>
+						<div className="pointer-events-none absolute bottom-0 left-0 h-4 w-4 border-b-2 border-l-2 border-cyan-500/50 z-50"></div>
+						<div className="pointer-events-none absolute bottom-0 right-0 h-4 w-4 border-b-2 border-r-2 border-cyan-500/50 z-50"></div>
 						<MainGame
 							userData={userData}
 							currentLevel={userData?.currentLevel ?? 0}

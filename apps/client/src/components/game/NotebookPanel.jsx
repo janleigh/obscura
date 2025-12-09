@@ -17,7 +17,7 @@ const NotebookPanel = ({ notes, onChange }) => {
 					AUTO-SAVE ACTIVE
 				</div>
 			</div>
-			<div className="flex min-h-0 flex-1 overflow-hidden">
+			<div className="flex flex-1">
 				{/* Line numbers */}
 				{/* Dynamically shown */}
 				<div className="shrink-0 border-r border-gray-800 bg-[#050505] px-2 py-4 select-none">
@@ -38,7 +38,7 @@ const NotebookPanel = ({ notes, onChange }) => {
 						value={notes}
 						onChange={(e) => onChange(e.target.value)}
 						placeholder="// Enter your observations here..."
-						className="scrollbar-thin h-full w-full resize-none border-none bg-transparent p-4 font-mono text-xs leading-normal text-gray-300 placeholder-gray-700 outline-none"
+						className="scrollbar-thin w-full resize-none border-none bg-transparent p-4 font-mono text-xs leading-normal text-gray-300 placeholder-gray-700 outline-none min-h-[300px]"
 					/>
 				</div>
 			</div>

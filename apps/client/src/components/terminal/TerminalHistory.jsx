@@ -13,6 +13,13 @@ const TerminalHistory = ({ history, historyEndRef, message }) => {
 		}
 	}, [message, playSound]);
 
+	// auto-scroll when message changes
+	useEffect(() => {
+		if (message) {
+			historyEndRef.current?.scrollIntoView({ behavior: "smooth" });
+		}
+	}, [message, historyEndRef]);
+
 	return (
 		<div className="scrollbar-thin min-h-0 flex-1 space-y-0.5 overflow-y-auto p-2 text-[12px]">
 			{history.map((entry, idx) => (

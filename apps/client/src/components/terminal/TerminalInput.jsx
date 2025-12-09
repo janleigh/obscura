@@ -1,4 +1,4 @@
-const TerminalInput = ({ value, onChange, onKeyDown, disabled }) => {
+const TerminalInput = ({ value, onChange, onKeyDown, disabled, autoFocus }) => {
 	return (
 		<div className="flex shrink-0 items-center gap-2 border-t border-gray-800 bg-[#0a0a0a] p-2">
 			<span className="text-xs text-green-400">{">"}</span>
@@ -10,7 +10,7 @@ const TerminalInput = ({ value, onChange, onKeyDown, disabled }) => {
 				disabled={disabled}
 				placeholder="/help"
 				className="flex-1 bg-transparent text-xs text-green-400 placeholder-gray-700 outline-none disabled:opacity-50"
-				autoFocus
+				autoFocus={autoFocus}
 			/>
 		</div>
 	);

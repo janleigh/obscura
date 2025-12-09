@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/useHookAtTopLevel: intended */
 import { useEffect, useRef, useState } from "react";
 import { useTypingEffect } from "../../hooks/useTypingEffect";
 
@@ -5,11 +6,65 @@ import { useTypingEffect } from "../../hooks/useTypingEffect";
 // used to skip typing effect on revisits
 const visitedLevels = new Set();
 
+const TransmissionDisplay = ({ text, onContinue }) => {
+	const { displayedText, isComplete } = useTypingEffect(text, 30, true);
+
+	return (
+		<div className="relative flex h-full w-full flex-col overflow-hidden border border-gray-800 bg-black p-6 font-kode-mono">
+			{/* Scanline effect */}
+			<div className="pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-size-[100%_2px,3px_100%]" />
+			<div className="pointer-events-none absolute inset-0 z-20 animate-scanline bg-linear-to-b from-transparent via-cyan-900/5 to-transparent" />
+			<div className="z-30 flex h-full flex-col gap-4">
+				<div className="border-b border-gray-800 pb-2">
+					<div className="flex items-center gap-2 text-cyan-400">
+						<span className="animate-pulse">●</span>
+						<h2 className="text-sm font-bold tracking-widest">
+							INCOMING TRANSMISSION
+						</h2>
+					</div>
+					<div className="mt-1 text-[10px] text-gray-500">
+						SOURCE: UNKNOWN // ENCRYPTION: DECRYPTED
+					</div>
+				</div>
+				<div className="flex-1 overflow-y-auto whitespace-pre-wrap text-sm leading-relaxed text-green-400 scrollbar-thin scrollbar-track-black scrollbar-thumb-gray-800">
+					{displayedText}
+					{!isComplete && <span className="animate-pulse">_</span>}
+				</div>
+
+				<div className="flex items-center justify-between">
+					<div className="text-[10px] text-gray-600">
+						{isComplete ? "[ END OF TRANSMISSION ]" : "[ RECEIVING DATA... ]"}
+					</div>
+					{isComplete && onContinue && (
+						<button
+							type="button"
+							onClick={onContinue}
+							className="border border-cyan-600 bg-cyan-950/30 px-4 py-1 text-xs text-cyan-400 transition-all hover:bg-cyan-900/50 hover:text-cyan-300"
+						>
+							CONTINUE →
+						</button>
+					)}
+				</div>
+			</div>
+		</div>
+	);
+};
+
 const PuzzlePanel = ({
 	level,
 	showingStoryFragment,
-	storyFragmentText
+	storyFragmentText,
+	onStoryFragmentContinue
 }) => {
+	if (showingStoryFragment) {
+		return (
+			<TransmissionDisplay
+				text={storyFragmentText}
+				onContinue={onStoryFragmentContinue}
+			/>
+		);
+	}
+
 	const scrollRef = useRef(null);
 	const isVisited = visitedLevels.has(level.id);
 
@@ -83,21 +138,19 @@ const PuzzlePanel = ({
 		}
 	}, [contentComplete, level.id]);
 
-	// track previous story fragment state
-	const prevShowingStoryRef = useRef(showingStoryFragment);
+	// track previous level id
+	const prevLevelIdRef = useRef(level.id);
 
-	// reset states when story ends
+	// reset states when level changes
 	useEffect(() => {
-		if (prevShowingStoryRef.current && !showingStoryFragment) {
-			visitedLevels.delete(level.id);
+		if (prevLevelIdRef.current !== level.id) {
 			setCommandTyped(false);
 			setShowFetchingDots(false);
 			setFetchComplete(false);
 			setDots("");
+			prevLevelIdRef.current = level.id;
 		}
-
-		prevShowingStoryRef.current = showingStoryFragment;
-	}, [showingStoryFragment, level.id]);
+	}, [level.id]);
 
 	// xommand typing sequence
 	useEffect(() => {
@@ -138,13 +191,6 @@ const PuzzlePanel = ({
 		}
 	}, [level.id, showingStoryFragment]);
 
-	// auto-scroll as text appears
-	useEffect(() => {
-		if (scrollRef.current) {
-			scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-		}
-	}, []);
-
 	// md renderer
 	const renderMarkdown = (text) => {
 		const lines = text.split("\n");
@@ -169,7 +215,7 @@ const PuzzlePanel = ({
 								<span className="text-[10px] text-gray-500">
 									ENCRYPTED DATA BLOCK
 								</span>
-								<button
+								{/* <button
 									onClick={(e) => {
 										e.preventDefault();
 										navigator.clipboard.writeText(
@@ -179,7 +225,7 @@ const PuzzlePanel = ({
 									className="text-[10px] text-green-500 opacity-70 hover:opacity-100 hover:text-green-300 transition-opacity"
 								>
 									[COPY]
-								</button>
+								</button> */}
 							</div>
 							<div className="p-3 font-mono text-sm break-all text-green-400">
 								{codeBlockContent.join("\n")}
@@ -367,7 +413,7 @@ const PuzzlePanel = ({
 			</div>
 			<div
 				ref={scrollRef}
-				className="scrollbar-thin min-h-0 flex-1 overflow-y-auto bg-black p-4"
+				className="bg-black p-4"
 			>
 				<div className="space-y-2">
 					{/* Command line */}
@@ -380,7 +426,7 @@ const PuzzlePanel = ({
 						)}
 					</div>
 					{/* Fetching status */}
-					{commandTyped && showFetchingDots && (
+					{commandTyped && showFetchingDots && !fetchComplete && (
 						<div className="text-xs text-gray-500">
 							Fetching transmission data{dots}
 						</div>

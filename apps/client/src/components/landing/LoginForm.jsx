@@ -30,7 +30,7 @@ const LoginForm = ({
 	};
 
 	return (
-		<div className="crt-glow animate-fade-in w-full max-w-md">
+		<div className="crt-glow animate-fade-in w-full max-w-md md:max-w-lg 2xl:max-w-xl transition-all duration-300">
 			<div className="mb-8 border border-gray-800 bg-[#0a0a0a] p-8 shadow-[0_0_30px_rgba(0,0,0,0.3)]">
 				<div className="mb-8 flex items-center justify-between border-b border-gray-800 pb-4">
 					<div className="flex items-center gap-2">

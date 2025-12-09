@@ -9,7 +9,7 @@ import CipherToolList from "./CipherToolList";
 import * as Ciphers from "./ciphers";
 import { MemoryGame, NodeGame, VAPEGame, ZoneWallGame } from "./minigames";
 
-const CipherTools = () => {
+const CipherTools = ({ isActive = true }) => {
 	const [cipherText, setCipherText] = useState("");
 	const [key, setKey] = useState("");
 	const [selectedCipher, setSelectedCipher] = useState("caesar");
@@ -17,7 +17,7 @@ const CipherTools = () => {
 	const [showMinigame, setShowMinigame] = useState(false);
 	const [minigameType, setMinigameType] = useState(null);
 
-	const { logs, addLog, clearLogs, logEndRef } = useActivityLog(50);
+	const { logs, addLog, clearLogs, logEndRef } = useActivityLog(50, isActive);
 	const { isLoading, result, error, decrypt, clearResults } =
 		useCipherOperations(addLog);
 

@@ -48,25 +48,13 @@ export const useLevelSubmission = (
 				if (storyFragment && onShowStoryFragment) {
 					setTimeout(() => {
 						setMessage(null);
-						onShowStoryFragment(storyFragment);
-
-						// update user data after story fragment starts showing
-						setTimeout(
-							() => {
-								if (onUserDataUpdate) {
-									onUserDataUpdate({
-										...userData,
-										currentLevel: nextLevelId,
-										completedLevels: [
-											...(userData.completedLevels ||
-												[]),
-											currentLevel
-										]
-									});
-								}
-							},
-							storyFragment.length * 20 + 1000
-						);
+						// Pass story fragment and next level data to callback
+						onShowStoryFragment(storyFragment, {
+							nextLevelId,
+							userData,
+							currentLevel
+						});
+						setIsSubmitting(false);
 					}, 1500);
 				} else {
 					if (onUserDataUpdate) {
@@ -80,12 +68,14 @@ export const useLevelSubmission = (
 						});
 					}
 					setTimeout(() => setMessage(null), 3000);
+					setIsSubmitting(false);
 				}
 			} else {
 				setMessage({
 					type: "error",
 					text: "INCORRECT. Try again."
 				});
+				setIsSubmitting(false);
 			}
 		} catch (error) {
 			console.error("Failed to submit answer:", error);
@@ -95,7 +85,6 @@ export const useLevelSubmission = (
 					error.response?.data?.error ||
 					"Failed to submit answer"
 			});
-		} finally {
 			setIsSubmitting(false);
 		}
 	};
