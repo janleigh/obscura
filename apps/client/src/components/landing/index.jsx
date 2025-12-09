@@ -118,7 +118,8 @@ const Landing = ({ onComplete }) => {
 		<div
 			className="font-kode-mono crt-screen fixed inset-0 bg-[#050505] text-sm"
 			onKeyDown={handleKeyDown}
-			tabIndex={0}>
+			tabIndex={0}
+		>
 			{/* Background Grid */}
 			<div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(18,18,18,0)_1px,transparent_1px),linear-gradient(90deg,rgba(18,18,18,0)_1px,transparent_1px)] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] bg-size-[40px_40px]"></div>
 			<div className="relative z-10 flex min-h-screen w-full items-center justify-center p-8">

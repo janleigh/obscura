@@ -17,7 +17,7 @@ const RailFenceCipher = ({
 	const [result, setResult] = useState("");
 	const [error, setError] = useState("");
 	const [showMinigame, setShowMinigame] = useState(false);
-	const [delay, setDelay] = useState(0);
+	const [_delay, setDelay] = useState(0);
 	const { playSound } = useSound();
 
 	const initRailGame = () => {
@@ -71,10 +71,14 @@ const RailFenceCipher = ({
 		setError("");
 		setResult("");
 
-		await new Promise((resolve) => setTimeout(resolve, 500 + additionalDelay));
+		await new Promise((resolve) =>
+			setTimeout(resolve, 500 + additionalDelay)
+		);
 		addLog("SCAN", `Decrypting with ${rails} rails...`);
 
-		await new Promise((resolve) => setTimeout(resolve, 400 + additionalDelay));
+		await new Promise((resolve) =>
+			setTimeout(resolve, 400 + additionalDelay)
+		);
 		addLog("ANALYSIS", "Analyzing results for readable plaintext...");
 
 		try {
@@ -144,7 +148,8 @@ const RailFenceCipher = ({
 							onClick={() =>
 								onRailsChange(Math.max(2, rails - 1))
 							}
-							className="flex h-8 w-8 items-center justify-center border border-gray-700 bg-[#0a0a0a] text-xs text-purple-400 transition-colors hover:border-purple-500 hover:bg-purple-950/20">
+							className="flex h-8 w-8 items-center justify-center border border-gray-700 bg-[#0a0a0a] text-xs text-purple-400 transition-colors hover:border-purple-500 hover:bg-purple-950/20"
+						>
 							◀
 						</button>
 						<div className="flex h-8 w-16 items-center justify-center border border-gray-800 bg-black font-mono text-lg font-bold text-purple-400">
@@ -154,7 +159,8 @@ const RailFenceCipher = ({
 							onClick={() =>
 								onRailsChange(Math.min(10, rails + 1))
 							}
-							className="flex h-8 w-8 items-center justify-center border border-gray-700 bg-[#0a0a0a] text-xs text-purple-400 transition-colors hover:border-purple-500 hover:bg-purple-950/20">
+							className="flex h-8 w-8 items-center justify-center border border-gray-700 bg-[#0a0a0a] text-xs text-purple-400 transition-colors hover:border-purple-500 hover:bg-purple-950/20"
+						>
 							▶
 						</button>
 					</div>
@@ -172,7 +178,8 @@ const RailFenceCipher = ({
 				onClick={initRailGame}
 				disabled={isLoading || !cipherText.trim()}
 				variant="success"
-				className="w-full font-bold">
+				className="w-full font-bold"
+			>
 				{isLoading ? "PROCESSING..." : "EXECUTE DECRYPT"}
 			</Button>
 			{error && (
@@ -194,7 +201,8 @@ const RailFenceCipher = ({
 									"Result copied to clipboard"
 								);
 							}}
-							className="text-[10px] font-bold text-green-600 hover:text-green-400">
+							className="text-[10px] font-bold text-green-600 hover:text-green-400"
+						>
 							[COPY RESULT]
 						</button>
 					</div>

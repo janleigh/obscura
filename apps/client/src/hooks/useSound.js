@@ -18,32 +18,34 @@ export const useSound = () => {
 	const audioContextRef = useRef(null);
 	const userInteractedRef = useRef(false);
 
-	// Enable audio on first user interaction
+	// enable audio on first user interaction
 	useEffect(() => {
 		const enableAudio = () => {
 			if (!userInteractedRef.current) {
 				userInteractedRef.current = true;
-				
-				// Create AudioContext to unlock audio playback
+
+				// create AudioContext to unlock audio playback
 				if (!audioContextRef.current) {
-					audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+					audioContextRef.current = new (
+						window.AudioContext || window.webkitAudioContext
+					)();
 				}
-				
-				// Resume AudioContext if suspended
-				if (audioContextRef.current.state === 'suspended') {
+
+				// resume if suspended
+				if (audioContextRef.current.state === "suspended") {
 					audioContextRef.current.resume();
 				}
 			}
 		};
 
-		// Listen for any user interaction
-		const events = ['click', 'touchstart', 'keydown'];
-		events.forEach(event => {
+		// interactactpn listeners
+		const events = ["click", "touchstart", "keydown"];
+		events.forEach((event) => {
 			document.addEventListener(event, enableAudio, { once: true });
 		});
 
 		return () => {
-			events.forEach(event => {
+			events.forEach((event) => {
 				document.removeEventListener(event, enableAudio);
 			});
 		};
@@ -70,18 +72,25 @@ export const useSound = () => {
 				audio.onended = onEnded;
 			}
 
-			// Reset playback to start
-			audio.currentTime = 0;
-			
-			// Play with proper error handling
+			audio.currentTime = 0; // reset
+
+			// play sound
 			const playPromise = audio.play();
 			if (playPromise !== undefined) {
 				playPromise.catch((err) => {
-					// If autoplay is blocked, wait for user interaction
-					if (err.name === 'NotAllowedError' || err.name === 'NotSupportedError') {
-						console.warn(`Autoplay blocked for '${soundKey}'. Waiting for user interaction...`);
+					// if autoplay is blocked, wait for user interaction
+					if (
+						err.name === "NotAllowedError" ||
+						err.name === "NotSupportedError"
+					) {
+						console.warn(
+							`Autoplay blocked for '${soundKey}'. Waiting for user interaction...`
+						);
 					} else {
-						console.error(`Failed to play sound '${soundKey}':`, err);
+						console.error(
+							`Failed to play sound '${soundKey}':`,
+							err
+						);
 					}
 				});
 			}

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "../styles/glitch.css";
 
 const SignalNoise = ({ level = 1, phase = 1 }) => {
 	const [glitchIntensity, setGlitchIntensity] = useState("none");
@@ -7,7 +6,6 @@ const SignalNoise = ({ level = 1, phase = 1 }) => {
 
 	useEffect(() => {
 		// TODO! you can test this by changing the conditions below
-
 		// calculate glitch intensity based on level
 		if (level <= 2) {
 			setGlitchIntensity("none");
@@ -28,7 +26,7 @@ const SignalNoise = ({ level = 1, phase = 1 }) => {
 					setShowFlicker((prev) => !prev);
 				},
 				Math.random() * 500 + 200
-			); // Random flicker between 200-700ms
+			); // random flicker between 200-700ms
 
 			return () => clearInterval(flickerInterval);
 		}
@@ -61,7 +59,8 @@ const SignalNoise = ({ level = 1, phase = 1 }) => {
 								: glitchIntensity === "aggressive"
 									? 0.1
 									: 0.15
-				}}>
+				}}
+			>
 				<div className="noise-pattern"></div>
 			</div>
 			{/* Scanline effect */}

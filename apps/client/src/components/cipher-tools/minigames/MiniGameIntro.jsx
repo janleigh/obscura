@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
-const MiniGameIntro = ({ title, messages, onComplete, startDelay = 600 }) => {
+const MiniGameIntro = ({
+	title,
+	messages,
+	onComplete,
+	startDelay = 600
+}) => {
 	const [displayedLines, setDisplayedLines] = useState([]);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [hasStarted, setHasStarted] = useState(false);
@@ -25,7 +30,6 @@ const MiniGameIntro = ({ title, messages, onComplete, startDelay = 600 }) => {
 
 			return () => clearTimeout(timer);
 		} else {
-			// All messages displayed, wait a bit then complete
 			const completeTimer = setTimeout(() => {
 				onComplete();
 			}, 500);
@@ -33,6 +37,7 @@ const MiniGameIntro = ({ title, messages, onComplete, startDelay = 600 }) => {
 		}
 	}, [currentIndex, messages, onComplete, hasStarted]);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: only depends on displayedLines
 	useEffect(() => {
 		if (terminalRef.current) {
 			terminalRef.current.scrollTop =
@@ -47,7 +52,8 @@ const MiniGameIntro = ({ title, messages, onComplete, startDelay = 600 }) => {
 			</div>
 			<div
 				ref={terminalRef}
-				className="flex-1 space-y-1 overflow-y-auto">
+				className="flex-1 space-y-1 overflow-y-auto"
+			>
 				{displayedLines.map((line, index) => (
 					<div key={index} className={line.color}>
 						{line.text}

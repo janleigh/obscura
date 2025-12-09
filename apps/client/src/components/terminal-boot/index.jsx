@@ -99,24 +99,25 @@ const TerminalBoot = ({ userData, onBootComplete }) => {
 		authMessages,
 		playSound
 	]);
+	
 	useEffect(() => {
 		if (terminalRef.current) {
 			terminalRef.current.scrollTop =
 				terminalRef.current.scrollHeight;
 		}
-	}, [bootLines]);
+	}, []);
 
 	return (
 		<div className="font-kode-mono fixed inset-0 overflow-hidden bg-[#0a0a0a] text-sm text-[#f0f0f0] selection:bg-[#f0f0f0] selection:text-[#0a0a0a]">
 			<div
 				ref={terminalRef}
-				className="scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 crt-glow flex h-full w-full flex-col gap-1 overflow-y-auto p-8">
+				className="scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-800 crt-glow flex h-full w-full flex-col gap-1 overflow-y-auto p-8"
+			>
 				<div className="mb-6 opacity-80 select-none">
 					<pre className="leading-none font-bold tracking-tighter text-green-500">
 						{ASCII_LOGO}
 					</pre>
 				</div>
-
 				<div className="mb-6 border-b border-gray-800 pb-4 text-xs text-gray-500">
 					<div className="flex justify-between">
 						<span>OBSCURA BIOS v2.19.5 (RELEASE)</span>
@@ -129,7 +130,6 @@ const TerminalBoot = ({ userData, onBootComplete }) => {
 						<span>CPU: QUANTUM-CORE @ 4.20GHz</span>
 					</div>
 				</div>
-
 				{bootLines.map((line, index) => (
 					<BootMessage key={index} line={line} />
 				))}

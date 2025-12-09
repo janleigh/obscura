@@ -1,0 +1,13 @@
+/* Node shapes for minigames */
+/* .square { */
+	/* Already a square by default */
+    /* disregard warning pls */
+/* } */
+
+.triangle {
+	clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.diamond {
+	clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}

@@ -7,7 +7,8 @@ const ActivityLogger = ({ logs, logEndRef, onClear }) => {
 				</span>
 				<button
 					onClick={onClear}
-					className="text-[10px] text-gray-600 hover:text-gray-400">
+					className="text-[10px] text-gray-600 hover:text-gray-400"
+				>
 					[CLEAR]
 				</button>
 			</div>
@@ -24,6 +25,7 @@ const ActivityLogger = ({ logs, logEndRef, onClear }) => {
 									[{log.timestamp}]
 								</span>
 								<span
+									/* Behold, a masterpiece */
 									className={
 										log.type === "ERROR" ||
 										log.type === "CRITICAL"
@@ -34,21 +36,22 @@ const ActivityLogger = ({ logs, logEndRef, onClear }) => {
 													? "text-yellow-400"
 													: log.type ===
 																"INFO" ||
-														  log.type ===
+															log.type ===
 																"CONFIG"
 														? "text-cyan-400"
 														: log.type ===
 																	"SCAN" ||
-															  log.type ===
+																log.type ===
 																	"ANALYSIS" ||
-															  log.type ===
+																log.type ===
 																	"DECODE"
 															? "text-blue-400"
 															: log.type ===
-																  "GAME"
+																	"GAME"
 																? "text-purple-400"
 																: "text-gray-400"
-									}>
+									}
+								>
 									[{log.type}]
 								</span>
 								<span className="text-gray-300">

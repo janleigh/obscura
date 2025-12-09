@@ -1,7 +1,7 @@
 export const parseCommand = (cmd, onSubmit) => {
 	const trimmedCmd = cmd.trim();
 
-	// Submit command
+	// submit command
 	if (trimmedCmd.startsWith("/submit ")) {
 		const answer = trimmedCmd.substring(8).trim().toUpperCase();
 		if (answer) {
@@ -19,7 +19,7 @@ export const parseCommand = (cmd, onSubmit) => {
 		}
 	}
 
-	// Help command
+	// help command
 	if (trimmedCmd === "/help") {
 		return {
 			help: true,
@@ -32,12 +32,12 @@ export const parseCommand = (cmd, onSubmit) => {
 		};
 	}
 
-	// Clear command
+	// clear command
 	if (trimmedCmd === "/clear" || trimmedCmd === "/cls") {
 		return { clear: true };
 	}
 
-	// Unknown command
+	// unknown command
 	if (trimmedCmd.startsWith("/")) {
 		return {
 			error: true,
@@ -45,7 +45,7 @@ export const parseCommand = (cmd, onSubmit) => {
 		};
 	}
 
-	// If command without /, treat entire input as answer
+	// treat entire input as answer if no command prefix
 	const answer = trimmedCmd.toUpperCase();
 	onSubmit(answer);
 	return {

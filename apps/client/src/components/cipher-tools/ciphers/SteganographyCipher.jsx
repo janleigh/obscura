@@ -10,7 +10,7 @@ const SteganographyCipher = ({ addLog }) => {
 	const [error, setError] = useState("");
 	const [showMinigame, setShowMinigame] = useState(false);
 	const [minigameType, setMinigameType] = useState(null);
-	const [delay, setDelay] = useState(0);
+	const [_delay, setDelay] = useState(0);
 	const { playSound } = useSound();
 
 	const handleImageUpload = (e) => {
@@ -64,7 +64,10 @@ const SteganographyCipher = ({ addLog }) => {
 		handleMinigameSuccess(undefined, punishmentDelay);
 	};
 
-	const handleMinigameSuccess = async (showSuccess, additionalDelay = 0) => {
+	const handleMinigameSuccess = async (
+		showSuccess,
+		additionalDelay = 0
+	) => {
 		setShowMinigame(false);
 
 		if (showSuccess === true) {
@@ -198,7 +201,8 @@ const SteganographyCipher = ({ addLog }) => {
 				onClick={initiateScan}
 				disabled={isLoading || !stegoImage}
 				variant="primary"
-				className="w-full font-bold">
+				className="w-full font-bold"
+			>
 				{isLoading ? "PROCESSING..." : "SCAN IMAGE"}
 			</Button>
 			{/* Minigame Modal */}
@@ -245,7 +249,8 @@ const SteganographyCipher = ({ addLog }) => {
 									"Result copied to clipboard"
 								);
 							}}
-							className="text-[10px] font-bold text-green-600 hover:text-green-400">
+							className="text-[10px] font-bold text-green-600 hover:text-green-400"
+						>
 							[COPY RESULT]
 						</button>
 					</div>

@@ -9,7 +9,12 @@ import PuzzlePanel from "./PuzzlePanel";
 import TabNavigation from "./TabNavigation";
 import TutorialOverlay from "./TutorialOverlay";
 
-const MainGame = ({ userData, currentLevel, onUserDataUpdate, isLogin = false }) => {
+const MainGame = ({
+	userData,
+	currentLevel,
+	onUserDataUpdate,
+	isLogin = false
+}) => {
 	const [activeTab, setActiveTab] = useState("solver");
 	const [notes, setNotes] = useState("");
 	const [showTutorial, setShowTutorial] = useState(!isLogin); // Don't show tutorial for login users

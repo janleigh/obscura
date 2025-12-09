@@ -24,7 +24,8 @@ const TabNavigation = ({ activeTab, onTabChange, onShowTutorial }) => {
 							activeTab === tab.id
 								? "border-t-2 border-cyan-500 bg-[#0a0a0a] text-cyan-400"
 								: "border-t-2 border-transparent text-gray-600 hover:bg-[#0a0a0a] hover:text-gray-400"
-						}`}>
+						}`}
+					>
 						{activeTab === tab.id && (
 							<span className="absolute top-0 left-0 h-0.5 w-full animate-pulse bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
 						)}
@@ -40,7 +41,8 @@ const TabNavigation = ({ activeTab, onTabChange, onShowTutorial }) => {
 				<button
 					onClick={onShowTutorial}
 					className="flex h-6 w-6 items-center justify-center rounded border border-gray-800 text-xs text-gray-500 transition-colors hover:border-cyan-500 hover:text-cyan-400"
-					title="Show tutorial">
+					title="Show tutorial"
+				>
 					?
 				</button>
 			</div>

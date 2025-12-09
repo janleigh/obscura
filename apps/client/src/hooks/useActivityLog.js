@@ -18,8 +18,9 @@ export const useActivityLog = (maxLogs = 50) => {
 		setLogs([]);
 	}, []);
 
-	// Auto-scroll to bottom
-	useEffect(() => {
+	// auto-scroll to bottom
+	// biome-ignore lint/correctness/useExhaustiveDependencies: logs is the only dependency we want
+			useEffect(() => {
 		logEndRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [logs]);
 

@@ -62,7 +62,7 @@ const NodeGame = ({ onSuccess, onCancel, onFailure }) => {
 	const timerRef = useRef(null);
 	const { playSound } = useSound();
 
-	// Initialize Level
+	// biome-ignore lint/correctness/useExhaustiveDependencies: intentional
 	const initializeLevel = useCallback(() => {
 		const newNodes = [];
 		for (let i = 0; i < GRID_SIZE * GRID_SIZE; i++) {
@@ -90,7 +90,8 @@ const NodeGame = ({ onSuccess, onCancel, onFailure }) => {
 				return nextType !== currentType && !walkPath.includes(nId);
 			});
 
-			if (validNextSteps.length === 0) break; // Dead end
+			// no valid steps
+			if (validNextSteps.length === 0) break;
 
 			const nextId =
 				validNextSteps[
@@ -102,13 +103,13 @@ const NodeGame = ({ onSuccess, onCancel, onFailure }) => {
 			currentType = newNodes[nextId].type;
 		}
 
-		// If path is too short, retry (simple recursion)
+		// if path is too short, retry
 		if (potentialTargets.size < 3) {
 			initializeLevel();
 			return;
 		}
 
-		// Select 3-5 targets from the walk
+		// select 3-5 targets from the walk
 		const targetArray = Array.from(potentialTargets);
 		const selectedTargets = new Set();
 		const numTargets = Math.min(
@@ -140,8 +141,9 @@ const NodeGame = ({ onSuccess, onCancel, onFailure }) => {
 		}
 	}, [showIntro, initializeLevel]);
 
-	// Timer Logic
-	useEffect(() => {
+	// timer logic
+	// biome-ignore lint/correctness/useExhaustiveDependencies: intentional
+		useEffect(() => {
 		if (gameState === "playing") {
 			timerRef.current = setInterval(() => {
 				setTimeLeft((prev) => {
@@ -161,7 +163,7 @@ const NodeGame = ({ onSuccess, onCancel, onFailure }) => {
 		const col = id % GRID_SIZE;
 		const neighbors = [];
 
-		// Orthogonal neighbors only for cleaner "edges"
+		// directions: up, down, left, right
 		const directions = [
 			[-1, 0],
 			[1, 0],
@@ -188,8 +190,8 @@ const NodeGame = ({ onSuccess, onCancel, onFailure }) => {
 		if (gameState !== "playing") return;
 
 		const neighbors = getNeighbors(currentNodeId);
+		// not a neighbor
 		if (!neighbors.includes(targetId)) {
-			// Not adjacent
 			return;
 		}
 
@@ -210,10 +212,10 @@ const NodeGame = ({ onSuccess, onCancel, onFailure }) => {
 			newTargets.delete(targetId);
 			setTargets(newTargets);
 
-			// Bonus Time
+			// bonus time
 			setTimeLeft((prev) => Math.min(prev + TIME_BONUS, 30)); // Cap at 30s
 
-			// Win Condition
+			// win condition
 			if (newTargets.size === 0) {
 				handleWin();
 			}
@@ -245,7 +247,8 @@ const NodeGame = ({ onSuccess, onCancel, onFailure }) => {
 				onSuccess={onSuccess}
 				onCancel={onCancel}
 				isComplete={false}
-				hideFooter={true}>
+				hideFooter={true}
+			>
 				<MiniGameIntro
 					title=":: SYSTEM BREACH PROTOCOL ::"
 					messages={INTRO_MESSAGES}
@@ -262,7 +265,8 @@ const NodeGame = ({ onSuccess, onCancel, onFailure }) => {
 			colors="green"
 			onSuccess={onSuccess}
 			onCancel={onCancel}
-			isComplete={isComplete}>
+			isComplete={isComplete}
+		>
 			<div className="flex flex-col items-center justify-center gap-6">
 				<div className="flex w-full max-w-md justify-between font-mono text-xs">
 					<div className="text-green-600">
@@ -274,7 +278,8 @@ const NodeGame = ({ onSuccess, onCancel, onFailure }) => {
 					<div className="text-green-600">
 						TIME:{" "}
 						<span
-							className={`${timeLeft < 5 ? "animate-pulse text-red-500" : "text-green-400"}`}>
+							className={`${timeLeft < 5 ? "animate-pulse text-red-500" : "text-green-400"}`}
+						>
 							{timeLeft.toFixed(1)}s
 						</span>
 					</div>
@@ -344,7 +349,8 @@ const NodeGame = ({ onSuccess, onCancel, onFailure }) => {
 						className="relative z-10 grid gap-4"
 						style={{
 							gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))`
-						}}>
+						}}
+					>
 						{nodes.map((node) => {
 							const isCurrent = currentNodeId === node.id;
 							const isTarget = targets.has(node.id);
@@ -389,7 +395,8 @@ const NodeGame = ({ onSuccess, onCancel, onFailure }) => {
 										gameState !== "playing" ||
 										(!isNeighbor && !isCurrent)
 									}
-									className={`flex h-11 w-11 items-center justify-center border-2 transition-all duration-200 ${borderColor} ${bgColor} ${glow} ${node.type === "CIRCLE" ? "rounded-full" : "rounded-sm"} ${isNeighbor ? "scale-100 cursor-pointer hover:scale-105" : "cursor-default"} ${isCurrent ? "z-20 scale-110" : ""} `}>
+									className={`flex h-11 w-11 items-center justify-center border-2 transition-all duration-200 ${borderColor} ${bgColor} ${glow} ${node.type === "CIRCLE" ? "rounded-full" : "rounded-sm"} ${isNeighbor ? "scale-100 cursor-pointer hover:scale-105" : "cursor-default"} ${isCurrent ? "z-20 scale-110" : ""} `}
+								>
 									{/* Inner Symbol */}
 									<div
 										className={` ${node.type === "CIRCLE" ? "h-4 w-4 rounded-full" : "h-4 w-4 rounded-sm"} ${isTarget ? "animate-ping bg-green-400" : isVisited ? "bg-green-700" : "bg-green-900"} `}

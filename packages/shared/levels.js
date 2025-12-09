@@ -156,15 +156,6 @@ export function getLevelById(id) {
 }
 
 /**
- * Get all levels for a specific phase
- * @param {number} phase - Phase number (1, 2, or 3)
- * @returns {Array} Array of levels in that phase
- */
-export function getLevelsByPhase(phase) {
-	return LEVELS.filter((level) => level.phase === phase);
-}
-
-/**
  * Validate answer against level
  * @param {number} levelId - Level ID
  * @param {string} answer - Player's answer
@@ -178,24 +169,6 @@ export function validateAnswer(levelId, answer) {
 	const normalizedCorrect = level.answer.toLowerCase().trim();
 
 	return normalizedAnswer === normalizedCorrect;
-}
-
-/**
- * Get hint line by index
- * @param {number} levelId - Level ID
- * @param {number} hintIndex - Hint line index (0-based)
- * @returns {string|null} Hint line or null
- */
-export function getHint(levelId, hintIndex) {
-	const level = getLevelById(levelId);
-	if (
-		!level ||
-		!level.hintLines ||
-		hintIndex >= level.hintLines.length
-	) {
-		return null;
-	}
-	return level.hintLines[hintIndex];
 }
 
 /**

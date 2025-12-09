@@ -35,7 +35,8 @@ const CipherToolList = ({ ciphers, selectedCipher, onSelect }) => {
 								selectedCipher === cipher.value
 									? "border-cyan-400 bg-cyan-950/30 text-cyan-400"
 									: "border-gray-800 bg-[#0a0a0a] text-gray-400 hover:border-gray-600 hover:text-gray-300"
-							}`}>
+							}`}
+						>
 							<div className="flex items-center gap-2">
 								<div className="flex-1">
 									<div className="font-bold">

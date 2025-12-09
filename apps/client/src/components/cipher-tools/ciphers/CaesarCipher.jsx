@@ -4,11 +4,11 @@ import { API_ENDPOINTS } from "../../../config/api";
 import { useSound } from "../../../hooks/useSound";
 import Button from "../../shared/Button";
 import CipherInputForm from "../CipherInputForm";
-import ProgressBar from "../ProgressBar";
 import { VAPEGame, ZoneWallGame } from "../minigames";
+import ProgressBar from "../ProgressBar";
 
 const CaesarCipher = ({ cipherText, onCipherTextChange, addLog }) => {
-	const [delay, setDelay] = useState(0);
+	const [_delay, setDelay] = useState(0);
 	const [bruteForceProgress, setBruteForceProgress] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 	const [results, setResults] = useState([]);
@@ -44,7 +44,10 @@ const CaesarCipher = ({ cipherText, onCipherTextChange, addLog }) => {
 		handleMinigameSuccess(undefined, punishmentDelay);
 	};
 
-	const handleMinigameSuccess = async (showSuccess, additionalDelay = 0) => {
+	const handleMinigameSuccess = async (
+		showSuccess,
+		additionalDelay = 0
+	) => {
 		setShowMinigame(false);
 
 		if (showSuccess === true) {
@@ -95,6 +98,7 @@ const CaesarCipher = ({ cipherText, onCipherTextChange, addLog }) => {
 					addLog("SCAN", `Testing shift ${i}/25`);
 				}
 			} catch (err) {
+				console.error(err);
 				// Silently continue if a specific shift fails
 				addLog("WARN", `Shift ${i} failed, continuing...`);
 			}
@@ -152,7 +156,8 @@ const CaesarCipher = ({ cipherText, onCipherTextChange, addLog }) => {
 				onClick={initiateBruteForce}
 				disabled={isLoading || !cipherText.trim()}
 				variant="success"
-				className="w-full font-bold">
+				className="w-full font-bold"
+			>
 				{isLoading ? "PROCESSING..." : "INITIATE BRUTE FORCE"}
 			</Button>
 			{/* Minigame Modal */}
@@ -190,7 +195,8 @@ const CaesarCipher = ({ cipherText, onCipherTextChange, addLog }) => {
 							{results.map(({ shift, plaintext }) => (
 								<div
 									key={shift}
-									className="group relative flex flex-col gap-1 border border-gray-800 bg-black/40 p-2 transition-all hover:border-green-500/50 hover:bg-green-950/10">
+									className="group relative flex flex-col gap-1 border border-gray-800 bg-black/40 p-2 transition-all hover:border-green-500/50 hover:bg-green-950/10"
+								>
 									<div className="mb-1 flex items-center justify-between border-b border-gray-800 pb-1 group-hover:border-green-900/50">
 										<span className="font-mono text-[10px] text-gray-500 group-hover:text-green-400/70">
 											SHIFT +{shift}
@@ -205,7 +211,8 @@ const CaesarCipher = ({ cipherText, onCipherTextChange, addLog }) => {
 													`Copied result for shift ${shift}`
 												);
 											}}
-											className="hidden text-[10px] font-bold text-green-500 group-hover:block hover:text-green-300">
+											className="hidden text-[10px] font-bold text-green-500 group-hover:block hover:text-green-300"
+										>
 											[COPY]
 										</button>
 									</div>

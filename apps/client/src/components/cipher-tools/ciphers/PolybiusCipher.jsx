@@ -28,7 +28,8 @@ const PolybiusCipher = () => {
 							{[1, 2, 3, 4, 5].map((col) => (
 								<div
 									key={col}
-									className="flex h-7 w-7 items-center justify-center text-[10px] font-bold text-teal-500">
+									className="flex h-7 w-7 items-center justify-center text-[10px] font-bold text-teal-500"
+								>
 									{col}
 								</div>
 							))}
@@ -36,14 +37,16 @@ const PolybiusCipher = () => {
 						{POLYBIUS_GRID.map((row, rowIndex) => (
 							<div
 								key={rowIndex}
-								className="mb-1 flex gap-1">
+								className="mb-1 flex gap-1"
+							>
 								<div className="flex h-7 w-7 items-center justify-center text-[10px] font-bold text-teal-500">
 									{rowIndex + 1}
 								</div>
 								{row.map((letter, colIndex) => (
 									<div
 										key={colIndex}
-										className="flex h-7 w-7 items-center justify-center border border-gray-800 bg-black/40 font-mono text-[10px] text-green-400 transition-all hover:border-teal-500/50 hover:bg-teal-950/20 hover:text-teal-300">
+										className="flex h-7 w-7 items-center justify-center border border-gray-800 bg-black/40 font-mono text-[10px] text-green-400 transition-all hover:border-teal-500/50 hover:bg-teal-950/20 hover:text-teal-300"
+									>
 										{letter}
 									</div>
 								))}

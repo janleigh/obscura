@@ -4,7 +4,7 @@ import { useSound } from "../../hooks/useSound";
 const TerminalHistory = ({ history, historyEndRef, message }) => {
 	const { playSound } = useSound();
 
-	// Play sound effects based on message type
+	// play sound effects based on message type
 	useEffect(() => {
 		if (message?.type === "success") {
 			playSound("correctAns");
@@ -26,7 +26,8 @@ const TerminalHistory = ({ history, historyEndRef, message }) => {
 								: entry.type === "system"
 									? "text-cyan-400"
 									: "text-gray-500"
-					}>
+					}
+				>
 					{entry.type === "input" && "> "}
 					{entry.text}
 				</div>
@@ -39,7 +40,8 @@ const TerminalHistory = ({ history, historyEndRef, message }) => {
 							: message.type === "error"
 								? "border-red-500 text-red-400"
 								: "border-cyan-500 text-cyan-400"
-					}`}>
+					}`}
+				>
 					<span className="shrink-0">
 						{message.type === "success"
 							? "✓"

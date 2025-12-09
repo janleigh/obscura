@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/useExhaustiveDependencies: intentional */
 import { useEffect, useState } from "react";
 import { useSound } from "../../../hooks/useSound";
 import MiniGameIntro from "./MiniGameIntro";
@@ -60,7 +61,8 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 	}, [showIntro]);
 
 	const initializeGame = () => {
-		// Generate random sequence with random length
+		// generate random sequence
+		// todo: factor in the difficulty of levels later
 		const sequenceLength =
 			MIN_SEQUENCE_LENGTH +
 			Math.floor(
@@ -74,8 +76,6 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 			newSequence.push(char);
 		}
 		setSequence(newSequence);
-
-		// Display sequence
 		displaySequence(newSequence);
 	};
 
@@ -83,7 +83,7 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 		setIsDisplaying(true);
 		setCurrentDisplay("");
 
-		// Show each character
+		// show each character
 		for (let i = 0; i < seq.length; i++) {
 			await new Promise((resolve) =>
 				setTimeout(resolve, DISPLAY_INTERVAL)
@@ -92,7 +92,7 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 			playSound("buttonPress");
 		}
 
-		// Clear display after last character
+		// clear display after last character
 		await new Promise((resolve) =>
 			setTimeout(resolve, DISPLAY_INTERVAL)
 		);
@@ -107,16 +107,14 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 		setUserInput(newInput);
 		playSound("buttonPress");
 
-		// Check if input matches
+		// check if input matches
 		const expectedChar = sequence[userInput.length];
 		if (char !== expectedChar) {
-			// Wrong character
 			const newAttempts = attempts + 1;
 			setAttempts(newAttempts);
 			setError(true);
 
 			if (newAttempts >= 3) {
-				// Failed after 3 attempts
 				setFailed(true);
 				if (onFailure) {
 					setTimeout(() => onFailure(), 2000);
@@ -131,7 +129,7 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 			return;
 		}
 
-		// Check if complete
+		// complete check
 		if (newInput.length === sequence.length) {
 			setIsComplete(true);
 			playSound("ciphertoolFinish");
@@ -139,7 +137,6 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 	};
 
 	const getKeypadButtons = () => {
-		// Create keypad with all characters
 		return CHARACTERS.split("");
 	};
 
@@ -152,7 +149,8 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 				onSuccess={onSuccess}
 				onCancel={onCancel}
 				isComplete={false}
-				hideFooter={true}>
+				hideFooter={true}
+			>
 				<MiniGameIntro
 					title=":: INITIALIZING MEMORY PROTOCOL ::"
 					messages={INTRO_MESSAGES}
@@ -169,7 +167,8 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 			colors="yellow"
 			onSuccess={onSuccess}
 			onCancel={onCancel}
-			isComplete={isComplete}>
+			isComplete={isComplete}
+		>
 			<div className="flex flex-col items-center justify-center gap-6">
 				{/* Stats Bar */}
 				<div className="flex w-full max-w-2xl justify-between font-mono text-xs">
@@ -182,7 +181,8 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 					<div className="text-yellow-600">
 						ATTEMPTS:{" "}
 						<span
-							className={`${attempts >= 2 ? "animate-pulse text-red-500" : "text-yellow-400"}`}>
+							className={`${attempts >= 2 ? "animate-pulse text-red-500" : "text-yellow-400"}`}
+						>
 							{attempts}/3
 						</span>
 					</div>
@@ -221,7 +221,8 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 									error
 										? "border-red-400 bg-red-950/20 text-red-400 shadow-[0_0_10px_rgba(248,113,113,0.3)]"
 										: "border-yellow-400 bg-yellow-950/20 text-yellow-400 shadow-[0_0_10px_rgba(234,179,8,0.2)]"
-								}`}>
+								}`}
+							>
 								{char}
 							</div>
 						))}
@@ -242,7 +243,8 @@ const MemoryGame = ({ onSuccess, onCancel, onFailure }) => {
 									error
 										? "cursor-not-allowed border-gray-800 bg-gray-900 text-gray-600"
 										: "border-yellow-900 bg-black text-yellow-600 hover:scale-105 hover:border-yellow-400 hover:bg-yellow-950/30 hover:text-yellow-400 hover:shadow-[0_0_10px_rgba(234,179,8,0.2)] active:scale-95"
-								}`}>
+								}`}
+							>
 								{char}
 							</button>
 						))}

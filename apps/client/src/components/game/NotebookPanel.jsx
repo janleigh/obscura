@@ -19,6 +19,7 @@ const NotebookPanel = ({ notes, onChange }) => {
 			</div>
 			<div className="flex min-h-0 flex-1 overflow-hidden">
 				{/* Line numbers */}
+				{/* Dynamically shown */}
 				<div className="shrink-0 border-r border-gray-800 bg-[#050505] px-2 py-4 select-none">
 					<div className="font-mono text-xs leading-normal text-gray-700">
 						{Array.from(

@@ -34,6 +34,7 @@ export const useLevelSubmission = (
 				}
 			);
 
+			// biome-ignore lint/correctness/noUnusedVariables: used in other contexts
 			const { correct, storyFragment, transmission, nextLevelId } =
 				response.data;
 
@@ -43,13 +44,13 @@ export const useLevelSubmission = (
 					text: "CIPHER DECRYPTED!"
 				});
 
-				// Show story fragment before proceeding to next level
+				// show story fragment before proceeding to next level
 				if (storyFragment && onShowStoryFragment) {
 					setTimeout(() => {
 						setMessage(null);
 						onShowStoryFragment(storyFragment);
 
-						// Update user data after story fragment starts showing
+						// update user data after story fragment starts showing
 						setTimeout(
 							() => {
 								if (onUserDataUpdate) {
@@ -68,7 +69,6 @@ export const useLevelSubmission = (
 						);
 					}, 1500);
 				} else {
-					// No story fragment, proceed directly
 					if (onUserDataUpdate) {
 						onUserDataUpdate({
 							...userData,

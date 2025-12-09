@@ -29,21 +29,27 @@ class App {
 
 		this.app.use("/hash", (req, res) => {
 			let gitHash = "dev";
-			
+
 			// fallback to environment variable set by Vercel
 			// long live the triangle company
 			if (process.env.VERCEL_GIT_COMMIT_SHA) {
-				gitHash = process.env.VERCEL_GIT_COMMIT_SHA.substring(0, 7);
+				gitHash = process.env.VERCEL_GIT_COMMIT_SHA.substring(
+					0,
+					7
+				);
 			} else {
 				try {
 					gitHash = execSync("git rev-parse --short HEAD")
 						.toString()
 						.trim();
-				} catch (err) {
+				} catch (_err) {
 					// Git command failed, keep "dev"
+					console.warn(
+						"Could not retrieve git hash, using 'dev'"
+					);
 				}
 			}
-			
+
 			res.json({ gitHash });
 		});
 

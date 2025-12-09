@@ -4,7 +4,7 @@ import { useSound } from "../../hooks/useSound";
 const SubmissionFeedback = ({ message }) => {
 	const { playSound } = useSound();
 
-	// Play sound effects based on message type
+	// play sound effects based on message type
 	useEffect(() => {
 		if (message?.type === "success") {
 			playSound("correctAns");
@@ -24,7 +24,8 @@ const SubmissionFeedback = ({ message }) => {
 						: message.type === "story"
 							? "border-cyan-500 text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.1)]"
 							: "border-red-500 text-red-400 shadow-[0_0_20px_rgba(239,68,68,0.1)]"
-				}`}>
+				}`}
+			>
 				<div className="flex items-start gap-3">
 					<div
 						className={`mt-0.5 shrink-0 ${
@@ -33,8 +34,8 @@ const SubmissionFeedback = ({ message }) => {
 								: message.type === "error"
 									? "text-red-500"
 									: "text-cyan-500"
-						}`}>
-					</div>
+						}`}
+					></div>
 					<div className="flex-1 space-y-1">
 						<div className="flex items-center justify-between">
 							<span className="text-[10px] font-bold tracking-widest opacity-70">

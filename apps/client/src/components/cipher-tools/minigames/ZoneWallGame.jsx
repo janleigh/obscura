@@ -61,6 +61,7 @@ const ZoneWallGame = ({ onSuccess, onCancel, onFailure }) => {
 
 	const animationRef = useRef(null);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: this rerenders every frame
 	useEffect(() => {
 		if (!showIntro) {
 			initializeGame();
@@ -72,6 +73,7 @@ const ZoneWallGame = ({ onSuccess, onCancel, onFailure }) => {
 		};
 	}, [showIntro]);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: same as above
 	useEffect(() => {
 		if (!showIntro && isMoving && currentLine < TOTAL_LINES) {
 			animateBar();
@@ -84,7 +86,7 @@ const ZoneWallGame = ({ onSuccess, onCancel, onFailure }) => {
 	}, [showIntro, isMoving, currentLine]);
 
 	const initializeGame = () => {
-		// Generate lines with random target positions
+		// generate lines with random target positions
 		const generatedLines = Array(TOTAL_LINES)
 			.fill(null)
 			.map((_, i) => {
@@ -109,7 +111,7 @@ const ZoneWallGame = ({ onSuccess, onCancel, onFailure }) => {
 		setBarPosition((prev) => {
 			const next = prev + BAR_SPEED;
 			if (next >= BAR_WIDTH) {
-				return 0; // Loop back to start
+				return 0; //loop
 			}
 			return next;
 		});
@@ -130,7 +132,7 @@ const ZoneWallGame = ({ onSuccess, onCancel, onFailure }) => {
 			barPosition >= currentLineData.targetStart &&
 			barPosition <= currentLineData.targetEnd;
 
-		// Update line state
+		// upd lines
 		setLines((prev) =>
 			prev.map((line, idx) =>
 				idx === currentLine ? { ...line, hit: isHit } : line
@@ -144,14 +146,13 @@ const ZoneWallGame = ({ onSuccess, onCancel, onFailure }) => {
 			setMisses((prev) => prev + 1);
 		}
 
-		// Stop moving and move to next line
+		// stop moving
 		setIsMoving(false);
 
 		setTimeout(() => {
 			const nextLine = currentLine + 1;
 			if (nextLine >= TOTAL_LINES) {
-				// Game complete - check results
-				endGame();
+				endGame(); // game finished
 			} else {
 				setCurrentLine(nextLine);
 				setBarPosition(0);
@@ -211,7 +212,8 @@ const ZoneWallGame = ({ onSuccess, onCancel, onFailure }) => {
 				onSuccess={onSuccess}
 				onCancel={onCancel}
 				isComplete={false}
-				hideFooter={true}>
+				hideFooter={true}
+			>
 				<MiniGameIntro
 					title=":: INITIALIZING ZONEWALL PROTOCOL ::"
 					messages={INTRO_MESSAGES}
@@ -227,7 +229,8 @@ const ZoneWallGame = ({ onSuccess, onCancel, onFailure }) => {
 			description={`Click when the bar passes over the red target area. Need ${REQUIRED_HITS} hits out of ${TOTAL_LINES} attempts.`}
 			onSuccess={onSuccess}
 			onCancel={null}
-			isComplete={isComplete}>
+			isComplete={isComplete}
+		>
 			<div className="flex flex-col items-center justify-center gap-6">
 				{/* Stats */}
 				<div className="flex w-full max-w-3xl justify-between font-mono text-xs">
@@ -245,7 +248,8 @@ const ZoneWallGame = ({ onSuccess, onCancel, onFailure }) => {
 						<div className="text-red-600">
 							MISSES:{" "}
 							<span
-								className={`${misses >= MAX_MISSES ? "animate-pulse text-red-500" : "text-red-400"}`}>
+								className={`${misses >= MAX_MISSES ? "animate-pulse text-red-500" : "text-red-400"}`}
+							>
 								{misses}/{MAX_MISSES}
 							</span>
 						</div>
@@ -279,9 +283,11 @@ const ZoneWallGame = ({ onSuccess, onCancel, onFailure }) => {
 						return (
 							<div
 								key={line.id}
-								className={`flex items-center gap-3 transition-all duration-300 ${isCurrent ? "scale-105" : "scale-100"}`}>
+								className={`flex items-center gap-3 transition-all duration-300 ${isCurrent ? "scale-105" : "scale-100"}`}
+							>
 								<span
-									className={`${lineColor} ${glowClass} transition-all duration-300`}>
+									className={`${lineColor} ${glowClass} transition-all duration-300`}
+								>
 									{renderLine(line, idx)}
 								</span>
 								{!isPending && (
@@ -290,7 +296,8 @@ const ZoneWallGame = ({ onSuccess, onCancel, onFailure }) => {
 											isHit
 												? "text-green-400 drop-shadow-[0_0_5px_rgba(34,197,94,0.5)]"
 												: "text-red-400 drop-shadow-[0_0_5px_rgba(239,68,68,0.5)]"
-										}`}>
+										}`}
+									>
 										{isHit ? "✓" : "✗"}
 									</span>
 								)}
@@ -303,7 +310,8 @@ const ZoneWallGame = ({ onSuccess, onCancel, onFailure }) => {
 					<button
 						onClick={handleClick}
 						disabled={!isMoving || currentLine >= TOTAL_LINES}
-						className="mt-2 border-2 border-green-400 bg-black px-10 py-4 font-mono text-base font-bold text-green-400 transition-all duration-200 hover:scale-105 hover:bg-green-950/40 hover:shadow-[0_0_20px_rgba(34,197,94,0.3)] active:scale-95 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100 disabled:hover:shadow-none">
+						className="mt-2 border-2 border-green-400 bg-black px-10 py-4 font-mono text-base font-bold text-green-400 transition-all duration-200 hover:scale-105 hover:bg-green-950/40 hover:shadow-[0_0_20px_rgba(34,197,94,0.3)] active:scale-95 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:scale-100 disabled:hover:shadow-none"
+					>
 						[ CLICK NOW ]
 					</button>
 				)}

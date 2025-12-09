@@ -21,7 +21,7 @@ const CipherTools = () => {
 	const { isLoading, result, error, decrypt, clearResults } =
 		useCipherOperations(addLog);
 
-	// Initialize toolkit
+	// init toolkit logs
 	useEffect(() => {
 		addLog("INFO", "Cipher Toolkit v3.3.01 initialized");
 		addLog("INFO", "9 cryptographic tools loaded successfully");
@@ -54,7 +54,7 @@ const CipherTools = () => {
 			addLog("CONFIG", `Key length: ${key.length} characters`);
 		}
 
-		// Launch minigame before decryption
+		// launch minigame before decryption
 		addLog("INFO", "Launching two-factor authentication...");
 		const games = ["vape", "zonewall", "memory", "node"];
 		const selectedGame =
@@ -187,7 +187,8 @@ const CipherTools = () => {
 										isLoading || !cipherText.trim()
 									}
 									variant="success"
-									className="w-full font-bold">
+									className="w-full font-bold"
+								>
 									{isLoading
 										? "PROCESSING..."
 										: "EXECUTE DECRYPT"}

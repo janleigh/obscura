@@ -302,7 +302,7 @@ class CipherEngine {
 			analysis.suggestions.push("Possible Polybius square cipher");
 		}
 		// Yknow what uses periods and dashes.
-		if (/^[\.\-\s\/]+$/.test(ciphertext)) {
+		if (/^[.\-\s/]+$/.test(ciphertext)) {
 			analysis.suggestions.push("Likely Morse code");
 		}
 

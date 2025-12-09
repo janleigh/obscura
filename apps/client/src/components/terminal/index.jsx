@@ -21,7 +21,7 @@ const Terminal = ({ onSubmit, isProcessing, message }) => {
 			const cmd = command.trim();
 			addEntry("input", cmd);
 
-			// Play button press sound
+			// button press sound
 			playSound("buttonPress");
 
 			const result = parseCommand(cmd, onSubmit);

@@ -49,104 +49,110 @@ const LoginForm = ({
 						<span className="text-cyan-400">_</span>
 					)}
 				</div>
-				<form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-				{/* Username input */}
-				<div className="group mb-6 space-y-2">
-					<label className="flex items-center justify-between text-[10px] tracking-wider text-gray-500 group-focus-within:text-cyan-400">
-						<span>SYSTEM IDENTIFIER</span>
-						<span className="opacity-0 transition-opacity group-focus-within:opacity-100">
-							REQUIRED
-						</span>
-					</label>
-					<div className="flex items-center border border-gray-800 bg-black/50 px-3 py-2 transition-colors group-focus-within:border-cyan-500/50 group-focus-within:bg-cyan-950/10">
-						<span className="mr-3 text-cyan-600">❯</span>
-						<input
-							type="text"
-							value={username}
-							onChange={(e) =>
-								onUsernameChange(e.target.value)
-							}
-							onKeyDown={(e) => {
-								if (e.key === "Enter" && !isLoading) {
-									document
-										.getElementById(
-											"login-password-input"
-										)
-										?.focus();
+				<form
+					onSubmit={(e) => {
+						e.preventDefault();
+						handleSubmit();
+					}}
+				>
+					{/* Username input */}
+					<div className="group mb-6 space-y-2">
+						<label className="flex items-center justify-between text-[10px] tracking-wider text-gray-500 group-focus-within:text-cyan-400">
+							<span>SYSTEM IDENTIFIER</span>
+							<span className="opacity-0 transition-opacity group-focus-within:opacity-100">
+								REQUIRED
+							</span>
+						</label>
+						<div className="flex items-center border border-gray-800 bg-black/50 px-3 py-2 transition-colors group-focus-within:border-cyan-500/50 group-focus-within:bg-cyan-950/10">
+							<span className="mr-3 text-cyan-600">❯</span>
+							<input
+								type="text"
+								value={username}
+								onChange={(e) =>
+									onUsernameChange(e.target.value)
 								}
-							}}
-							onFocus={() => setFocusedField("username")}
-							disabled={isLoading}
-							className="flex-1 border-none bg-transparent font-mono text-sm text-white placeholder-gray-800 outline-none disabled:text-gray-600"
-							placeholder="ENTER_USERNAME"
-							autoFocus
-							maxLength={32}
-						/>
-						{!isLoading &&
-							showCursor &&
-							focusedField === "username" && (
-								<span className="ml-1 text-cyan-400">
-									█
-								</span>
-							)}
+								onKeyDown={(e) => {
+									if (e.key === "Enter" && !isLoading) {
+										document
+											.getElementById(
+												"login-password-input"
+											)
+											?.focus();
+									}
+								}}
+								onFocus={() => setFocusedField("username")}
+								disabled={isLoading}
+								className="flex-1 border-none bg-transparent font-mono text-sm text-white placeholder-gray-800 outline-none disabled:text-gray-600"
+								placeholder="ENTER_USERNAME"
+								autoFocus
+								maxLength={32}
+							/>
+							{!isLoading &&
+								showCursor &&
+								focusedField === "username" && (
+									<span className="ml-1 text-cyan-400">
+										█
+									</span>
+								)}
+						</div>
 					</div>
-				</div>
-				{/* Password input */}
-				<div className="group mb-8 space-y-2">
-					<label className="flex items-center justify-between text-[10px] tracking-wider text-gray-500 group-focus-within:text-cyan-400">
-						<span>ACCESS KEY</span>
-						<span className="opacity-0 transition-opacity group-focus-within:opacity-100">
-							ENCRYPTED
-						</span>
-					</label>
-					<div className="flex items-center border border-gray-800 bg-black/50 px-3 py-2 transition-colors group-focus-within:border-cyan-500/50 group-focus-within:bg-cyan-950/10">
-						<span className="mr-3 text-cyan-600">❯</span>
-						<input
-							id="login-password-input"
-							type="password"
-							value={password}
-							onChange={(e) =>
-								onPasswordChange(e.target.value)
-							}
-							onKeyDown={(e) => {
-								if (
-									e.key === "Enter" &&
-									username.trim() &&
-									password.trim() &&
-									!isLoading
-								) {
-									handleSubmit();
+					{/* Password input */}
+					<div className="group mb-8 space-y-2">
+						<label className="flex items-center justify-between text-[10px] tracking-wider text-gray-500 group-focus-within:text-cyan-400">
+							<span>ACCESS KEY</span>
+							<span className="opacity-0 transition-opacity group-focus-within:opacity-100">
+								ENCRYPTED
+							</span>
+						</label>
+						<div className="flex items-center border border-gray-800 bg-black/50 px-3 py-2 transition-colors group-focus-within:border-cyan-500/50 group-focus-within:bg-cyan-950/10">
+							<span className="mr-3 text-cyan-600">❯</span>
+							<input
+								id="login-password-input"
+								type="password"
+								value={password}
+								onChange={(e) =>
+									onPasswordChange(e.target.value)
 								}
-							}}
-							onFocus={() => setFocusedField("password")}
-							disabled={isLoading}
-							className="flex-1 border-none bg-transparent font-mono text-sm text-white placeholder-gray-800 outline-none disabled:text-gray-600"
-							placeholder="ENTER_PASSWORD"
-							maxLength={64}
-						/>
-						{!isLoading &&
-							showCursor &&
-							focusedField === "password" && (
-								<span className="ml-1 text-cyan-400">
-									█
-								</span>
-							)}
+								onKeyDown={(e) => {
+									if (
+										e.key === "Enter" &&
+										username.trim() &&
+										password.trim() &&
+										!isLoading
+									) {
+										handleSubmit();
+									}
+								}}
+								onFocus={() => setFocusedField("password")}
+								disabled={isLoading}
+								className="flex-1 border-none bg-transparent font-mono text-sm text-white placeholder-gray-800 outline-none disabled:text-gray-600"
+								placeholder="ENTER_PASSWORD"
+								maxLength={64}
+							/>
+							{!isLoading &&
+								showCursor &&
+								focusedField === "password" && (
+									<span className="ml-1 text-cyan-400">
+										█
+									</span>
+								)}
+						</div>
 					</div>
-				</div>
-				{/* Error message */}
-				{error && (
-					<div className="mb-6 border border-red-900/50 bg-red-950/20 p-3 text-xs text-red-400">
-						<span className="mr-2 font-bold">ERROR:</span>
-						{error}
-					</div>
-				)}
+					{/* Error message */}
+					{error && (
+						<div className="mb-6 border border-red-900/50 bg-red-950/20 p-3 text-xs text-red-400">
+							<span className="mr-2 font-bold">ERROR:</span>
+							{error}
+						</div>
+					)}
 				</form>
 				{/* Actions */}
 				<div className="flex items-center justify-between pt-4">
 					<button
 						onClick={handleRegisterClick}
 						disabled={isLoading}
-						className="group text-xs text-gray-500 transition-colors hover:text-gray-300 disabled:opacity-50">
+						className="group text-xs text-gray-500 transition-colors hover:text-gray-300 disabled:opacity-50"
+					>
 						<span className="mr-2 inline-block transition-transform group-hover:translate-x-1">
 							→
 						</span>
@@ -159,7 +165,8 @@ const LoginForm = ({
 							!username.trim() ||
 							!password.trim()
 						}
-						className="group relative border border-cyan-700 bg-cyan-950/30 px-6 py-2 text-xs font-bold text-cyan-400 transition-all hover:bg-cyan-900/50 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] disabled:cursor-not-allowed disabled:border-gray-800 disabled:bg-transparent disabled:text-gray-600 disabled:shadow-none">
+						className="group relative border border-cyan-700 bg-cyan-950/30 px-6 py-2 text-xs font-bold text-cyan-400 transition-all hover:bg-cyan-900/50 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] disabled:cursor-not-allowed disabled:border-gray-800 disabled:bg-transparent disabled:text-gray-600 disabled:shadow-none"
+					>
 						<span className="relative z-10">
 							{isLoading
 								? "AUTHENTICATING..."

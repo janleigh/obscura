@@ -1,0 +1,106 @@
+/* scanline animation */
+@keyframes scanline {
+	0% {
+		transform: translateY(-100%);
+	}
+	100% {
+		transform: translateY(100%);
+	}
+}
+
+.animate-scanline {
+	animation: scanline 8s linear infinite;
+}
+
+/* fade in animation */
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.animate-fade-in {
+	animation: fade-in 0.5s ease-out;
+}
+
+.animate-fadeIn {
+	animation: fade-in 0.8s ease-out;
+}
+
+/* CRT flicker animation (subtle) */
+@keyframes crt-flicker {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.98;
+	}
+}
+
+.crt-flicker {
+	animation: crt-flicker 0.15s infinite alternate;
+}
+
+/* CRT Turn On Animation */
+@keyframes crt-turn-on {
+	0% {
+		transform: scaleY(0.005) scaleX(0);
+		opacity: 0;
+		filter: brightness(0);
+	}
+	30% {
+		transform: scaleY(0.005) scaleX(1);
+		opacity: 1;
+		filter: brightness(3);
+	}
+	60% {
+		transform: scaleY(0.005) scaleX(1);
+		opacity: 1;
+		filter: brightness(3);
+	}
+	100% {
+		transform: scaleY(1) scaleX(1);
+		opacity: 1;
+		filter: brightness(1);
+	}
+}
+
+.animate-crt-turn-on {
+	animation: crt-turn-on 0.4s ease-out forwards;
+	transform-origin: center;
+}
+
+/* CRT Turn Off Animation */
+@keyframes crt-turn-off {
+	0% {
+		transform: scaleY(1) scaleX(1);
+		opacity: 1;
+		filter: brightness(1);
+	}
+	40% {
+		transform: scaleY(0.005) scaleX(1);
+		opacity: 1;
+		filter: brightness(3);
+	}
+	70% {
+		transform: scaleY(0.005) scaleX(1);
+		opacity: 1;
+		filter: brightness(3);
+	}
+	100% {
+		transform: scaleY(0.005) scaleX(0);
+		opacity: 0;
+		filter: brightness(0);
+	}
+}
+
+.animate-crt-turn-off {
+	animation: crt-turn-off 0.4s ease-in forwards;
+	transform-origin: center;
+}

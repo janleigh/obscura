@@ -7,17 +7,11 @@ const WelcomeScreen = ({
 	tutorialText,
 	showCursor,
 	typingComplete,
-	onBegin,
 	onShowAbout,
 	gitHash
 }) => {
 	const [hash, setHash] = useState("");
-	const { playSound } = useSound();
-
-	const handleBegin = () => {
-		playSound("buttonPress");
-		onBegin();
-	};
+	useSound();
 
 	const handleAbout = (e) => {
 		e.stopPropagation();
@@ -76,7 +70,8 @@ const WelcomeScreen = ({
 				<Button
 					onClick={handleAbout}
 					variant="secondary"
-					className="px-4 py-2 text-xs opacity-50 transition-opacity hover:opacity-100">
+					className="px-4 py-2 text-xs opacity-50 transition-opacity hover:opacity-100"
+				>
 					SYSTEM ARCHITECTS
 				</Button>
 			</div>

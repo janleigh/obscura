@@ -35,7 +35,8 @@ const Button = ({
 			onClick={handleClick}
 			disabled={disabled}
 			className={`px-4 py-2 text-xs transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${variants[variant]} ${className}`}
-			{...props}>
+			{...props}
+		>
 			{children}
 		</button>
 	);

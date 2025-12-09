@@ -47,6 +47,7 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 	const [deadSlots, setDeadSlots] = useState([]);
 	const { playSound } = useSound();
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: this is intentional
 	useEffect(() => {
 		if (!showIntro) {
 			initializeGame();
@@ -54,12 +55,11 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 	}, [showIntro]);
 
 	const initializeGame = () => {
-		// Create grid
 		const newGrid = Array(GRID_SIZE * GRID_SIZE)
 			.fill(null)
-			.map((_, i) => i);
+			.map((_, i) => i); // init grid
 
-		// Generate random dead slots (skulls)
+		// generate dead slots
 		const numDeadSlots =
 			Math.floor(Math.random() * 4) +
 			2 +
@@ -75,7 +75,7 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 		}
 		setDeadSlots(deadSlotIndices);
 
-		// Place initial nodes (ensure they start in invalid positions)
+		// place initial nodes and ensure they start in invalid positions
 		const numNodes = Math.floor(Math.random() * 3) + 4; // 4-6 nodes
 		const initialNodes = [];
 		const usedPositions = [...deadSlotIndices];
@@ -102,6 +102,12 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 		const col = pos % GRID_SIZE;
 		const adj = [];
 
+		// tldr:
+		// loop through all adjacent cells including diagonals
+		// skip the center cell (dr=0, dc=0)
+		// calculate new row and column
+		// check if within bounds
+		// convert back to index and add to adjacents
 		for (let dr = -1; dr <= 1; dr++) {
 			for (let dc = -1; dc <= 1; dc++) {
 				if (dr === 0 && dc === 0) continue;
@@ -121,7 +127,7 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 	};
 
 	const checkWinCondition = (currentNodes) => {
-		// Check if any two nodes are adjacent
+		// check if any two nodes are adjacent
 		for (let i = 0; i < currentNodes.length; i++) {
 			const adjacent = getAdjacentPositions(
 				currentNodes[i].position
@@ -143,10 +149,10 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 		if (deadSlots.includes(cellIndex)) return;
 
 		if (selectedNode !== null) {
-			// Move the selected node
+			// move the selected node
 			const isOccupied = nodes.some((n) => n.position === cellIndex);
 			if (!isOccupied) {
-				// Check if the target cell is adjacent to the selected node's current position
+				// check if the target cell is adjacent to the selected node's current position
 				const selectedNodeObj = nodes.find(
 					(n) => n.id === selectedNode
 				);
@@ -164,7 +170,7 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 					setNodes(newNodes);
 					setSelectedNode(null);
 
-					// Check win condition
+					// check win condition
 					if (checkWinCondition(newNodes)) {
 						setIsComplete(true);
 						playSound("ciphertoolFinish");
@@ -172,7 +178,7 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 				}
 			}
 		} else {
-			// Select a node at this position
+			// select a node at this position
 			const nodeAtPos = nodes.find((n) => n.position === cellIndex);
 			if (nodeAtPos) {
 				playSound("buttonPress");
@@ -185,7 +191,7 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 		if (deadSlots.includes(cellIndex)) {
 			return (
 				<span className="text-2xl text-red-500 opacity-50 drop-shadow-[0_0_5px_rgba(239,68,68,0.5)]">
-					💀
+					❌
 				</span>
 			);
 		}
@@ -199,7 +205,8 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 							isSelected
 								? "animate-pulse bg-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.8)]"
 								: "bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.5)]"
-						}`}></div>
+						}`}
+					></div>
 				</div>
 			);
 		}
@@ -215,7 +222,8 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 				onSuccess={onSuccess}
 				onCancel={onCancel}
 				isComplete={false}
-				hideFooter={true}>
+				hideFooter={true}
+			>
 				<MiniGameIntro
 					title=":: INITIALIZING V.A.P.E. PROTOCOL ::"
 					messages={INTRO_MESSAGES}
@@ -232,7 +240,8 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 			colors="cyan"
 			onSuccess={onSuccess}
 			onCancel={onCancel}
-			isComplete={isComplete}>
+			isComplete={isComplete}
+		>
 			<div className="flex flex-col items-center justify-center gap-6">
 				{/* Stats Bar */}
 				<div className="flex w-full max-w-md justify-between font-mono text-xs">
@@ -253,7 +262,8 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 					className="grid gap-2 border-2 border-cyan-900/50 bg-black/30 p-4 shadow-[0_0_20px_rgba(6,182,212,0.1)]"
 					style={{
 						gridTemplateColumns: `repeat(${GRID_SIZE}, minmax(0, 1fr))`
-					}}>
+					}}
+				>
 					{grid.map((cellIndex) => {
 						const node = nodes.find(
 							(n) => n.position === cellIndex
@@ -284,7 +294,8 @@ const VAPEGame = ({ onSuccess, onCancel, onFailure }) => {
 							<div
 								key={cellIndex}
 								onClick={() => handleCellClick(cellIndex)}
-								className={cellClasses}>
+								className={cellClasses}
+							>
 								{getCellContent(cellIndex)}
 							</div>
 						);

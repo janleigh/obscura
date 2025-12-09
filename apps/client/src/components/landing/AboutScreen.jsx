@@ -39,7 +39,8 @@ const AboutScreen = ({ onBack }) => {
 				{developers.map((dev, index) => (
 					<div
 						key={index}
-						className="group relative flex flex-col items-center border border-cyan-900/30 bg-black/40 p-6 transition-all hover:border-cyan-500/50 hover:bg-cyan-950/20">
+						className="group relative flex flex-col items-center border border-cyan-900/30 bg-black/40 p-6 transition-all hover:border-cyan-500/50 hover:bg-cyan-950/20"
+					>
 						<div className="absolute -inset-px -z-10 bg-cyan-500/5 opacity-0 blur-xl transition-opacity group-hover:opacity-100"></div>
 						<img
 							src={`https://github.com/${dev.username}.png`}

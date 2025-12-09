@@ -122,42 +122,42 @@ export function getTopFrequentChars(frequencies, n = 5) {
  * Morse code alphabet mapping (International Morse Code)
  */
 export const MORSE_ALPHABET = {
-	"A": ".-",
-	"B": "-...",
-	"C": "-.-.",
-	"D": "-..",
-	"E": ".",
-	"F": "..-.",
-	"G": "--.",
-	"H": "....",
-	"I": "..",
-	"J": ".---",
-	"K": "-.-",
-	"L": ".-..",
-	"M": "--",
-	"N": "-.",
-	"O": "---",
-	"P": ".--.",
-	"Q": "--.-",
-	"R": ".-.",
-	"S": "...",
-	"T": "-",
-	"U": "..-",
-	"V": "...-",
-	"W": ".--",
-	"X": "-..-",
-	"Y": "-.--",
-	"Z": "--..",
-	"0": "-----",
-	"1": ".----",
-	"2": "..---",
-	"3": "...--",
-	"4": "....-",
-	"5": ".....",
-	"6": "-....",
-	"7": "--...",
-	"8": "---..",
-	"9": "----.",
+	A: ".-",
+	B: "-...",
+	C: "-.-.",
+	D: "-..",
+	E: ".",
+	F: "..-.",
+	G: "--.",
+	H: "....",
+	I: "..",
+	J: ".---",
+	K: "-.-",
+	L: ".-..",
+	M: "--",
+	N: "-.",
+	O: "---",
+	P: ".--.",
+	Q: "--.-",
+	R: ".-.",
+	S: "...",
+	T: "-",
+	U: "..-",
+	V: "...-",
+	W: ".--",
+	X: "-..-",
+	Y: "-.--",
+	Z: "--..",
+	0: "-----",
+	1: ".----",
+	2: "..---",
+	3: "...--",
+	4: "....-",
+	5: ".....",
+	6: "-....",
+	7: "--...",
+	8: "---..",
+	9: "----.",
 	".": ".-.-.-",
 	",": "--..--",
 	"?": "..--..",
@@ -172,9 +172,9 @@ export const MORSE_ALPHABET = {
 	"=": "-...-",
 	"+": ".-.-.",
 	"-": "-....-",
-	"_": "..--.-",
+	_: "..--.-",
 	'"': ".-..-.",
-	"$": "...-..-",
+	$: "...-..-",
 	"@": ".--.-.",
 	" ": "/"
 };
@@ -232,6 +232,129 @@ export const BACONIAN_REVERSE = Object.entries(BACONIAN_ALPHABET).reduce(
 	},
 	{}
 );
+
+/**
+ * English letter frequencies (percentage)
+ * Used for frequency analysis in Vigenère cipher solving
+ */
+const ENGLISH_FREQS = {
+	A: 8.2,
+	B: 1.5,
+	C: 2.8,
+	D: 4.3,
+	E: 13.0,
+	F: 2.2,
+	G: 2.0,
+	H: 6.1,
+	I: 7.0,
+	J: 0.15,
+	K: 0.77,
+	L: 4.0,
+	M: 2.4,
+	N: 6.7,
+	O: 7.5,
+	P: 1.9,
+	Q: 0.095,
+	R: 6.0,
+	S: 6.3,
+	T: 9.1,
+	U: 2.8,
+	V: 0.98,
+	W: 2.4,
+	X: 0.15,
+	Y: 2.0,
+	Z: 0.074
+};
+
+/**
+ * Calculate Index of Coincidence for a given text
+ * @param {string} text - Text to analyze
+ * @returns {number} Index of Coincidence
+ */
+const calculateIC = (text) => {
+	const counts = {};
+	const len = text.length;
+	if (len <= 1) return 0;
+	for (let char of text) {
+		counts[char] = (counts[char] || 0) + 1;
+	}
+	let sum = 0;
+	for (let char in counts) {
+		sum += counts[char] * (counts[char] - 1);
+	}
+	return sum / (len * (len - 1));
+};
+
+// this probably works but the key detector is highly experimental and inaccurate
+/**
+ * Attempt to solve Vigenère cipher by estimating key length and key
+ * using frequency analysis and Index of Coincidence
+ * @param {string} ciphertext - Cipher text to analyze
+ * @returns {Object|null} Result with key, keyLength, confidence or null if failed
+ */
+export const solveVigenere = (ciphertext) => {
+	const cleanText = ciphertext.toUpperCase().replace(/[^A-Z]/g, "");
+	if (cleanText.length < 2) return null;
+
+	const maxKeyLen = Math.min(20, Math.floor(cleanText.length / 2));
+	let bestKeyLen = 1;
+	let bestAvgIC = 0;
+
+	// Find key length
+	for (let len = 1; len <= maxKeyLen; len++) {
+		let avgIC = 0;
+		for (let i = 0; i < len; i++) {
+			let slice = "";
+			for (let j = i; j < cleanText.length; j += len) {
+				slice += cleanText[j];
+			}
+			avgIC += calculateIC(slice);
+		}
+		avgIC /= len;
+		if (Math.abs(avgIC - 0.067) < Math.abs(bestAvgIC - 0.067)) {
+			bestAvgIC = avgIC;
+			bestKeyLen = len;
+		}
+	}
+
+	// Find key
+	let key = "";
+	for (let i = 0; i < bestKeyLen; i++) {
+		let slice = "";
+		for (let j = i; j < cleanText.length; j += bestKeyLen) {
+			slice += cleanText[j];
+		}
+
+		let bestShift = 0;
+		let minChi2 = Infinity;
+
+		for (let shift = 0; shift < 26; shift++) {
+			let chi2 = 0;
+			const counts = {};
+			for (let char of slice) {
+				let shiftedChar = String.fromCharCode(
+					((char.charCodeAt(0) - 65 - shift + 26) % 26) + 65
+				);
+				counts[shiftedChar] = (counts[shiftedChar] || 0) + 1;
+			}
+
+			for (let charCode = 65; charCode <= 90; charCode++) {
+				const char = String.fromCharCode(charCode);
+				const observed = counts[char] || 0;
+				const expected =
+					(ENGLISH_FREQS[char] / 100) * slice.length;
+				chi2 += Math.pow(observed - expected, 2) / expected;
+			}
+
+			if (chi2 < minChi2) {
+				minChi2 = chi2;
+				bestShift = shift;
+			}
+		}
+		key += String.fromCharCode(bestShift + 65);
+	}
+	return { key, keyLength: bestKeyLen, confidence: bestAvgIC };
+};
 
 /**
  * Cipher processing time delays (in ms)

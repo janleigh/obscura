@@ -51,7 +51,7 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 		{ text: "", delay: 20 }
 	];
 
-	// Show email after a brief delay
+	// show email after initial delay
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setShowEmail(true);
@@ -72,7 +72,7 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 		}, currentLine.delay);
 
 		return () => clearTimeout(timer);
-	}, [showEmail, currentLineIndex, emailContent.length]);
+	}, [showEmail, currentLineIndex, emailContent.length, emailContent[currentLineIndex]]);
 
 	const handleContinue = () => {
 		playSound("buttonPress");
@@ -113,14 +113,12 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 							)}
 						</div>
 					</div>
-
 					{/* Email Metadata Grid */}
 					<div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 border-b border-gray-800 bg-[#0c0c0c] p-6 text-xs">
 						<div className="text-gray-500">FROM:</div>
 						<div className="text-cyan-400">
 							recruitment@obscuracollective.org
 						</div>
-
 						<div className="text-gray-500">TO:</div>
 						<div className="text-gray-300">
 							{userData.realName}{" "}
@@ -129,23 +127,20 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 								@candidate.obscura.net&gt;
 							</span>
 						</div>
-
 						<div className="text-gray-500">DATE:</div>
 						<div className="text-gray-400">{realTimeDate}</div>
-
 						<div className="text-gray-500">SUBJECT:</div>
 						<div className="font-bold tracking-wide text-white">
 							YOU'VE BEEN SELECTED
 						</div>
 					</div>
-
 					{/* Email content */}
 					<div className="scrollbar-thin scrollbar-track-black scrollbar-thumb-gray-800 flex-1 overflow-y-auto p-8 font-mono">
 						<div className="mx-auto max-w-3xl">
 							{showEmail && (
 								<div className="space-y-1 leading-relaxed text-gray-300">
 									{typedLines.map((line, index) => {
-										// Skip metadata lines in body since we show them in header
+										// skip metadata lines
 										if (
 											line.startsWith("From:") ||
 											line.startsWith("To:") ||
@@ -162,14 +157,15 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 														? "my-4 text-gray-700"
 														: line.includes(
 																	"Congratulations"
-															  )
+																)
 															? "mb-4 text-xl font-bold text-cyan-400"
 															: line.includes(
 																		"Begin Tutorial"
-																  )
+																	)
 																? "mt-4 font-bold text-green-400"
 																: ""
-												}>
+												}
+											>
 												{line || "\u00A0"}
 											</div>
 										);
@@ -183,7 +179,6 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 							)}
 						</div>
 					</div>
-
 					{/* Footer actions */}
 					<div className="border-t border-gray-800 bg-[#0f0f0f] p-4">
 						<div className="flex items-center justify-between">
@@ -203,8 +198,9 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 									<button
 										onClick={handleSkip}
 										disabled={isComplete}
-										className={`group border border-gray-800 bg-transparent px-4 py-2 text-xs text-gray-500 transition-colors hover:border-gray-600 hover:text-gray-300${isComplete ? " cursor-not-allowed opacity-20" : ""}`}>
-										SKIP_ANIMATION{" "}
+										className={`group border border-gray-800 bg-transparent px-4 py-2 text-xs text-gray-500 transition-colors hover:border-gray-600 hover:text-gray-300${isComplete ? " cursor-not-allowed opacity-20" : ""}`}
+									>
+										SKIP ANIMATION{" "}
 										<span className="ml-2 rounded bg-gray-800 px-1 text-[10px] group-hover:bg-gray-700">
 											ESC
 										</span>
@@ -213,8 +209,9 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 								{isComplete && (
 									<button
 										onClick={handleContinue}
-										className="group border border-cyan-700 bg-cyan-950/30 px-6 py-2 text-xs font-bold text-cyan-400 transition-all hover:bg-cyan-900/50 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)]">
-										INITIALIZE_SYSTEM{" "}
+										className="group border border-cyan-700 bg-cyan-950/30 px-6 py-2 text-xs font-bold text-cyan-400 transition-all hover:bg-cyan-900/50 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)]"
+									>
+										BOOT SYSTEM{" "}
 										<span className="ml-2 text-cyan-600 group-hover:text-cyan-300">
 											⏎
 										</span>
