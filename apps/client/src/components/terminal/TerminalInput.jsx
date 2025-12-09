@@ -1,4 +1,10 @@
-const TerminalInput = ({ value, onChange, onKeyDown, disabled, autoFocus }) => {
+const TerminalInput = ({
+	value,
+	onChange,
+	onKeyDown,
+	disabled,
+	autoFocus
+}) => {
 	return (
 		<div
 			id="terminal-input"

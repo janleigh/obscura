@@ -5,7 +5,12 @@ import { useTerminalHistory } from "../../hooks/useTerminalHistory";
 import TerminalHistory from "./TerminalHistory";
 import TerminalInput from "./TerminalInput";
 
-const Terminal = ({ onSubmit, isProcessing, message, shouldAutoFocus = false }) => {
+const Terminal = ({
+	onSubmit,
+	isProcessing,
+	message,
+	shouldAutoFocus = false
+}) => {
 	const [command, setCommand] = useState("");
 	const { playSound } = useSound();
 	const { history, addEntry, clearHistory, historyEndRef } =

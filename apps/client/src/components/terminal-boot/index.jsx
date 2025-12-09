@@ -99,7 +99,7 @@ const TerminalBoot = ({ userData, onBootComplete }) => {
 		authMessages,
 		playSound
 	]);
-	
+
 	useEffect(() => {
 		if (terminalRef.current) {
 			terminalRef.current.scrollTop =

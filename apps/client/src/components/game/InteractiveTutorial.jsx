@@ -4,14 +4,16 @@ const STEPS = [
 	{
 		id: "welcome",
 		title: "WELCOME AGENT",
-		content: "Welcome to the OBSCURA interface. This interactive guide will walk you through the essential modules required for your mission.",
+		content:
+			"Welcome to the OBSCURA interface. This interactive guide will walk you through the essential modules required for your mission.",
 		targetId: null,
 		requiredTab: "solver"
 	},
 	{
 		id: "solver-tab",
 		title: "NAVIGATION TABS",
-		content: "Use these tabs to switch between different modules. The 'HOME' tab contains your current assignment.",
+		content:
+			"Use these tabs to switch between different modules. The 'HOME' tab contains your current assignment.",
 		targetId: "tab-solver",
 		position: "right",
 		requiredTab: "solver"
@@ -19,7 +21,8 @@ const STEPS = [
 	{
 		id: "puzzle-panel",
 		title: "MISSION BRIEFING",
-		content: "This panel displays your current objective, intercepted transmissions, and encrypted data. Analyze the information carefully.",
+		content:
+			"This panel displays your current objective, intercepted transmissions, and encrypted data. Analyze the information carefully.",
 		targetId: "puzzle-panel",
 		position: "right",
 		requiredTab: "solver"
@@ -27,7 +30,8 @@ const STEPS = [
 	{
 		id: "notebook-panel",
 		title: "FIELD NOTES",
-		content: "Use this secure notepad to record your observations and decrypt messages. Your notes are auto-saved.",
+		content:
+			"Use this secure notepad to record your observations and decrypt messages. Your notes are auto-saved.",
 		targetId: "notebook-panel",
 		position: "left",
 		requiredTab: "solver"
@@ -35,7 +39,8 @@ const STEPS = [
 	{
 		id: "ciphertools-tab",
 		title: "CIPHER TOOLKIT",
-		content: "Access advanced cryptographic tools here to assist in decryption.",
+		content:
+			"Access advanced cryptographic tools here to assist in decryption.",
 		targetId: "tab-ciphertools",
 		position: "bottom",
 		requiredTab: "ciphertools"
@@ -51,7 +56,8 @@ const STEPS = [
 	{
 		id: "terminal-input",
 		title: "COMMAND TERMINAL",
-		content: "Execute system commands and submit your final answers here. Type '/help' for a list of commands.",
+		content:
+			"Execute system commands and submit your final answers here. Type '/help' for a list of commands.",
 		targetId: "terminal-input",
 		position: "top",
 		requiredTab: "solver"
@@ -215,7 +221,9 @@ const InteractiveTutorial = ({ onClose, onRequestTabChange }) => {
 							onClick={handleNext}
 							className="border border-cyan-600 bg-cyan-950/30 px-4 py-1 text-[10px] font-bold text-cyan-400 hover:bg-cyan-900/50 hover:text-cyan-300"
 						>
-							{currentStepIndex === STEPS.length - 1 ? "FINISH" : "NEXT"}
+							{currentStepIndex === STEPS.length - 1
+								? "FINISH"
+								: "NEXT"}
 						</button>
 					</div>
 				</div>

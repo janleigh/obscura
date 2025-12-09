@@ -22,14 +22,16 @@ const MainGame = ({
 		if (isLogin) return false;
 		if (typeof window === "undefined") return false;
 
-		const hasSeenTutorial = localStorage.getItem("obscura_tutorial_seen");
+		const hasSeenTutorial = localStorage.getItem(
+			"obscura_tutorial_seen"
+		);
 		if (hasSeenTutorial) return false;
 
 		if (Number(currentLevel) > 0) return false;
 
 		return true;
 	});
-	const [isSmallScreen, setIsSmallScreen] = useState(() => 
+	const [isSmallScreen, setIsSmallScreen] = useState(() =>
 		typeof window !== "undefined" ? window.innerWidth < 1440 : false
 	);
 
@@ -42,9 +44,9 @@ const MainGame = ({
 		const checkScreenSize = () => {
 			setIsSmallScreen(window.innerWidth < 1440); // lg breakpoint
 		};
-		
-		window.addEventListener('resize', checkScreenSize);
-		return () => window.removeEventListener('resize', checkScreenSize);
+
+		window.addEventListener("resize", checkScreenSize);
+		return () => window.removeEventListener("resize", checkScreenSize);
 	}, []);
 
 	const [showingStoryFragment, setShowingStoryFragment] =
@@ -179,16 +181,15 @@ const MainGame = ({
 	return (
 		<div className="relative flex h-full w-full flex-col">
 			{/* Tutorial Overlay */}
-			{showTutorial && (
-				isSmallScreen ? (
+			{showTutorial &&
+				(isSmallScreen ? (
 					<TutorialOverlay onClose={handleCloseTutorial} />
 				) : (
 					<InteractiveTutorial
 						onClose={handleCloseTutorial}
 						onRequestTabChange={setActiveTab}
 					/>
-				)
-			)}
+				))}
 			{/* Tab Navigation */}
 			<TabNavigation
 				activeTab={activeTab}
@@ -204,7 +205,9 @@ const MainGame = ({
 								level={level}
 								showingStoryFragment={showingStoryFragment}
 								storyFragmentText={storyFragmentText}
-								onStoryFragmentContinue={handleStoryFragmentContinue}
+								onStoryFragmentContinue={
+									handleStoryFragmentContinue
+								}
 							/>
 						</div>
 						<div className="flex flex-col">

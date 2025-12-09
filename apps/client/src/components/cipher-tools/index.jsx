@@ -17,7 +17,10 @@ const CipherTools = ({ isActive = true }) => {
 	const [showMinigame, setShowMinigame] = useState(false);
 	const [minigameType, setMinigameType] = useState(null);
 
-	const { logs, addLog, clearLogs, logEndRef } = useActivityLog(50, isActive);
+	const { logs, addLog, clearLogs, logEndRef } = useActivityLog(
+		50,
+		isActive
+	);
 	const { isLoading, result, error, decrypt, clearResults } =
 		useCipherOperations(addLog);
 

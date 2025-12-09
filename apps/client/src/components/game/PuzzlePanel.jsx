@@ -31,11 +31,15 @@ const TransmissionDisplay = ({ text, onContinue }) => {
 				</div>
 				<div className="flex-1 overflow-y-auto whitespace-pre-wrap text-sm leading-relaxed text-green-400 scrollbar-thin scrollbar-track-black scrollbar-thumb-gray-800">
 					{displayedText}
-					{!isComplete && <span className="animate-pulse">_</span>}
+					{!isComplete && (
+						<span className="animate-pulse">_</span>
+					)}
 				</div>
 				<div className="flex items-center justify-between">
 					<div className="text-[10px] text-gray-600">
-						{isComplete ? "[ END OF TRANSMISSION ]" : "[ RECEIVING DATA... ]"}
+						{isComplete
+							? "[ END OF TRANSMISSION ]"
+							: "[ RECEIVING DATA... ]"}
 					</div>
 					{isComplete && onContinue && (
 						<button
@@ -413,10 +417,7 @@ const PuzzlePanel = ({
 				</div>
 				<div className="text-[9px] text-gray-600">ENCRYPTED</div>
 			</div>
-			<div
-				ref={scrollRef}
-				className="bg-black p-4"
-			>
+			<div ref={scrollRef} className="bg-black p-4">
 				<div className="space-y-2">
 					{/* Command line */}
 					<div className="text-xs">
@@ -428,11 +429,13 @@ const PuzzlePanel = ({
 						)}
 					</div>
 					{/* Fetching status */}
-					{commandTyped && showFetchingDots && !fetchComplete && (
-						<div className="text-xs text-gray-500">
-							Fetching transmission data{dots}
-						</div>
-					)}
+					{commandTyped &&
+						showFetchingDots &&
+						!fetchComplete && (
+							<div className="text-xs text-gray-500">
+								Fetching transmission data{dots}
+							</div>
+						)}
 					{/* Success message */}
 					{fetchComplete && !contentComplete && (
 						<div className="text-xs text-green-400">

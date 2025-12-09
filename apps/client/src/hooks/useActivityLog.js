@@ -20,7 +20,7 @@ export const useActivityLog = (maxLogs = 50, isActive = true) => {
 
 	// auto-scroll to bottom only when tab is active
 	// biome-ignore lint/correctness/useExhaustiveDependencies: logs and isActive are the dependencies we want
-			useEffect(() => {
+	useEffect(() => {
 		if (isActive) {
 			logEndRef.current?.scrollIntoView({ behavior: "smooth" });
 		}

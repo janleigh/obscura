@@ -19,7 +19,7 @@ export const useTerminalHistory = (initialHistory = []) => {
 
 	// Auto-scroll to bottom
 	// biome-ignore lint/correctness/useExhaustiveDependencies: history is the only dependency we want
-		useEffect(() => {
+	useEffect(() => {
 		historyEndRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [history]);
 

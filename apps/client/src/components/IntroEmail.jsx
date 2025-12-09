@@ -72,7 +72,12 @@ const IntroEmail = ({ userData, onComplete, onSkip }) => {
 		}, currentLine.delay);
 
 		return () => clearTimeout(timer);
-	}, [showEmail, currentLineIndex, emailContent.length, emailContent[currentLineIndex]]);
+	}, [
+		showEmail,
+		currentLineIndex,
+		emailContent.length,
+		emailContent[currentLineIndex]
+	]);
 
 	const handleContinue = () => {
 		playSound("buttonPress");

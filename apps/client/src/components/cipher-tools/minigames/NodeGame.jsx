@@ -143,7 +143,7 @@ const NodeGame = ({ onSuccess, onCancel, onFailure }) => {
 
 	// timer logic
 	// biome-ignore lint/correctness/useExhaustiveDependencies: intentional
-		useEffect(() => {
+	useEffect(() => {
 		if (gameState === "playing") {
 			timerRef.current = setInterval(() => {
 				setTimeLeft((prev) => {

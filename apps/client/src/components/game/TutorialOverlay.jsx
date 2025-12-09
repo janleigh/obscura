@@ -142,7 +142,8 @@ const TutorialOverlay = ({ onClose }) => {
 				{/* Footer */}
 				<div className="border-t border-cyan-500/30 bg-[#0a0a0a] px-6 py-4 text-center">
 					<p className="text-[10px] tracking-widest text-gray-600">
-						OBSCURA PROTOCOL v2.19.5 // AUTHORIZED PERSONNEL ONLY
+						OBSCURA PROTOCOL v2.19.5 // AUTHORIZED PERSONNEL
+						ONLY
 					</p>
 				</div>
 			</div>
