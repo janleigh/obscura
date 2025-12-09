@@ -12,5 +12,8 @@
 			"persistent": true,
 			"cache": false
 		}
-	}
+	},
+	"globalEnv": [
+		"API_URL"
+	]
 }
