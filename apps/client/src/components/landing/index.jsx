@@ -20,7 +20,7 @@ const STEP_ABOUT = 5;
 
 const TUTORIAL_MESSAGES = {
 	[STEP_WELCOME]:
-		"SYSTEM READY. AWAITING INPUT. PRESS ANY KEY TO INITIALIZE CALIBRATION SEQUENCE...",
+		"SYSTEM READY. AWAITING INPUT. PRESS ANY KEY OR THE BUTTON TO INITIALIZE CALIBRATION SEQUENCE...",
 	[STEP_LOGIN]: "SECURE GATEWAY REACHED. ENTER CREDENTIALS TO PROCEED.",
 	[STEP_REGISTER]:
 		"NEW CANDIDATE DETECTED. CREATE PROFILE TO ACCESS NETWORK.",
@@ -58,10 +58,35 @@ const Landing = ({ onComplete }) => {
 	const handleRegistrationSubmit = async () => {
 		if (!username.trim() || !realName.trim() || !password) return;
 
-		if (password.length < 8) {
-			setError("PASSWORD_TOO_SHORT_MIN_8_CHARS");
+		// Username validation: Alphanumeric and underscores only
+		const usernameRegex = /^[a-zA-Z0-9_]+$/;
+		if (!usernameRegex.test(username)) {
+			setError("USERNAME INVALID: ALPHANUMERIC AND UNDERSCORE ONLY");
 			return;
 		}
+
+		// Password validation
+		if (password.length < 8 || password.length > 30) {
+			setError("PASSWORD INVALID: MUST BE 8-30 CHARACTERS");
+			return;
+		}
+
+		// const hasUpperCase = /[A-Z]/.test(password);
+		// const hasLowerCase = /[a-z]/.test(password);
+		// const hasNumber = /[0-9]/.test(password);
+		// const hasSpecialChar = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(
+		// 	password
+		// );
+
+		// if (
+		// 	!hasUpperCase ||
+		// 	!hasLowerCase ||
+		// 	!hasNumber ||
+		// 	!hasSpecialChar
+		// ) {
+		// 	setError("PASSWORD WEAK: CHECK REQUIREMENTS");
+		// 	return;
+		// }
 
 		setStep(STEP_LOADING);
 		const result = await register(username, realName, password);
@@ -116,12 +141,12 @@ const Landing = ({ onComplete }) => {
 
 	return (
 		<div
-			className="font-kode-mono crt-screen fixed inset-0 bg-[#050505] text-sm md:text-base 2xl:text-lg"
+			className="font-kode-mono crt-screen fixed inset-0 bg-[#050505] text-sm md:text-base 2xl:text-lg overflow-y-auto"
 			onKeyDown={handleKeyDown}
 			tabIndex={0}
 		>
 			{/* Background Grid */}
-			<div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(18,18,18,0)_1px,transparent_1px),linear-gradient(90deg,rgba(18,18,18,0)_1px,transparent_1px)] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] bg-size-[40px_40px]"></div>
+			<div className="pointer-events-none fixed inset-0 bg-[linear-gradient(rgba(18,18,18,0)_1px,transparent_1px),linear-gradient(90deg,rgba(18,18,18,0)_1px,transparent_1px)] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] bg-size-[40px_40px]"></div>
 			<div className="relative z-10 flex min-h-screen w-full items-center justify-center p-8">
 				<div className="flex w-full max-w-2xl xl:max-w-4xl 2xl:max-w-6xl flex-col items-center transition-all duration-300">
 					{step === STEP_WELCOME && (
@@ -172,7 +197,7 @@ const Landing = ({ onComplete }) => {
 						<AboutScreen onBack={handleBackToWelcome} />
 					)}
 					{step !== STEP_WELCOME && step !== STEP_ABOUT && (
-						<div className="mt-8 flex justify-center gap-8 text-[10px] text-gray-800">
+						<div className="mt-2 flex justify-center gap-8 text-[10px] text-gray-800">
 							<span>SECURE_CONNECTION_ESTABLISHED</span>
 							<span>ENCRYPTION: AES-256-GCM</span>
 							<span>SERVER: OBSCURA-NODE-01</span>
@@ -180,7 +205,6 @@ const Landing = ({ onComplete }) => {
 					)}
 				</div>
 			</div>
-
 			<CRTEffects />
 		</div>
 	);

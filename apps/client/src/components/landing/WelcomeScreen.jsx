@@ -14,10 +14,10 @@ const WelcomeScreen = ({
 	const [hash, setHash] = useState("");
 	useSound();
 
-	const handleAbout = (e) => {
-		e.stopPropagation();
-		onShowAbout();
-	};
+	// const handleAbout = (e) => {
+	// 	e.stopPropagation();
+	// 	onShowAbout();
+	// };
 
 	useEffect(() => {
 		if (gitHash) {
@@ -41,7 +41,7 @@ const WelcomeScreen = ({
 		<div className="crt-glow animate-fade-in space-y-12 text-center">
 			<div className="relative space-y-4">
 				<div className="absolute -inset-4 -z-10 bg-cyan-500/5 blur-3xl"></div>
-				<div className="text-6xl md:text-7xl 2xl:text-8xl font-bold tracking-[0.2em] text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,0.8)] transition-all duration-300">
+				<div className="text-6xl md:text-6xl 2xl:text-8xl font-bold tracking-[0.2em] text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,0.8)] transition-all duration-300">
 					OBSCURA
 				</div>
 				<div className="flex justify-center gap-4 text-xs md:text-sm 2xl:text-base tracking-widest text-gray-500">
@@ -72,10 +72,10 @@ const WelcomeScreen = ({
 					onClick={onBegin}
 					className="px-8 py-3 text-lg tracking-widest animate-pulse hover:animate-none"
 				>
-					[ INITIALIZE_SYSTEM ]
+					[ INITIALIZE SYSTEM ]
 				</Button>
 			</div>
-			<div className="flex justify-center pt-8">
+			{/* <div className="flex justify-center">
 				<Button
 					onClick={handleAbout}
 					variant="secondary"
@@ -83,7 +83,7 @@ const WelcomeScreen = ({
 				>
 					SYSTEM ARCHITECTS
 				</Button>
-			</div>
+			</div> */}
 		</div>
 	);
 };

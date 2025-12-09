@@ -83,7 +83,7 @@ const LoginForm = ({
 								onFocus={() => setFocusedField("username")}
 								disabled={isLoading}
 								className="flex-1 border-none bg-transparent font-mono text-sm text-white placeholder-gray-800 outline-none disabled:text-gray-600"
-								placeholder="ENTER_USERNAME"
+								placeholder="ENTER USERNAME"
 								autoFocus
 								maxLength={32}
 							/>
@@ -126,7 +126,7 @@ const LoginForm = ({
 								onFocus={() => setFocusedField("password")}
 								disabled={isLoading}
 								className="flex-1 border-none bg-transparent font-mono text-sm text-white placeholder-gray-800 outline-none disabled:text-gray-600"
-								placeholder="ENTER_PASSWORD"
+								placeholder="ENTER PASSWORD"
 								maxLength={64}
 							/>
 							{!isLoading &&
@@ -170,7 +170,7 @@ const LoginForm = ({
 						<span className="relative z-10">
 							{isLoading
 								? "AUTHENTICATING..."
-								: "INITIATE_LINK"}
+								: "INITIATE LINK"}
 						</span>
 					</button>
 				</div>

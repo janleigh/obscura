@@ -19,6 +19,7 @@ const TabNavigation = ({ activeTab, onTabChange, onShowTutorial }) => {
 				{tabs.map((tab) => (
 					<button
 						key={tab.id}
+						id={`tab-${tab.id}`}
 						onClick={() => handleTabChange(tab.id)}
 						className={`relative px-4 py-2 text-xs font-bold transition-all ${
 							activeTab === tab.id

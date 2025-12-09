@@ -243,7 +243,6 @@ const NodeGame = ({ onSuccess, onCancel, onFailure }) => {
 			<MiniGameWrapper
 				title="NODEH3X3R v2.0 :: Sequence Breach Protocol"
 				description=""
-				colors="green"
 				onSuccess={onSuccess}
 				onCancel={onCancel}
 				isComplete={false}
@@ -262,7 +261,6 @@ const NodeGame = ({ onSuccess, onCancel, onFailure }) => {
 		<MiniGameWrapper
 			title="NODEH3X3R v2.0 :: Sequence Breach Protocol"
 			description="Navigate the grid. Alternate CIRCLE/SQUARE. Collect highlighted nodes for time."
-			colors="green"
 			onSuccess={onSuccess}
 			onCancel={onCancel}
 			isComplete={isComplete}

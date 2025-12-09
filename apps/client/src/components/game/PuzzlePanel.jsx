@@ -10,7 +10,10 @@ const TransmissionDisplay = ({ text, onContinue }) => {
 	const { displayedText, isComplete } = useTypingEffect(text, 30, true);
 
 	return (
-		<div className="relative flex h-full w-full flex-col overflow-hidden border border-gray-800 bg-black p-6 font-kode-mono">
+		<div
+			id="puzzle-panel"
+			className="relative flex h-full w-full flex-col overflow-hidden border border-gray-800 bg-black p-6 font-kode-mono"
+		>
 			{/* Scanline effect */}
 			<div className="pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-size-[100%_2px,3px_100%]" />
 			<div className="pointer-events-none absolute inset-0 z-20 animate-scanline bg-linear-to-b from-transparent via-cyan-900/5 to-transparent" />
@@ -30,7 +33,6 @@ const TransmissionDisplay = ({ text, onContinue }) => {
 					{displayedText}
 					{!isComplete && <span className="animate-pulse">_</span>}
 				</div>
-
 				<div className="flex items-center justify-between">
 					<div className="text-[10px] text-gray-600">
 						{isComplete ? "[ END OF TRANSMISSION ]" : "[ RECEIVING DATA... ]"}

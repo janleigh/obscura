@@ -3,7 +3,7 @@ import { useSound } from "../../../hooks/useSound";
 import MiniGameIntro from "./MiniGameIntro";
 import MiniGameWrapper from "./MiniGameWrapper";
 
-const GRID_SIZE = 6;
+const GRID_SIZE = 5;
 
 const INTRO_MESSAGES = [
 	{

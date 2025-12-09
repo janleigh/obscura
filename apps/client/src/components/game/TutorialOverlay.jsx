@@ -98,53 +98,52 @@ const TutorialOverlay = ({ onClose }) => {
 								</div>
 								<div>
 									3. INPUT SOLUTION VIA{" "}
-									<span className="text-green-400">
+									<span className="text-cyan-400">
 										TERMINAL
 									</span>
-								</div>
-								<div>
-									4. UNLOCK{" "}
-									<span className="text-cyan-400">
-										STORY_FRAGMENTS
-									</span>{" "}
-									[PARTIALLY IMPLEMENTED]
 								</div>
 							</div>
 						</div>
 					</div>
-					{/* Tips Section */}
-					<div className="border border-green-900/30 bg-green-950/10 p-4">
-						<div className="mb-2 flex items-center gap-2 text-xs font-bold text-green-500">
-							<span className="text-lg">ℹ</span>
-							<span>FIELD ADVISORY</span>
+					{/* Commands Section */}
+					<div className="space-y-4">
+						<div className="flex items-center gap-2 text-xs font-bold tracking-wider text-green-600">
+							<span className="text-lg">03</span>
+							<span>TERMINAL COMMANDS</span>
 						</div>
-						<ul className="grid gap-2 text-xs text-gray-400 md:grid-cols-2">
-							<li className="flex items-center gap-2">
-								<span className="h-1 w-1 bg-green-500"></span>
-								<span>
-									Use fullscreen for immersive mode
-								</span>
-							</li>
-							<li className="flex items-center gap-2">
-								<span className="h-1 w-1 bg-green-500"></span>
-								<span>
-									Hints often reveal the cipher method
-								</span>
-							</li>
-							<li className="flex items-center gap-2">
-								<span className="h-1 w-1 bg-green-500"></span>
-								<span>
-									Progress is auto-saved to local storage
-								</span>
-							</li>
-						</ul>
+						<div className="grid gap-4 rounded border border-green-900/30 bg-green-950/10 p-4 md:grid-cols-3">
+							<div className="space-y-1">
+								<code className="text-xs font-bold text-green-400">
+									/help
+								</code>
+								<p className="text-[10px] text-gray-500">
+									List available commands
+								</p>
+							</div>
+							<div className="space-y-1">
+								<code className="text-xs font-bold text-green-400">
+									/clear
+								</code>
+								<p className="text-[10px] text-gray-500">
+									Clear terminal history
+								</p>
+							</div>
+							<div className="space-y-1">
+								<code className="text-xs font-bold text-green-400">
+									/submit [answer]
+								</code>
+								<p className="text-[10px] text-gray-500">
+									Submit solution for verification
+								</p>
+							</div>
+						</div>
 					</div>
-					<button
-						onClick={handleClose}
-						className="w-full border border-cyan-900/50 bg-cyan-950/20 py-3 text-xs font-bold tracking-widest text-cyan-400 transition-all hover:bg-cyan-900/40 hover:shadow-[0_0_20px_rgba(6,182,212,0.2)]"
-					>
-						ACKNOWLEDGE AND CLOSE
-					</button>
+				</div>
+				{/* Footer */}
+				<div className="border-t border-cyan-500/30 bg-[#0a0a0a] px-6 py-4 text-center">
+					<p className="text-[10px] tracking-widest text-gray-600">
+						OBSCURA PROTOCOL v2.19.5 // AUTHORIZED PERSONNEL ONLY
+					</p>
 				</div>
 			</div>
 		</div>

@@ -4,6 +4,7 @@ import { useLevelSubmission } from "../../hooks/useLevelSubmission";
 import CipherTools from "../cipher-tools";
 import PhaseKeys from "../PhaseKeys";
 import Terminal from "../terminal";
+import InteractiveTutorial from "./InteractiveTutorial";
 import NotebookPanel from "./NotebookPanel";
 import PuzzlePanel from "./PuzzlePanel";
 import TabNavigation from "./TabNavigation";
@@ -17,7 +18,19 @@ const MainGame = ({
 }) => {
 	const [activeTab, setActiveTab] = useState("solver");
 	const [notes, setNotes] = useState("");
-	const [showTutorial, setShowTutorial] = useState(!isLogin); // Don't show tutorial for login users
+	const [showTutorial, setShowTutorial] = useState(!isLogin); // don't show tutorial for login users
+	const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+	useEffect(() => {
+		const checkScreenSize = () => {
+			setIsSmallScreen(window.innerWidth < 1440); // lg breakpoint
+		};
+		
+		checkScreenSize();
+		window.addEventListener('resize', checkScreenSize);
+		return () => window.removeEventListener('resize', checkScreenSize);
+	}, []);
+
 	const [showingStoryFragment, setShowingStoryFragment] =
 		useState(false);
 	const [storyFragmentText, setStoryFragmentText] = useState("");
@@ -151,7 +164,14 @@ const MainGame = ({
 		<div className="relative flex h-full w-full flex-col">
 			{/* Tutorial Overlay */}
 			{showTutorial && (
-				<TutorialOverlay onClose={() => setShowTutorial(false)} />
+				isSmallScreen ? (
+					<TutorialOverlay onClose={() => setShowTutorial(false)} />
+				) : (
+					<InteractiveTutorial
+						onClose={() => setShowTutorial(false)}
+						onRequestTabChange={setActiveTab}
+					/>
+				)
 			)}
 			{/* Tab Navigation */}
 			<TabNavigation

@@ -3,7 +3,10 @@ const NotebookPanel = ({ notes, onChange }) => {
 	const lineCount = lines.length;
 
 	return (
-		<div className="notebook-panel flex h-full flex-col border border-gray-800 bg-black transition-colors duration-200 focus-within:border-cyan-600/50">
+		<div
+			id="notebook-panel"
+			className="notebook-panel flex h-full flex-col border border-gray-800 bg-black transition-colors duration-200 focus-within:border-cyan-600/50"
+		>
 			<div className="flex shrink-0 items-center justify-between border-b border-gray-800 bg-[#0a0a0a] px-3 py-2">
 				<div className="flex items-center gap-2">
 					<span className="text-xs font-bold tracking-wider text-green-400">

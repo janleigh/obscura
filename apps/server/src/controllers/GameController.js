@@ -14,7 +14,6 @@ class GameController extends BaseController {
 		this.startGame = this.startGame.bind(this);
 		this.submitLevel = this.submitLevel.bind(this);
 		this.getPlayerLogs = this.getPlayerLogs.bind(this);
-		this.requestHint = this.requestHint.bind(this);
 		this.submitPhaseKey = this.submitPhaseKey.bind(this);
 	}
 
@@ -25,7 +24,7 @@ class GameController extends BaseController {
 	 */
 	async startGame(req, res) {
 		try {
-			const { username, realName, password } = req.body;
+			const { username, realName, password, mode } = req.body;
 
 			if (!username) {
 				return this.error(res, "Username is required", 400);
@@ -37,6 +36,10 @@ class GameController extends BaseController {
 			});
 
 			if (existingUser) {
+				if (mode === "register") {
+					return this.error(res, "User already exists", 409);
+				}
+
 				// Existing user - validate password
 				if (!password) {
 					return this.error(res, "Password is required", 400);
@@ -78,7 +81,6 @@ class GameController extends BaseController {
 					username: updatedUser.username,
 					realName: updatedUser.realName,
 					currentLevel: updatedUser.currentLevel,
-					phaseUnlocked: updatedUser.phaseUnlocked,
 					completedLevels: JSON.parse(
 						updatedUser.completedLevels
 					),
@@ -95,13 +97,42 @@ class GameController extends BaseController {
 				);
 			}
 
-			if (password.length < 8) {
+			// Validate username format for new users
+			const usernameRegex = /^[a-zA-Z0-9_]+$/;
+			if (!usernameRegex.test(username)) {
 				return this.error(
 					res,
-					"Password must be at least 8 characters",
+					"Username can only contain letters, numbers, and underscores",
 					400
 				);
 			}
+
+			if (password.length < 8 || password.length > 30) {
+				return this.error(
+					res,
+					"Password must be between 8 and 30 characters",
+					400
+				);
+			}
+
+			// const hasUpperCase = /[A-Z]/.test(password);
+			// const hasLowerCase = /[a-z]/.test(password);
+			// const hasNumber = /[0-9]/.test(password);
+			// const hasSpecialChar =
+			// 	/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password);
+
+			// if (
+			// 	!hasUpperCase ||
+			// 	!hasLowerCase ||
+			// 	!hasNumber ||
+			// 	!hasSpecialChar
+			// ) {
+			// 	return this.error(
+			// 		res,
+			// 		"Password must contain uppercase, lowercase, number, and special character",
+			// 		400
+			// 	);
+			// }
 
 			// Hash password
 			const hashedPassword = await bcrypt.hash(password, 10);
@@ -130,7 +161,6 @@ class GameController extends BaseController {
 				username: newUser.username,
 				realName: newUser.realName,
 				currentLevel: 0,
-				phaseUnlocked: 1,
 				completedLevels: [],
 				message: "New game session created"
 			});
@@ -277,65 +307,6 @@ class GameController extends BaseController {
 		} catch (error) {
 			console.error("Error fetching player logs:", error);
 			return this.serverError(res, "Failed to retrieve player logs");
-		}
-	}
-
-	/**
-	 * @description GET /api/game/level/:id/hint - Request a hint for a level
-	 * Returns the first hintLine from the level. Hints are always available.
-	 * @param {import('express').Request} req
-	 * @param {import('express').Response} res
-	 */
-	async requestHint(req, res) {
-		try {
-			const levelId = parseInt(req.params.id);
-			const { userId } = req.query;
-
-			if (!userId) {
-				return this.error(res, "User ID is required", 400);
-			}
-
-			const user = await prisma.user.findUnique({
-				where: { id: parseInt(userId) }
-			});
-
-			if (!user) {
-				return this.notFound(res, "User not found");
-			}
-
-			const level = getLevelById(levelId);
-			if (!level) {
-				return this.notFound(res, "Level not found");
-			}
-
-			// Get first hint line from hintLines array
-			const hint =
-				level.hintLines && level.hintLines.length > 0
-					? level.hintLines[0]
-					: null;
-
-			if (!hint) {
-				return this.error(
-					res,
-					"No hints available for this level",
-					400
-				);
-			}
-
-			// Log hint request
-			await prisma.log.create({
-				data: {
-					userId: parseInt(userId),
-					levelId,
-					eventType: "hint_view",
-					details: JSON.stringify({ hint })
-				}
-			});
-
-			return this.success(res, { hint });
-		} catch (error) {
-			console.error("Error requesting hint:", error);
-			return this.serverError(res, "Failed to retrieve hint");
 		}
 	}
 

@@ -84,7 +84,7 @@ const RegistrationForm = ({
 								onFocus={() => setFocusedField("username")}
 								disabled={isLoading}
 								className="flex-1 border-none bg-transparent font-mono text-sm text-white placeholder-gray-800 outline-none disabled:text-gray-600"
-								placeholder="CREATE_USERNAME"
+								placeholder="CREATE USERNAME"
 								autoFocus
 								maxLength={32}
 							/>
@@ -125,7 +125,7 @@ const RegistrationForm = ({
 								onFocus={() => setFocusedField("realName")}
 								disabled={isLoading}
 								className="flex-1 border-none bg-transparent font-mono text-sm text-white placeholder-gray-800 outline-none disabled:text-gray-600"
-								placeholder="ENTER_FULL_NAME"
+								placeholder="ENTER DISPLAY NAME"
 								maxLength={64}
 							/>
 							{!isLoading &&
@@ -167,7 +167,7 @@ const RegistrationForm = ({
 								onFocus={() => setFocusedField("password")}
 								disabled={isLoading}
 								className="flex-1 border-none bg-transparent font-mono text-sm text-white placeholder-gray-800 outline-none disabled:text-gray-600"
-								placeholder="CREATE_PASSWORD"
+								placeholder="CREATE PASSWORD"
 								maxLength={64}
 							/>
 							{!isLoading &&
@@ -178,6 +178,62 @@ const RegistrationForm = ({
 									</span>
 								)}
 						</div>
+						{/* Password Requirements Checklist */}
+						{focusedField === "password" && (
+							<div className="mt-2 space-y-1 pl-1 animate-fade-in">
+								<div className="text-[10px] text-gray-500 mb-1">
+									PASSWORD CHECKLIST:
+								</div>
+								{[
+									{
+										label: "8-30 CHARACTERS [MANDATORY]",
+										valid:
+											password.length >= 8 &&
+											password.length <= 30
+									},
+									{
+										label: "UPPER & LOWERCASE LETTERS",
+										valid:
+											/[a-z]/.test(password) &&
+											/[A-Z]/.test(password)
+									},
+									{
+										label: "ONE NUMBER",
+										valid: /[0-9]/.test(password)
+									},
+									{
+										label: "ONE SPECIAL CHARACTER",
+										valid: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(
+											password
+										)
+									}
+								].map((req, i) => (
+									<div
+										key={i}
+										className="flex items-center gap-2 text-[10px]"
+									>
+										<span
+											className={
+												req.valid
+													? "text-green-500"
+													: "text-gray-600"
+											}
+										>
+											{req.valid ? "✓" : "○"}
+										</span>
+										<span
+											className={
+												req.valid
+													? "text-green-400/80"
+													: "text-gray-600"
+											}
+										>
+											{req.label}
+										</span>
+									</div>
+								))}
+							</div>
+						)}
 					</div>
 					{/* Error message */}
 					{error && (
@@ -212,7 +268,7 @@ const RegistrationForm = ({
 						<span className="relative z-10">
 							{isLoading
 								? "PROCESSING..."
-								: "SUBMIT_APPLICATION"}
+								: "SUBMIT APPLICATION"}
 						</span>
 					</button>
 				</div>

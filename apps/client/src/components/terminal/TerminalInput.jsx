@@ -1,6 +1,9 @@
 const TerminalInput = ({ value, onChange, onKeyDown, disabled, autoFocus }) => {
 	return (
-		<div className="flex shrink-0 items-center gap-2 border-t border-gray-800 bg-[#0a0a0a] p-2">
+		<div
+			id="terminal-input"
+			className="flex shrink-0 items-center gap-2 border-t border-gray-800 bg-[#0a0a0a] p-2"
+		>
 			<span className="text-xs text-green-400">{">"}</span>
 			<input
 				type="text"

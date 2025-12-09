@@ -54,7 +54,8 @@ export const useAuthentication = () => {
 			const response = await axios.post(API_ENDPOINTS.GAME_START, {
 				username: username.trim(),
 				realName: realName.trim(),
-				password: password
+				password: password,
+				mode: "register"
 			});
 
 			const userData = response.data;
