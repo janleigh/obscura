@@ -63,7 +63,8 @@ const CipherTools = ({ isActive = true }) => {
 		const selectedGame =
 			games[Math.floor(Math.random() * games.length)];
 		setMinigameType(
-			selectedCipher === "vigenere" ? "memory" : selectedGame
+			selectedCipher === "vigenere" ? "memory" : 
+			selectedCipher === "baconian" ? "zonewall" : selectedGame
 		);
 		setShowMinigame(true);
 	};
@@ -92,7 +93,7 @@ const CipherTools = ({ isActive = true }) => {
 	const handleMinigameFailure = () => {
 		setShowMinigame(false);
 		setMinigameType(null);
-		addLog("WARN", "Verification failed - Adding security delay...");
+		addLog("WARN", "Verification failed - Try again");
 	};
 
 	const showSteganography = selectedCipher === "steganography";

@@ -74,7 +74,8 @@ const VigenereCipher = ({ cipherText, keyValue, onKeyChange, addLog }) => {
 			</div>
 			<Button
 				onClick={initiateAnalysis}
-				disabled={!cipherText.trim() || isLoading}
+				// disabled={!cipherText.trim() || isLoading}
+				disabled
 				variant="primary"
 				className="w-full font-bold"
 			>

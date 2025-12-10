@@ -6,10 +6,10 @@
  * Related utilities: See cipherUtils.js for shared cipher constants and helpers
  */
 export const LEVELS = [
+	// Tutorial: 00-A, 00-B, 00-C
 	{
 		id: 0,
 		title: "Tutorial: Calibration Module 00-A",
-		phase: 1,
 		cipherType: "caesar",
 		cipherText: "KHOOR",
 		cipherData: { shift: 3 },
@@ -27,7 +27,6 @@ export const LEVELS = [
 	{
 		id: 1,
 		title: "Tutorial: Calibration Module 00-B",
-		phase: 1,
 		cipherType: "steganography",
 		cipherText: null,
 		cipherData: {},
@@ -47,7 +46,6 @@ export const LEVELS = [
 	{
 		id: 2,
 		title: "Tutorial: Calibration Module 00-C",
-		phase: 1,
 		cipherType: "chain",
 		cipherText:
 			"-..- .-- - --. -.-- -.-- -... .-- --.- .. -.-- ..- -..- --.- -..- -- .- ...-",
@@ -58,7 +56,6 @@ export const LEVELS = [
 				{ type: "atbash", config: {} }
 			]
 		},
-		minigameType: "memory", // Memory game for complex chains
 		hintPoem:
 			"Samuel's dots hide a sleeping swarm. The 17-year bug is the key you need. When Alpha becomes Omega, the message will bleed.",
 		answer: "ELITEBALLREFERENCE",
@@ -70,10 +67,11 @@ export const LEVELS = [
 			storyFragment: null
 		}
 	},
+	// --
+	// Real Levels: 01, 02, 03, 04, ..., 32
 	{
 		id: 3,
 		title: "Calibration Module 01",
-		phase: 1,
 		cipherType: "caesar",
 		cipherText: "VNZERNQL",
 		cipherData: { shift: 13 },
@@ -91,7 +89,6 @@ export const LEVELS = [
 	{
 		id: 4,
 		title: "Calibration Module 02",
-		phase: 1,
 		cipherType: "caesar",
 		cipherText: "YMJPJDNXIFBS",
 		cipherData: { shift: 5 },
@@ -110,7 +107,6 @@ export const LEVELS = [
 	{
 		id: 5,
 		title: "Calibration Module 03",
-		phase: 1,
 		cipherType: "vigenere",
 		cipherText: "WHAFWANFZENRUICUWOJSHBNHDRUROERRQTD",
 		hintPoem: [
@@ -128,7 +124,6 @@ export const LEVELS = [
 	{
 		id: 6,
 		title: "Calibration Module 04",
-		phase: 1,
 		cipherType: "vigenere",
 		cipherText: "LAEFFWPHFAKWIWXWKEEL",
 		cipherData: { key: "STARS" },
@@ -141,6 +136,48 @@ export const LEVELS = [
 		transmission: {
 			message:
 				"Deepening linguistic patterns detected. Continue your evaluation.",
+			storyFragment: null
+		}
+	},
+	{
+		id: 7,
+		title: "Calibration Module 05",
+		cipherType: "baconian",
+		cipherText:
+			"BAABAABAAAABBABABBBAAABAABAAABABAAABAAABAABBAAAAAABABBA",
+		hintPoem: [
+			"I speak with a forked tongue, yet I only know two letters. To understand me, you must seek the duality hiding in plain sight. A or B, on or off—five steps reveal the path."
+		],
+		answer: "TIOPESISGAY",
+		storyFragment:
+			"Baconian patterns integrated. Proceeding to next module.",
+		transmission: {
+			message:
+				"Your linguistic evaluation continues. Decode the binary patterns.",
+			storyFragment: null
+		}
+	},
+	{
+		id: 8,
+		title: "Calibration Module 06",
+		cipherType: "chain",
+		cipherText:
+			"VEdBSEFZR1RLVVRHUVVaT0pLRw==",
+		cipherData: {
+			chain: [
+				{ type: "caesar", config: { shift: 6 } },
+				{ type: "base64", config: {} },
+			]
+		},
+		hintPoem: [
+			"Sixty-four layers of disguise conceal a wandering traveler. He has strayed six steps forward; bring him home."
+		],
+		answer: "NAUBUSANEONAKOTIDEA",
+		storyFragment:
+			"Eh? Yeah that answer is right. Uwa eon kami it next :)",
+		transmission: {
+			message:
+				"The last transmission from the level server. Decode the cipher.",
 			storyFragment: null
 		}
 	}

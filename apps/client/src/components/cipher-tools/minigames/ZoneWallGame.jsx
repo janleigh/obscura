@@ -4,7 +4,7 @@ import MiniGameIntro from "./MiniGameIntro";
 import MiniGameWrapper from "./MiniGameWrapper";
 
 const TOTAL_LINES = Math.max(
-	3,
+	4,
 	Math.min(6, Math.floor(Math.random() * 11))
 ); // Between 6 and 10 lines
 const BAR_WIDTH = 100; // Percentage
